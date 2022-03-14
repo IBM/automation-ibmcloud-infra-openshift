@@ -1,0 +1,419 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 110-vpc
+  labels:
+    platform: ibm
+    code: 110
+  annotations:
+    displayName: VPC
+    description: VPC with VPN and Bastion servers
+spec:
+  modules:
+    - name: gitops-cluster-config
+      alias: gitops-cluster-config
+      version: v1.0.0
+      dependencies:
+        - name: namespace
+          ref: cntk
+      variables:
+        - name: banner_text
+          value: Management
+    - name: gitops-console-link-job
+      alias: gitops-console-link-job
+      version: v1.4.5
+      dependencies:
+        - name: namespace
+          ref: cntk
+    - name: gitops-namespace
+      alias: cntk
+      version: v1.11.1
+      variables:
+        - name: name
+          value: cntk
+    - name: ibm-resource-group
+      alias: kms_resource_group
+      version: v3.2.2
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-resource-group
+      alias: at_resource_group
+      version: v3.2.2
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.2.2
+      variables: &ref_0
+        - name: resource_group_name
+          alias: vpc_resource_group_name
+          scope: global
+        - name: provision
+          alias: vpc_resource_group_provision
+          scope: global
+    - name: ibm-resource-group
+      alias: cs_resource_group
+      version: v3.2.2
+      variables: *ref_0
+    - name: ibm-access-group
+      alias: ibm-access-group
+      version: v3.0.0
+    - name: ibm-activity-tracker
+      alias: ibm-activity-tracker
+      version: v2.4.0
+      variables:
+        - name: provision
+          value: false
+      dependencies:
+        - name: resource_group
+          ref: at_resource_group
+    - name: ibm-flow-logs
+      alias: ibm-flow-logs
+      version: v1.0.1
+      dependencies:
+        - name: target
+          ref: ibm-vpc
+        - name: cos_bucket
+          ref: flow_log_bucket
+    - name: ibm-kms
+      alias: kms
+      version: v0.3.4
+      variables:
+        - name: provision
+          value: false
+        - name: region
+          alias: kms_region
+        - name: name_prefix
+          alias: kms_name_prefix
+          scope: global
+          value: ''
+      dependencies:
+        - name: resource_group
+          ref: kms_resource_group
+    - name: ibm-kms-key
+      alias: kms-key
+      version: v1.5.1
+      variables:
+        - name: provision
+          value: true
+      dependencies:
+        - name: kms
+          ref: kms
+    - name: ibm-cert-manager
+      alias: ibm-cert-manager
+      version: v1.1.0
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
+    - name: ibm-object-storage
+      alias: cos
+      version: v4.0.2
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
+    - name: ibm-ocp-vpc
+      alias: cluster
+      version: v1.13.0
+      variables:
+        - name: disable_public_endpoint
+          value: true
+        - name: kms_enabled
+          value: true
+        - name: worker_count
+      dependencies:
+        - name: subnets
+          ref: worker-subnets
+        - name: kms_key
+          ref: kms_key
+    - name: ibm-vpc
+      alias: ibm-vpc
+      version: v1.15.5
+      variables:
+        - name: address_prefix_count
+          value: 3
+        - name: address_prefixes
+          value:
+            - 10.1.0.0/22
+            - 10.2.0.0/22
+            - 10.3.0.0/22
+    - name: ibm-object-storage-bucket
+      alias: flow_log_bucket
+      version: v0.8.3
+      variables:
+        - name: label
+          value: flow-logs
+        - name: allowed_ip
+          value:
+            - 0.0.0.0/0
+    - name: ibm-vpc-gateways
+      alias: ibm-vpc-gateways
+      version: v1.8.1
+    - name: ibm-vpc-ssh
+      alias: vpc_ssh_bastion
+      version: v1.7.1
+      variables:
+        - name: label
+          value: bastion
+    - name: ibm-vpc-subnets
+      alias: ingress-subnets
+      version: v1.12.1
+      variables:
+        - name: _count
+          value: 3
+        - name: label
+          value: ingress
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.0.0/26
+            - 10.2.0.0/26
+            - 10.3.0.0/26
+      dependencies:
+        - name: gateways
+          ref: ibm-vpc-gateways
+    - name: ibm-vpc-subnets
+      alias: bastion-subnets
+      version: v1.12.1
+      variables:
+        - name: _count
+          value: 3
+        - name: label
+          value: bastion
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.0.64/26
+            - 10.2.0.64/26
+            - 10.3.0.64/26
+    - name: ibm-vpc-subnets
+      alias: egress-subnets
+      version: v1.12.1
+      variables:
+        - name: _count
+          value: 3
+        - name: label
+          value: egress
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.0.128/26
+            - 10.2.0.128/26
+            - 10.3.0.128/26
+    - name: ibm-vpc-subnets
+      alias: worker-subnets
+      version: v1.12.1
+      variables:
+        - name: _count
+          alias: mgmt_worker_subnet_count
+          scope: global
+          value: 3
+        - name: label
+          value: worker
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.1.0/24
+            - 10.2.1.0/24
+            - 10.3.1.0/24
+      dependencies:
+        - name: gateways
+          ref: ibm-vpc-gateways
+    - name: ibm-vpc-subnets
+      alias: vpe-subnets
+      version: v1.12.1
+      variables:
+        - name: _count
+          value: 3
+        - name: label
+          value: vpe
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.2.0/25
+            - 10.2.2.0/25
+            - 10.3.2.0/25
+    - name: ibm-vpc-vpn-gateway
+      alias: ibm-vpc-vpn-gateway
+      version: v1.1.2
+      dependencies:
+        - name: subnets
+          ref: ingress-subnets
+    - name: ibm-vpe-gateway
+      alias: vpe-cos
+      version: v1.6.0
+      dependencies:
+        - name: resource
+          ref: cos
+        - name: subnets
+          ref: vpe-subnets
+        - name: sync
+          ref: cluster
+    - name: ibm-vpn-server
+      alias: ibm-vpn-server
+      version: v0.0.11
+      dependencies:
+        - name: subnets
+          ref: ingress-subnets
+        - name: ibm-cert-manager
+          ref: cert-manager
+    - name: sysdig
+      alias: sysdig
+      version: v4.0.1
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
+    - name: vsi-argocd-bootstrap
+      alias: argocd-bootstrap
+      version: v1.2.0
+      dependencies:
+        - name: subnets
+          ref: bastion-subnets
+    - name: vsi-bastion
+      alias: vsi-bastion
+      version: v1.9.0
+      variables:
+        - name: image_name
+          scope: module
+        - name: kms_enabled
+          value: true
+      dependencies:
+        - name: subnets
+          ref: bastion-subnets
+        - name: vpcssh
+          ref: vpc_ssh_bastion
+    - name: gitops-repo
+      version: v1.15.1
+    - name: olm
+      version: v1.3.2
+    - name: sealed-secret-cert
+      version: v1.0.0
+  variables:
+    - name: kms_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: ibmcloud_api_key
+      type: string
+    - name: region
+      type: string
+    - name: at_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: vpc_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: vpc_resource_group_provision
+      type: bool
+      description: Flag indicating that the resource group should be created
+      defaultValue: true
+    - name: cs_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: kms_region
+      type: string
+      description: Geographic location of the resource (e.g. us-south, us-east)
+    - name: kms_service
+      type: string
+      description: The name of the KMS provider that should be used (keyprotect or hpcs)
+      defaultValue: keyprotect
+    - name: vpc_name_prefix
+      type: string
+      description: >-
+        The name_prefix used to build the name if one is not provided. If used
+        the name will be `{name_prefix}-{label}`
+      defaultValue: base
+    - name: cs_name_prefix
+      type: string
+      description: >-
+        The name prefix for the Certificate Manager resource. If not provided
+        will default to resource group name.
+      defaultValue: ''
+    - name: worker_count
+      type: number
+      description: >-
+        The number of worker nodes that should be provisioned for classic
+        infrastructure
+      defaultValue: '3'
+    - name: cluster_flavor
+      type: string
+      description: The machine type that will be provisioned for classic infrastructure
+      defaultValue: bx2.4x16
+    - name: vpc_ssh_bastion_public_key
+      type: string
+      description: >-
+        The public key provided for the ssh key. If empty string is provided
+        then a new key will be generated.
+      defaultValue: ''
+    - name: vpc_ssh_bastion_private_key
+      type: string
+      description: >-
+        The private key provided for the ssh key. If empty string is provided
+        then a new key will be generated.
+      defaultValue: ''
+    - name: vpc_ssh_bastion_public_key_file
+      type: string
+      description: >-
+        The name of the file containing the public key provided for the ssh key.
+        If empty string is provided then a new key will be generated.
+      defaultValue: ''
+    - name: vpc_ssh_bastion_private_key_file
+      type: string
+      description: >-
+        The name of the file containing the private key provided for the ssh
+        key. If empty string is provided then a new key will be generated.
+      defaultValue: ''
+    - name: ingress-subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: bastion-subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: egress-subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: mgmt_worker_subnet_count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: vpe-subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: gitops-repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops-repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops-repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops-repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops-repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops-repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true

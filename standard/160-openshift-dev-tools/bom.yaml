@@ -1,0 +1,58 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 160-openshift-dev-tools
+  labels:
+    platform: ibm
+    code: '160'
+  annotations:
+    displayName: OpenShift Developer Tools
+    description: Open-Source collection of assets for application development on OpenShift
+spec:
+  modules:
+    - name: gitops-artifactory
+      alias: gitops-artifactory
+      version: v1.2.0
+    - name: gitops-dashboard
+      alias: gitops-dashboard
+      version: v1.6.1
+    - name: gitops-namespace
+      alias: namespace
+      version: v1.11.1
+      variables:
+        - name: name
+          value: tools
+    - name: gitops-pact-broker
+      alias: gitops-pact-broker
+      version: v1.1.3
+    - name: gitops-repo
+      alias: gitops-repo
+      version: v1.15.1
+    - name: gitops-sonarqube
+      alias: gitops-sonarqube
+      version: v1.2.2
+    - name: gitops-tekton-resources
+      alias: gitops-tekton-resources
+      version: v1.1.3
+  variables:
+    - name: gitops-repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops-repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops-repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops-repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops-repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops-repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true

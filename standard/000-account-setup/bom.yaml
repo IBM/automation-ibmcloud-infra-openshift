@@ -1,0 +1,73 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 000-account-setup
+  labels:
+    platform: ibm
+    code: 0
+  annotations:
+    displayName: Account setup
+    description: >-
+      Sets up an IBM Cloud account with required Financial Services reference
+      architecture settings
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.2.2
+      variables:
+        - name: resource_group_name
+          alias: at_resource_group_name
+          scope: global
+        - name: provision
+          alias: at_resource_group_provision
+          scope: global
+          value: false
+    - name: ibm-activity-tracker
+      alias: at-us-east
+      version: v2.4.0
+      variables:
+        - name: resource_location
+          value: us-east
+          scope: module
+        - name: provision
+          value: true
+    - name: ibm-activity-tracker
+      alias: at-us-south
+      version: v2.4.0
+      variables:
+        - name: resource_location
+          value: us-south
+          scope: module
+        - name: provision
+          value: true
+    - name: ibm-activity-tracker
+      alias: at-eu-de
+      version: v2.4.0
+      variables:
+        - name: resource_location
+          value: eu-de
+          scope: module
+        - name: provision
+          value: true
+    - name: ibm-activity-tracker
+      alias: at-eu-gb
+      version: v2.4.0
+      variables:
+        - name: resource_location
+          value: eu-gb
+          scope: module
+        - name: provision
+          value: true
+  variables:
+    - name: at_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: at_resource_group_provision
+      type: bool
+      description: Flag indicating that the resource group should be created
+      defaultValue: false
+    - name: ibmcloud_api_key
+      type: string
+    - name: region
+      type: string
