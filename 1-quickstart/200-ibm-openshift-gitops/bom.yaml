@@ -1,0 +1,128 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-ibm-openshift-gitops
+  labels:
+    type: software
+    platform: ibm
+    code: '200'
+  annotations:
+    displayName: IBM OpenShift GitOps Bootstrap
+    description: >-
+      Provisions OpenShift GitOps into an existing IBM cluster and bootstraps it
+      to a gitops repository
+spec:
+  modules:
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.17.0
+    - name: argocd-bootstrap
+      alias: argocd-bootstrap
+      version: v1.12.0
+      variables:
+        - name: create_webhook
+          value: true
+    - name: gitops-cluster-config
+      alias: config
+      version: v1.0.0
+    - name: gitops-console-link-job
+      alias: gitops-console-link-job
+      version: v1.4.6
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      version: v1.11.2
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.2.15
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-ocp-vpc
+      alias: cluster
+      version: v1.15.4
+      dependencies:
+        - name: cos
+          optional: true
+        - name: subnets
+          optional: true
+      variables:
+        - name: exists
+          value: true
+        - name: name_prefix
+          important: true
+        - name: name
+          important: true
+        - name: flavor
+          important: false
+          optional: true
+          value: ''
+        - name: vpc_name
+          value: ''
+          important: false
+          optional: true
+        - name: vpc_subnet_count
+          important: false
+          optional: true
+          value: 0
+        - name: vpc_subnets
+          important: false
+          optional: true
+          value: []
+        - name: cos_id
+          important: false
+          optional: true
+          value: ''
+        - name: worker_count
+          important: false
+          optional: true
+    - name: olm
+      version: v1.3.2
+    - name: sealed-secret-cert
+      version: v1.0.1
+  variables:
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true
+    - name: config_banner_text
+      type: string
+      description: The text that will appear in the top banner in the cluster
+    - name: ibmcloud_api_key
+      type: string
+      description: The IBM Cloud api key
+    - name: resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: region
+      type: string
+    - name: cluster_name
+      type: string
+      description: The name of the cluster that will be created within the resource group
+      defaultValue: ''
+    - name: name_prefix
+      type: string
+      description: >-
+        The prefix name for the service. If not provided it will default to the
+        resource group name
+      defaultValue: ''

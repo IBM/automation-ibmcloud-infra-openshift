@@ -1,0 +1,30 @@
+name: Verify Schedule
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 7 * * 2'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  verify:
+    uses: ./.github/workflows/verify-workflow.yaml
+    secrets:
+      IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+      GITOPS_USERNAME: ${{ secrets.GITOPS_USERNAME }}
+      GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+  notify:
+    needs: [verify]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify discord
+        uses: th0th/notify-discord@v0.4.1
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_AUTOMATION_HOOK_URL }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_JOB_NAME: "Verify"
+          GITHUB_JOB_STATUS: ${{ needs.verify.outputs.status }}
