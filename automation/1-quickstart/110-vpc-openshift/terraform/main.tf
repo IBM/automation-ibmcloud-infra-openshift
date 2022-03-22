@@ -36,21 +36,26 @@ module "cluster" {
   region = var.region
   resource_group_name = module.resource_group.name
   sync = module.resource_group.sync
-  vpc_name = module.ibm-vpc-subnets.vpc_name
-  vpc_subnet_count = module.ibm-vpc-subnets.count
-  vpc_subnets = module.ibm-vpc-subnets.subnets
+  vpc_name = module.cluster_subnets.vpc_name
+  vpc_subnet_count = module.cluster_subnets.count
+  vpc_subnets = module.cluster_subnets.subnets
   worker_count = var.worker_count
 }
-module "cntk" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.1"
+module "cluster_subnets" {
+  source = "cloud-native-toolkit/vpc-subnets/ibm"
+  version = "1.12.1"
 
-  argocd_namespace = var.cntk_argocd_namespace
-  ci = var.cntk_ci
-  create_operator_group = var.cntk_create_operator_group
-  git_credentials = module.gitops-repo.git_credentials
-  gitops_config = module.gitops-repo.gitops_config
-  name = var.cntk_name
-  server_name = module.gitops-repo.server_name
+  _count = var.cluster_subnets__count
+  acl_rules = var.cluster_subnets_acl_rules == null ? null : jsondecode(var.cluster_subnets_acl_rules)
+  gateways = module.ibm-vpc-gateways.gateways
+  ipv4_address_count = var.cluster_subnets_ipv4_address_count
+  ipv4_cidr_blocks = var.cluster_subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.cluster_subnets_ipv4_cidr_blocks)
+  label = var.cluster_subnets_label
+  provision = var.cluster_subnets_provision
+  region = var.region
+  resource_group_name = module.resource_group.name
+  vpc_name = module.ibm-vpc.name
+  zone_offset = var.cluster_subnets_zone_offset
 }
 module "cos" {
   source = "cloud-native-toolkit/object-storage/ibm"
@@ -72,7 +77,7 @@ module "gitops-cluster-config" {
   banner_text_color = var.gitops-cluster-config_banner_text_color
   git_credentials = module.gitops-repo.git_credentials
   gitops_config = module.gitops-repo.gitops_config
-  namespace = module.cntk.name
+  namespace = module.toolkit.name
   server_name = module.gitops-repo.server_name
 }
 module "gitops-console-link-job" {
@@ -80,7 +85,7 @@ module "gitops-console-link-job" {
 
   git_credentials = module.gitops-repo.git_credentials
   gitops_config = module.gitops-repo.gitops_config
-  namespace = module.cntk.name
+  namespace = module.toolkit.name
   server_name = module.gitops-repo.server_name
 }
 module "gitops-repo" {
@@ -142,22 +147,6 @@ module "ibm-vpc-gateways" {
   resource_group_id = module.resource_group.id
   vpc_name = module.ibm-vpc.name
 }
-module "ibm-vpc-subnets" {
-  source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.12.1"
-
-  _count = var.ibm-vpc-subnets__count
-  acl_rules = var.ibm-vpc-subnets_acl_rules == null ? null : jsondecode(var.ibm-vpc-subnets_acl_rules)
-  gateways = module.ibm-vpc-gateways.gateways
-  ipv4_address_count = var.ibm-vpc-subnets_ipv4_address_count
-  ipv4_cidr_blocks = var.ibm-vpc-subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.ibm-vpc-subnets_ipv4_cidr_blocks)
-  label = var.ibm-vpc-subnets_label
-  provision = var.ibm-vpc-subnets_provision
-  region = var.region
-  resource_group_name = module.resource_group.name
-  vpc_name = module.ibm-vpc.name
-  zone_offset = var.ibm-vpc-subnets_zone_offset
-}
 module "logdna" {
   source = "github.com/cloud-native-toolkit/terraform-ibm-logdna?ref=v4.0.0"
 
@@ -218,4 +207,15 @@ module "sysdig-bind" {
   region = var.region
   resource_group_name = module.resource_group.name
   sync = var.sysdig-bind_sync
+}
+module "toolkit" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.1"
+
+  argocd_namespace = var.toolkit_argocd_namespace
+  ci = var.toolkit_ci
+  create_operator_group = var.toolkit_create_operator_group
+  git_credentials = module.gitops-repo.git_credentials
+  gitops_config = module.gitops-repo.gitops_config
+  name = var.toolkit_name
+  server_name = module.gitops-repo.server_name
 }

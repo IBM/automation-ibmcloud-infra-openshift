@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 110-vpc-openshift
   labels:
+    type: infrastructure
     platform: ibm
     code: 110
   annotations:
@@ -18,7 +19,7 @@ spec:
       version: v1.0.0
       dependencies:
         - name: namespace
-          ref: cntk
+          ref: toolkit
       variables:
         - name: banner_text
           value: Management
@@ -27,13 +28,13 @@ spec:
       version: v1.4.5
       dependencies:
         - name: namespace
-          ref: cntk
+          ref: toolkit
     - name: gitops-namespace
-      alias: cntk
+      alias: toolkit
       version: v1.11.1
       variables:
         - name: name
-          value: cntk
+          value: toolkit
     - name: ibm-resource-group
       alias: resource_group
       version: v3.2.2
@@ -47,8 +48,9 @@ spec:
       alias: ibm-vpc-gateways
       version: v1.8.1
     - name: ibm-vpc-subnets
-      alias: ibm-vpc-subnets
+      alias: cluster_subnets
       version: v1.12.1
+      default: true
     - name: ibm-ocp-vpc
       alias: cluster
       version: v1.13.0
@@ -74,12 +76,12 @@ spec:
   variables:
     - name: resource_group_name
       type: string
-      description: The name of the resource group where the resources will be provisioned
+      description: The name of the resource group
     - name: ibmcloud_api_key
       type: string
     - name: region
       type: string
-    - name: ibm-vpc-subnets__count
+    - name: cluster_subnets__count
       type: number
       description: The number of subnets that should be provisioned
       defaultValue: '3'

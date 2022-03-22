@@ -23,22 +23,22 @@ variable "gitops-cluster-config_banner_text" {
   description = "The text that will appear in the top banner in the cluster"
   default = "Management"
 }
-variable "cntk_name" {
+variable "toolkit_name" {
   type = string
   description = "The value that should be used for the namespace"
-  default = "cntk"
+  default = "toolkit"
 }
-variable "cntk_ci" {
+variable "toolkit_ci" {
   type = bool
   description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
   default = false
 }
-variable "cntk_create_operator_group" {
+variable "toolkit_create_operator_group" {
   type = bool
   description = "Flag indicating that an operator group should be created in the namespace"
   default = true
 }
-variable "cntk_argocd_namespace" {
+variable "toolkit_argocd_namespace" {
   type = string
   description = "The namespace where argocd has been deployed"
   default = "openshift-gitops"
@@ -105,37 +105,37 @@ variable "ibm-vpc-gateways_provision" {
   description = "Flag indicating that the gateway must be provisioned"
   default = true
 }
-variable "ibm-vpc-subnets_zone_offset" {
+variable "cluster_subnets_zone_offset" {
   type = number
   description = "The offset for the zone where the subnet should be created. The default offset is 0 which means the first subnet should be created in zone xxx-1"
   default = 0
 }
-variable "ibm-vpc-subnets__count" {
+variable "cluster_subnets__count" {
   type = number
   description = "The number of subnets that should be provisioned"
   default = 3
 }
-variable "ibm-vpc-subnets_label" {
+variable "cluster_subnets_label" {
   type = string
   description = "Label for the subnets created"
   default = "default"
 }
-variable "ibm-vpc-subnets_ipv4_cidr_blocks" {
+variable "cluster_subnets_ipv4_cidr_blocks" {
   type = string
   description = "List of ipv4 cidr blocks for the subnets that will be created (e.g. ['10.10.10.0/24']). If you are providing cidr blocks then a value must be provided for each of the subnets. If you don't provide cidr blocks for each of the subnets then values will be generated using the {ipv4_address_count} value."
   default = "[]"
 }
-variable "ibm-vpc-subnets_ipv4_address_count" {
+variable "cluster_subnets_ipv4_address_count" {
   type = number
   description = "The size of the ipv4 cidr block that should be allocated to the subnet. If {ipv4_cidr_blocks} are provided then this value is ignored."
   default = 256
 }
-variable "ibm-vpc-subnets_provision" {
+variable "cluster_subnets_provision" {
   type = bool
   description = "Flag indicating that the subnet should be provisioned. If 'false' then the subnet will be looked up."
   default = true
 }
-variable "ibm-vpc-subnets_acl_rules" {
+variable "cluster_subnets_acl_rules" {
   type = string
   description = "List of rules to set on the subnet access control list"
   default = "[]"

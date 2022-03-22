@@ -7,8 +7,8 @@
 ## region: the value of region
 #region=""
 
-## ibm-vpc-subnets__count: The number of subnets that should be provisioned
-#ibm-vpc-subnets__count="3"
+## cluster_subnets__count: The number of subnets that should be provisioned
+#cluster_subnets__count="3"
 
 ## worker_count: The number of worker nodes that should be provisioned for classic infrastructure
 #worker_count="3"

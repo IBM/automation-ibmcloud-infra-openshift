@@ -37,7 +37,7 @@ Automation to provision the Quick Start reference architecture on IBM Cloud. The
 |------------------------|------------------------------------------------------------------------|
 | resource_group_name    | The name of the resource group where the resources will be provisioned |
 | region                 | The region where the resources will be provisioned                     |
-| ibm-vpc-subnets__count | The number of subnets to provision for the cluster                     |
+| cluster_subnets__count | The number of subnets to provision for the cluster                     |
 | worker_count           | The number of worker nodes that should be provisioned in each subnet   |
 | cluster_flavor         | The machine type that will be used for the cluster                     |
 | gitops-repo_host       | The host of the gitops repo (e.g. github.com)                          |
