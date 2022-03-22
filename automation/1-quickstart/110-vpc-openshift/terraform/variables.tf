@@ -148,12 +148,12 @@ variable "cluster_name" {
 variable "worker_count" {
   type = number
   description = "The number of worker nodes that should be provisioned for classic infrastructure"
-  default = 3
+  default = 1
 }
 variable "cluster_flavor" {
   type = string
   description = "The machine type that will be provisioned for classic infrastructure"
-  default = "bx2.4x16"
+  default = "bx2.16x64"
 }
 variable "ocp_version" {
   type = string

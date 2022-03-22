@@ -54,6 +54,11 @@ spec:
     - name: ibm-ocp-vpc
       alias: cluster
       version: v1.13.0
+      variables:
+        - name: flavor
+          value: bx2.16x64
+        - name: worker_count
+          value: 1
     - name: sysdig-bind
       alias: sysdig-bind
       version: v1.2.3
@@ -90,11 +95,11 @@ spec:
       description: >-
         The number of worker nodes that should be provisioned for classic
         infrastructure
-      defaultValue: '3'
+      defaultValue: 1
     - name: cluster_flavor
       type: string
       description: The machine type that will be provisioned for classic infrastructure
-      defaultValue: bx2.4x16
+      defaultValue: bx2.16x64
     - name: gitops-repo_host
       type: string
       description: The host for the git repository.
