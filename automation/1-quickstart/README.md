@@ -30,7 +30,7 @@ Automation to provision the Quick Start reference architecture on IBM Cloud. The
 
 #### Running the automation
 
-1. Run `1-quickstart/110-vpc-openshift/apply.sh`
+1. Run `110-vpc-openshift/apply.sh`
 2. The script will prompt for variables that must be provided for the script. Alternatively, the values can be provided in a file named `variables.yaml`. An example yaml file has been provided in `variables.template.yaml`.
 
 | Variable               | Description                                                            |
@@ -40,12 +40,12 @@ Automation to provision the Quick Start reference architecture on IBM Cloud. The
 | cluster_subnets__count | The number of subnets to provision for the cluster                     |
 | worker_count           | The number of worker nodes that should be provisioned in each subnet   |
 | cluster_flavor         | The machine type that will be used for the cluster                     |
-| gitops-repo_host       | The host of the gitops repo (e.g. github.com)                          |
-| gitops-repo_type       | The type of the gitops repo (e.g. github)                              |
-| gitops-repo_org        | The existing org/group where the gitops repo will be created/found     |
-| gitops-repo_repo       | The name for the gitops repo                                           |
-| gitops-repo_username   | The username that will be used to access the gitops repo               |
-| gitops-repo_token      | The personal access token that will be used to access the gitops repo  |
+| gitops_repo_host       | The host of the gitops repo (e.g. github.com)                          |
+| gitops_repo_type       | The type of the gitops repo (e.g. github)                              |
+| gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
+| gitops_repo_repo       | The name for the gitops repo                                           |
+| gitops_repo_username   | The username that will be used to access the gitops repo               |
+| gitops_repo_token      | The personal access token that will be used to access the gitops repo  |
 
 3. When the script runs, all of the provided values will be written to ta file named `variables.yaml` and the terraform will be applied.
 

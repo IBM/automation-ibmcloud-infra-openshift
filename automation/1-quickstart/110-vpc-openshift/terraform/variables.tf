@@ -65,6 +65,21 @@ variable "region" {
   type = string
   description = "the value of region"
 }
+variable "sysdig-bind_namespace" {
+  type = string
+  description = "The namespace where the agent should be deployed"
+  default = "ibm-observe"
+}
+variable "sysdig-bind_sync" {
+  type = string
+  description = "Semaphore value to sync up modules"
+  default = ""
+}
+variable "private_endpoint" {
+  type = string
+  description = "Flag indicating that the agent should be created with private endpoints"
+  default = "true"
+}
 variable "ibm-vpc_name" {
   type = string
   description = "The name of the vpc instance"
@@ -175,6 +190,16 @@ variable "cluster_ocp_entitlement" {
   description = "Value that is applied to the entitlements for OCP cluster provisioning"
   default = "cloud_pak"
 }
+variable "cluster_force_delete_storage" {
+  type = bool
+  description = "Attribute to force the removal of persistent storage associtated with the cluster"
+  default = false
+}
+variable "cluster_tags" {
+  type = string
+  description = "Tags that should be added to the instance"
+  default = "[]"
+}
 variable "cluster_kms_enabled" {
   type = bool
   description = "Flag indicating that kms encryption should be enabled for this cluster"
@@ -200,76 +225,61 @@ variable "cluster_login" {
   description = "Flag indicating that after the cluster is provisioned, the module should log into the cluster"
   default = false
 }
-variable "private_endpoint" {
-  type = string
-  description = "Flag indicating that the agent should be created with private endpoints"
-  default = "true"
-}
-variable "sysdig-bind_namespace" {
-  type = string
-  description = "The namespace where the agent should be deployed"
-  default = "ibm-observe"
-}
-variable "sysdig-bind_sync" {
-  type = string
-  description = "Semaphore value to sync up modules"
-  default = ""
-}
-variable "gitops-repo_host" {
+variable "gitops_repo_host" {
   type = string
   description = "The host for the git repository."
 }
-variable "gitops-repo_type" {
+variable "gitops_repo_type" {
   type = string
   description = "The type of the hosted git repository (github or gitlab)."
 }
-variable "gitops-repo_org" {
+variable "gitops_repo_org" {
   type = string
   description = "The org/group where the git repository exists/will be provisioned."
 }
-variable "gitops-repo_repo" {
+variable "gitops_repo_repo" {
   type = string
   description = "The short name of the repository (i.e. the part after the org/group name)"
 }
-variable "gitops-repo_branch" {
+variable "gitops_repo_branch" {
   type = string
   description = "The name of the branch that will be used. If the repo already exists (provision=false) then it is assumed this branch already exists as well"
   default = "main"
 }
-variable "gitops-repo_provision" {
+variable "gitops_repo_provision" {
   type = bool
   description = "Flag indicating that the git repo should be provisioned. If `false` then the repo is expected to already exist"
   default = true
 }
-variable "gitops-repo_initialize" {
+variable "gitops_repo_initialize" {
   type = bool
   description = "Flag indicating that the git repo should be initialized. If `false` then the repo is expected to already have been initialized"
   default = false
 }
-variable "gitops-repo_username" {
+variable "gitops_repo_username" {
   type = string
   description = "The username of the user with access to the repository"
 }
-variable "gitops-repo_token" {
+variable "gitops_repo_token" {
   type = string
   description = "The personal access token used to access the repository"
 }
-variable "gitops-repo_public" {
+variable "gitops_repo_public" {
   type = bool
   description = "Flag indicating that the repo should be public or private"
   default = false
 }
-variable "gitops-repo_gitops_namespace" {
+variable "gitops_repo_gitops_namespace" {
   type = string
   description = "The namespace where ArgoCD is running in the cluster"
   default = "openshift-gitops"
 }
-variable "gitops-repo_server_name" {
+variable "gitops_repo_server_name" {
   type = string
   description = "The name of the cluster that will be configured via gitops. This is used to separate the config by cluster"
   default = "default"
 }
-variable "gitops-repo_strict" {
+variable "gitops_repo_strict" {
   type = bool
   description = "Flag indicating that an error should be thrown if the repo already exists"
   default = false
@@ -293,31 +303,6 @@ variable "sealed-secret-cert_private_key_file" {
   type = string
   description = "The file containin the private key that will be used to encrypt the sealed secrets. If not provided a new private key will be generated"
   default = ""
-}
-variable "cos_resource_location" {
-  type = string
-  description = "Geographic location of the resource (e.g. us-south, us-east)"
-  default = "global"
-}
-variable "cos_tags" {
-  type = string
-  description = "Tags that should be applied to the service"
-  default = "[]"
-}
-variable "cos_plan" {
-  type = string
-  description = "The type of plan the service instance should run under (lite or standard)"
-  default = "standard"
-}
-variable "cos_provision" {
-  type = bool
-  description = "Flag indicating that cos instance should be provisioned"
-  default = true
-}
-variable "cos_label" {
-  type = string
-  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
-  default = "cos"
 }
 variable "sysdig_plan" {
   type = string
@@ -368,4 +353,29 @@ variable "logdna_label" {
   type = string
   description = "The label used to build the resource name if not provided"
   default = "logging"
+}
+variable "cos_resource_location" {
+  type = string
+  description = "Geographic location of the resource (e.g. us-south, us-east)"
+  default = "global"
+}
+variable "cos_tags" {
+  type = string
+  description = "Tags that should be applied to the service"
+  default = "[]"
+}
+variable "cos_plan" {
+  type = string
+  description = "The type of plan the service instance should run under (lite or standard)"
+  default = "standard"
+}
+variable "cos_provision" {
+  type = bool
+  description = "Flag indicating that cos instance should be provisioned"
+  default = true
+}
+variable "cos_label" {
+  type = string
+  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
+  default = "cos"
 }

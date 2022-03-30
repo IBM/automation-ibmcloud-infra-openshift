@@ -39,11 +39,19 @@ TBD
     colima start
     ```
 
+### Planning
+
+1. Determine which flavor of reference architecture you will provision: Quick Start, Standard, or Advanced.
+2. View the README in the automation directory for detailed instructions for installation steps and required information:
+    - [Quick Start](automation/1-quickstart)
+    - [Standard](automation/2-standard)
+    - [Advanced](automation/3-advanced)
+
 ### Setup
 
 1. Clone this repository to your local SRE laptop or into a secure terminal. Open a shell into the cloned directory.
 2. Copy `credentials.template` to `credentials.properties`.
 3. Provide your IBM Cloud API key as the value for the `TF_VAR_ibmcloud_api_key` variable in `credentials.properties` (**Note:** `*.properties` has been added to `.gitignore` to ensure that the file containing the apikey cannot be checked into Git.)
-4. If you are running the terraform scripts in the provided container image, run `launch.sh`. 
-5. Determine which flavor of reference architecture you will provision: Quick Start, Standard, or Advanced.
-6. View the README in the automation directory for detailed instructions for installing the flavor.
+4. Run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
+5. Create a working copy of the terraform by running `./setup-workspace.sh`. The script makes a copy of the terraform in `/workspaces/current`.
+6. Change the directory to the subdirectory for the layer (e.g. `/workspaces/current/1-quickstart`) and follow the instructions in the README for the layer.

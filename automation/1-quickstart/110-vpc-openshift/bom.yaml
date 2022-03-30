@@ -13,7 +13,7 @@ spec:
   modules:
     - name: argocd-bootstrap
       alias: argocd-bootstrap
-      version: v1.6.0
+      version: v1.6.1
     - name: gitops-cluster-config
       alias: gitops-cluster-config
       version: v1.0.0
@@ -40,44 +40,47 @@ spec:
       version: v3.2.2
     - name: ibm-access-group
       alias: ibm-access-group
-      version: v3.0.0
+      version: v3.0.2
+    - name: ibm-cloud-monitoring-bind
+      alias: sysdig-bind
+      version: v1.3.1
+    - name: ibm-log-analysis-bind
+      alias: ibm-logdna-bind
+      version: v1.3.1
     - name: ibm-vpc
       alias: ibm-vpc
       version: v1.15.5
     - name: ibm-vpc-gateways
       alias: ibm-vpc-gateways
-      version: v1.8.1
+      version: v1.8.2
     - name: ibm-vpc-subnets
       alias: cluster_subnets
-      version: v1.12.1
+      version: v1.12.2
       default: true
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.13.0
+      version: v1.13.1
       variables:
-        - name: flavor
-          value: bx2.16x64
         - name: worker_count
           value: 1
-    - name: sysdig-bind
-      alias: sysdig-bind
-      version: v1.2.3
-    - name: ibm-logdna-bind
-      alias: ibm-logdna-bind
-      version: v1.2.3
+        - name: flavor
+          value: bx2.16x64
     - name: olm
       version: v1.3.2
     - name: gitops-repo
-      version: v1.15.1
+      alias: gitops_repo
+      version: v1.15.2
     - name: sealed-secret-cert
       version: v1.0.0
+    - name: ibm-cloud-monitoring
+      alias: sysdig
+      version: v4.1.2
+    - name: ibm-log-analysis
+      alias: logdna
+      version: v4.1.2
     - name: ibm-object-storage
       alias: cos
-      version: v4.0.2
-    - name: sysdig
-      version: v4.0.1
-    - name: logdna
-      version: v4.0.0
+      version: v4.0.3
   variables:
     - name: resource_group_name
       type: string
@@ -89,7 +92,7 @@ spec:
     - name: cluster_subnets__count
       type: number
       description: The number of subnets that should be provisioned
-      defaultValue: '3'
+      defaultValue: 3
     - name: worker_count
       type: number
       description: >-
@@ -100,24 +103,24 @@ spec:
       type: string
       description: The machine type that will be provisioned for classic infrastructure
       defaultValue: bx2.16x64
-    - name: gitops-repo_host
+    - name: gitops_repo_host
       type: string
       description: The host for the git repository.
-    - name: gitops-repo_type
+    - name: gitops_repo_type
       type: string
       description: The type of the hosted git repository (github or gitlab).
-    - name: gitops-repo_org
+    - name: gitops_repo_org
       type: string
       description: The org/group where the git repository exists/will be provisioned.
-    - name: gitops-repo_repo
+    - name: gitops_repo_repo
       type: string
       description: >-
         The short name of the repository (i.e. the part after the org/group
         name)
-    - name: gitops-repo_username
+    - name: gitops_repo_username
       type: string
       description: The username of the user with access to the repository
-    - name: gitops-repo_token
+    - name: gitops_repo_token
       type: string
       description: The personal access token used to access the repository
       sensitive: true

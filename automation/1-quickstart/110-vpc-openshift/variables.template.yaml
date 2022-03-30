@@ -6,9 +6,9 @@ variables:
   - name: worker_count
     value: 2
   - name: cluster_flavor
-    value: bx2.4x16
-  - name: gitops-repo_host
-  - name: gitops-repo_type
-  - name: gitops-repo_org
-  - name: gitops-repo_repo
-  - name: gitops-repo_token
+    value: bx2.16x64
+  - name: gitops_repo_host
+  - name: gitops_repo_type
+  - name: gitops_repo_org
+  - name: gitops_repo_repo
+  - name: gitops_repo_token

@@ -5,6 +5,10 @@
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="${SCRIPT_DIR}/automation"
 
+if [[ ! -d "${SRC_DIR}" ]]; then
+  SRC_DIR="${SCRIPT_DIR}"
+fi
+
 DOCKER_IMAGE="quay.io/cloudnativetoolkit/terraform:v1.1"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
@@ -29,6 +33,7 @@ fi
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    -v ${SRC_DIR}:/terraform \
+   -v workspace:/workspaces \
    ${ENV_FILE} \
    -w /terraform \
    ${DOCKER_IMAGE}
