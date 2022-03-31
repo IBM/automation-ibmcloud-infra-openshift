@@ -1,0 +1,9 @@
+digraph {
+    rankdir="BT"
+    "cluster (ibm-ocp-vpc)" -> "resource_group (ibm-resource-group)"
+"cluster (ibm-ocp-vpc)"
+"resource_group (ibm-resource-group)"
+"ibm-portworx (ibm-portworx)" -> "cluster (ibm-ocp-vpc)"
+"ibm-portworx (ibm-portworx)" -> "resource_group (ibm-resource-group)"
+"ibm-portworx (ibm-portworx)"
+  }

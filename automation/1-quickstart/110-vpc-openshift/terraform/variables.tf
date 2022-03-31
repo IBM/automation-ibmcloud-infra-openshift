@@ -1,48 +1,3 @@
-variable "argocd-bootstrap_bootstrap_prefix" {
-  type = string
-  description = "The prefix used in ArgoCD to bootstrap the application"
-  default = ""
-}
-variable "argocd-bootstrap_create_webhook" {
-  type = bool
-  description = "Flag indicating that a webhook should be created in the gitops repo to notify argocd of changes"
-  default = false
-}
-variable "gitops-cluster-config_banner_background_color" {
-  type = string
-  description = "The background color of the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
-  default = "purple"
-}
-variable "gitops-cluster-config_banner_text_color" {
-  type = string
-  description = "The text color for the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
-  default = "white"
-}
-variable "gitops-cluster-config_banner_text" {
-  type = string
-  description = "The text that will appear in the top banner in the cluster"
-  default = "Management"
-}
-variable "toolkit_name" {
-  type = string
-  description = "The value that should be used for the namespace"
-  default = "toolkit"
-}
-variable "toolkit_ci" {
-  type = bool
-  description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
-  default = false
-}
-variable "toolkit_create_operator_group" {
-  type = bool
-  description = "Flag indicating that an operator group should be created in the namespace"
-  default = true
-}
-variable "toolkit_argocd_namespace" {
-  type = string
-  description = "The namespace where argocd has been deployed"
-  default = "openshift-gitops"
-}
 variable "resource_group_name" {
   type = string
   description = "The name of the resource group"
@@ -65,6 +20,36 @@ variable "region" {
   type = string
   description = "the value of region"
 }
+variable "name_prefix" {
+  type = string
+  description = "The prefix name for the service. If not provided it will default to the resource group name"
+  default = ""
+}
+variable "sysdig_plan" {
+  type = string
+  description = "The type of plan the service instance should run under (trial or graduated-tier)"
+  default = "graduated-tier"
+}
+variable "sysdig_tags" {
+  type = string
+  description = "Tags that should be applied to the service"
+  default = "[]"
+}
+variable "sysdig_provision" {
+  type = bool
+  description = "Flag indicating that logdna instance should be provisioned"
+  default = true
+}
+variable "sysdig_name" {
+  type = string
+  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
+  default = ""
+}
+variable "sysdig_label" {
+  type = string
+  description = "The label used to build the resource name if not provided."
+  default = "monitoring"
+}
 variable "sysdig-bind_namespace" {
   type = string
   description = "The namespace where the agent should be deployed"
@@ -80,14 +65,34 @@ variable "private_endpoint" {
   description = "Flag indicating that the agent should be created with private endpoints"
   default = "true"
 }
+variable "logdna_plan" {
+  type = string
+  description = "The type of plan the service instance should run under (lite, 7-day, 14-day, or 30-day)"
+  default = "7-day"
+}
+variable "logdna_tags" {
+  type = string
+  description = "Tags that should be applied to the service"
+  default = "[]"
+}
+variable "logdna_provision" {
+  type = bool
+  description = "Flag indicating that logdna instance should be provisioned"
+  default = true
+}
+variable "logdna_name" {
+  type = string
+  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
+  default = ""
+}
+variable "logdna_label" {
+  type = string
+  description = "The label used to build the resource name if not provided"
+  default = "logging"
+}
 variable "ibm-vpc_name" {
   type = string
   description = "The name of the vpc instance"
-  default = ""
-}
-variable "name_prefix" {
-  type = string
-  description = "The name of the vpc resource"
   default = ""
 }
 variable "ibm-vpc_provision" {
@@ -224,135 +229,6 @@ variable "cluster_login" {
   type = bool
   description = "Flag indicating that after the cluster is provisioned, the module should log into the cluster"
   default = false
-}
-variable "gitops_repo_host" {
-  type = string
-  description = "The host for the git repository."
-}
-variable "gitops_repo_type" {
-  type = string
-  description = "The type of the hosted git repository (github or gitlab)."
-}
-variable "gitops_repo_org" {
-  type = string
-  description = "The org/group where the git repository exists/will be provisioned."
-}
-variable "gitops_repo_repo" {
-  type = string
-  description = "The short name of the repository (i.e. the part after the org/group name)"
-}
-variable "gitops_repo_branch" {
-  type = string
-  description = "The name of the branch that will be used. If the repo already exists (provision=false) then it is assumed this branch already exists as well"
-  default = "main"
-}
-variable "gitops_repo_provision" {
-  type = bool
-  description = "Flag indicating that the git repo should be provisioned. If `false` then the repo is expected to already exist"
-  default = true
-}
-variable "gitops_repo_initialize" {
-  type = bool
-  description = "Flag indicating that the git repo should be initialized. If `false` then the repo is expected to already have been initialized"
-  default = false
-}
-variable "gitops_repo_username" {
-  type = string
-  description = "The username of the user with access to the repository"
-}
-variable "gitops_repo_token" {
-  type = string
-  description = "The personal access token used to access the repository"
-}
-variable "gitops_repo_public" {
-  type = bool
-  description = "Flag indicating that the repo should be public or private"
-  default = false
-}
-variable "gitops_repo_gitops_namespace" {
-  type = string
-  description = "The namespace where ArgoCD is running in the cluster"
-  default = "openshift-gitops"
-}
-variable "gitops_repo_server_name" {
-  type = string
-  description = "The name of the cluster that will be configured via gitops. This is used to separate the config by cluster"
-  default = "default"
-}
-variable "gitops_repo_strict" {
-  type = bool
-  description = "Flag indicating that an error should be thrown if the repo already exists"
-  default = false
-}
-variable "sealed-secret-cert_cert" {
-  type = string
-  description = "The public key that will be used to encrypt sealed secrets. If not provided, a new one will be generated"
-  default = ""
-}
-variable "sealed-secret-cert_private_key" {
-  type = string
-  description = "The private key that will be used to decrypt sealed secrets. If not provided, a new one will be generated"
-  default = ""
-}
-variable "sealed-secret-cert_cert_file" {
-  type = string
-  description = "The file containing the public key that will be used to encrypt the sealed secrets. If not provided a new public key will be generated"
-  default = ""
-}
-variable "sealed-secret-cert_private_key_file" {
-  type = string
-  description = "The file containin the private key that will be used to encrypt the sealed secrets. If not provided a new private key will be generated"
-  default = ""
-}
-variable "sysdig_plan" {
-  type = string
-  description = "The type of plan the service instance should run under (trial or graduated-tier)"
-  default = "graduated-tier"
-}
-variable "sysdig_tags" {
-  type = string
-  description = "Tags that should be applied to the service"
-  default = "[]"
-}
-variable "sysdig_provision" {
-  type = bool
-  description = "Flag indicating that logdna instance should be provisioned"
-  default = true
-}
-variable "sysdig_name" {
-  type = string
-  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
-  default = ""
-}
-variable "sysdig_label" {
-  type = string
-  description = "The label used to build the resource name if not provided."
-  default = "monitoring"
-}
-variable "logdna_plan" {
-  type = string
-  description = "The type of plan the service instance should run under (lite, 7-day, 14-day, or 30-day)"
-  default = "7-day"
-}
-variable "logdna_tags" {
-  type = string
-  description = "Tags that should be applied to the service"
-  default = "[]"
-}
-variable "logdna_provision" {
-  type = bool
-  description = "Flag indicating that logdna instance should be provisioned"
-  default = true
-}
-variable "logdna_name" {
-  type = string
-  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
-  default = ""
-}
-variable "logdna_label" {
-  type = string
-  description = "The label used to build the resource name if not provided"
-  default = "logging"
 }
 variable "cos_resource_location" {
   type = string

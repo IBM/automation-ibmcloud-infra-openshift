@@ -5,48 +5,30 @@ metadata:
   labels:
     type: infrastructure
     platform: ibm
-    code: 110
+    code: '110'
   annotations:
-    displayName: IBM VPC OpenShift
-    description: IBM VPC and Red Hat OpenShift servers
+    displayName: IBM VPC OpenShift Quick Start
+    description: IBM VPC and public Red Hat OpenShift server
 spec:
   modules:
-    - name: argocd-bootstrap
-      alias: argocd-bootstrap
-      version: v1.6.1
-    - name: gitops-cluster-config
-      alias: gitops-cluster-config
-      version: v1.0.0
-      dependencies:
-        - name: namespace
-          ref: toolkit
-      variables:
-        - name: banner_text
-          value: Management
-    - name: gitops-console-link-job
-      alias: gitops-console-link-job
-      version: v1.4.5
-      dependencies:
-        - name: namespace
-          ref: toolkit
-    - name: gitops-namespace
-      alias: toolkit
-      version: v1.11.1
-      variables:
-        - name: name
-          value: toolkit
     - name: ibm-resource-group
       alias: resource_group
       version: v3.2.2
     - name: ibm-access-group
       alias: ibm-access-group
       version: v3.0.2
+    - name: ibm-cloud-monitoring
+      alias: sysdig
+      version: v4.1.2
     - name: ibm-cloud-monitoring-bind
       alias: sysdig-bind
-      version: v1.3.1
+      version: v1.3.2
+    - name: ibm-log-analysis
+      alias: logdna
+      version: v4.1.2
     - name: ibm-log-analysis-bind
       alias: ibm-logdna-bind
-      version: v1.3.1
+      version: v1.3.2
     - name: ibm-vpc
       alias: ibm-vpc
       version: v1.15.5
@@ -61,23 +43,14 @@ spec:
       alias: cluster
       version: v1.13.1
       variables:
-        - name: worker_count
-          value: 1
         - name: flavor
           value: bx2.16x64
-    - name: olm
-      version: v1.3.2
-    - name: gitops-repo
-      alias: gitops_repo
-      version: v1.15.2
-    - name: sealed-secret-cert
-      version: v1.0.0
-    - name: ibm-cloud-monitoring
-      alias: sysdig
-      version: v4.1.2
-    - name: ibm-log-analysis
-      alias: logdna
-      version: v4.1.2
+        - name: worker_count
+          value: 1
+        - name: name_prefix
+          important: true
+        - name: name
+          important: true
     - name: ibm-object-storage
       alias: cos
       version: v4.0.3
@@ -89,10 +62,20 @@ spec:
       type: string
     - name: region
       type: string
+    - name: name_prefix
+      type: string
+      description: >-
+        The prefix name for the service. If not provided it will default to the
+        resource group name
+      defaultValue: ''
     - name: cluster_subnets__count
       type: number
       description: The number of subnets that should be provisioned
       defaultValue: 3
+    - name: cluster_name
+      type: string
+      description: The name of the cluster that will be created within the resource group
+      defaultValue: ''
     - name: worker_count
       type: number
       description: >-
@@ -103,24 +86,3 @@ spec:
       type: string
       description: The machine type that will be provisioned for classic infrastructure
       defaultValue: bx2.16x64
-    - name: gitops_repo_host
-      type: string
-      description: The host for the git repository.
-    - name: gitops_repo_type
-      type: string
-      description: The type of the hosted git repository (github or gitlab).
-    - name: gitops_repo_org
-      type: string
-      description: The org/group where the git repository exists/will be provisioned.
-    - name: gitops_repo_repo
-      type: string
-      description: >-
-        The short name of the repository (i.e. the part after the org/group
-        name)
-    - name: gitops_repo_username
-      type: string
-      description: The username of the user with access to the repository
-    - name: gitops_repo_token
-      type: string
-      description: The personal access token used to access the repository
-      sensitive: true
