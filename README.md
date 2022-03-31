@@ -53,5 +53,5 @@ TBD
 2. Copy `credentials.template` to `credentials.properties`.
 3. Provide your IBM Cloud API key as the value for the `TF_VAR_ibmcloud_api_key` variable in `credentials.properties` (**Note:** `*.properties` has been added to `.gitignore` to ensure that the file containing the apikey cannot be checked into Git.)
 4. Run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
-5. Create a working copy of the terraform by running `./setup-workspace.sh`. The script makes a copy of the terraform in `/workspaces/current`.
-6. Change the directory to the subdirectory for the layer (e.g. `/workspaces/current/1-quickstart`) and follow the instructions in the README for the layer.
+5. Create a working copy of the terraform by running `./setup-workspace.sh`. The script makes a copy of the terraform in `/workspaces/current` and set up an empty `terraform.tfvars` file.
+6. Change the directory to the subdirectory for the layer (e.g. `/workspaces/current`) and follow the instructions in the README for the layer.
