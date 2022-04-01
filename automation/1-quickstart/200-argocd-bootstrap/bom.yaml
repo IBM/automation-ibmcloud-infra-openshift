@@ -17,7 +17,7 @@ spec:
       version: v1.15.2
     - name: argocd-bootstrap
       alias: argocd-bootstrap
-      version: v1.6.3
+      version: v1.6.4
       variables:
         - name: create_webhook
           value: true
