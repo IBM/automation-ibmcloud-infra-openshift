@@ -77,19 +77,19 @@ The dev tools layer installs standard continuous integration (CI) pipelines that
 ### Setup
 
 1. Clone this repository to your local SRE laptop or into a secure terminal. Open a shell into the cloned directory.
-2. Copy `credentials.template` to `credentials.properties`.
-3. Provide your IBM Cloud API key as the value for the `TF_VAR_ibmcloud_api_key` variable in `credentials.properties` (**Note:** `*.properties` has been added to `.gitignore` to ensure that the file containing the apikey cannot be checked into Git.)
-4. Run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
-5. Create a working copy of the terraform by running `./setup-workspace.sh`. Select `1` to set up the workspace for Quick Start. The script makes a copy of the terraform in `/workspaces/current` and sets up an empty `terraform.tfvars` file.
-6. Change the directory to the subdirectory for the layer (e.g. `/workspaces/current`).
+2. Copy **credentials.template** to **credentials.properties**.
+3. Provide your IBM Cloud API key as the value for the `TF_VAR_ibmcloud_api_key` variable in **credentials.properties** (**Note:** `*.properties` has been added to `.gitignore` to ensure that the file containing the apikey cannot be checked into Git.)
+4. Run `./launch.sh`. This will start a container image with the prompt opened in the **/terraform** directory.
+5. Create a working copy of the terraform by running `./setup-workspace.sh`. Select "1" to set up the workspace for Quick Start. The script makes a copy of the terraform in **/workspaces/current** and sets up an empty **terraform.tfvars** file.
+6. Change the directory to the subdirectory to the workspace that was just created - `cd /workspaces/current`
 
 ### Running each layer of automation sequentially
 
 #### Configuration values
 
-Configuration values need to be provided to terraform when the script is run. If not provided in advance, the terraform cli will prompt for them. However to ensure the automation is applied consistently at each layer, we highly recommend providing the values in a configuration file up front.
+Configuration values need to be provided to terraform when the script is run. If not provided in advance, the terraform cli will prompt for them. However, to ensure the automation is applied consistently at each layer we highly recommend providing the values in a configuration file up front.
 
-1. Uncomment and provide a value for each of the variables in `/workspaces/current/terraform.tfvars`. The `/workspaces/current/terraform.tfvars` file is shared between different terraform layers via a soft link so the values only need to be provided in one place.
+1. Uncomment and provide a value for each of the variables in **/workspaces/current/terraform.tfvars**. The **/workspaces/current/terraform.tfvars** file is shared between different terraform layers via a soft link so the values only need to be provided in one place.
 2. At a minimum, the following values should be provided:
 
 | Variable               | Description                                                            |
@@ -106,8 +106,9 @@ Configuration values need to be provided to terraform when the script is run. If
 | gitops_repo_type       | The type of the gitops repo (e.g. github)                              |
 | gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
 | gitops_repo_repo       | The name for the gitops repo                                           |
-| gitops_repo_username   | The username that will be used to access the gitops repo               |
 | odf_namespace_name     | The namespace where the odf resource should be deployed                |
+
+**Note:** The `ibmcloud_api_key`, `gitops_repo_username` and `gitops_repo_token` variables should have been provided in the **credentials.properties** file and provided as environment variables into the container. If you are not running in a container, you can add the variables in the terraform.tfvars file or provide them when prompted.
 
 #### 110 - VPC OpenShift
 
@@ -154,7 +155,6 @@ This layer makes use of the following variables:
 | gitops_repo_type       | The type of the gitops repo (e.g. github)                              |
 | gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
 | gitops_repo_repo       | The name for the gitops repo                                           |
-| gitops_repo_username   | The username that will be used to access the gitops repo               |
 
 #### 205 - Storage
 
@@ -181,7 +181,6 @@ This layer makes use of the following variables:
 | gitops_repo_type       | The type of the gitops repo (e.g. github)                              |
 | gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
 | gitops_repo_repo       | The name for the gitops repo                                           |
-| gitops_repo_username   | The username that will be used to access the gitops repo               |
 
 ##### 205 - Portworx Storage
 
@@ -219,4 +218,3 @@ This layer makes use of the following variables:
 | gitops_repo_type     | The type of the gitops repo (e.g. github)                          |
 | gitops_repo_org      | The existing org/group where the gitops repo will be created/found |
 | gitops_repo_repo     | The name for the gitops repo                                       |
-| gitops_repo_username | The username that will be used to access the gitops repo           |
