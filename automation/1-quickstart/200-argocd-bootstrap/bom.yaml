@@ -42,7 +42,7 @@ spec:
           value: false
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.13.1
+      version: v1.13.2
       dependencies:
         - name: cos
           optional: true

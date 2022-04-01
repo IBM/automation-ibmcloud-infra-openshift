@@ -22,13 +22,13 @@ spec:
       version: v4.1.2
     - name: ibm-cloud-monitoring-bind
       alias: sysdig-bind
-      version: v1.3.2
+      version: v1.3.3
     - name: ibm-log-analysis
       alias: logdna
       version: v4.1.2
     - name: ibm-log-analysis-bind
       alias: ibm-logdna-bind
-      version: v1.3.2
+      version: v1.3.3
     - name: ibm-vpc
       alias: ibm-vpc
       version: v1.15.5
@@ -41,7 +41,7 @@ spec:
       default: true
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.13.1
+      version: v1.13.2
       variables:
         - name: flavor
           value: bx2.16x64

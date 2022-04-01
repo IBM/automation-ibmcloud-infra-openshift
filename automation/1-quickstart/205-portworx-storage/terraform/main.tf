@@ -1,6 +1,6 @@
 module "cluster" {
   source = "cloud-native-toolkit/ocp-vpc/ibm"
-  version = "1.13.1"
+  version = "1.13.2"
 
   cos_id = var.cluster_cos_id
   disable_public_endpoint = var.cluster_disable_public_endpoint

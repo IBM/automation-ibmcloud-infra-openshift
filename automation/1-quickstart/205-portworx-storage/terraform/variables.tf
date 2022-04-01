@@ -1,10 +1,24 @@
-variable "region" {
+variable "resource_group_name" {
   type = string
-  description = "The IBM Cloud region where the cluster will be/has been installed."
+  description = "The name of the resource group"
+}
+variable "resource_group_provision" {
+  type = bool
+  description = "Flag indicating that the resource group should be created"
+  default = false
+}
+variable "resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
 }
 variable "ibmcloud_api_key" {
   type = string
-  description = "The IBM Cloud api token"
+  description = "the value of ibmcloud_api_key"
+}
+variable "region" {
+  type = string
+  description = "the value of region"
 }
 variable "cluster_name" {
   type = string
@@ -170,18 +184,4 @@ variable "ibm-portworx_etcd_secret_name" {
   type = string
   description = "etcd_secret_name: This should not be changed unless you know what you're doing."
   default = "px-etcd-certs"
-}
-variable "resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "resource_group_provision" {
-  type = bool
-  description = "Flag indicating that the resource group should be created"
-  default = true
-}
-variable "resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
 }

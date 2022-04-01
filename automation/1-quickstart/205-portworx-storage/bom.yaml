@@ -11,9 +11,15 @@ metadata:
     description: Installs Portworx in cluster
 spec:
   modules:
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.2.2
+      variables:
+        - name: provision
+          value: false
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.13.1
+      version: v1.13.2
       dependencies:
         - name: cos
           optional: true
@@ -55,20 +61,15 @@ spec:
         - name: etcd_secret_name
           optional: true
           value: px-etcd-certs
-    - name: ibm-resource-group
-      alias: resource_group
-      version: v3.2.2
   variables:
-    - name: region
+    - name: resource_group_name
       type: string
-      description: The IBM Cloud region where the cluster will be/has been installed.
+      description: The name of the resource group
     - name: ibmcloud_api_key
       type: string
-      description: The IBM Cloud api token
+    - name: region
+      type: string
     - name: cluster_name
       type: string
       description: The cluster where Portworx storage will be deployed.
       defaultValue: ''
-    - name: resource_group_name
-      type: string
-      description: The name of the resource group
