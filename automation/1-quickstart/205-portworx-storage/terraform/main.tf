@@ -21,10 +21,26 @@ module "cluster" {
   resource_group_name = module.resource_group.name
   sync = module.resource_group.sync
   tags = var.cluster_tags == null ? null : jsondecode(var.cluster_tags)
-  vpc_name = var.cluster_vpc_name
-  vpc_subnet_count = var.cluster_vpc_subnet_count
-  vpc_subnets = var.cluster_vpc_subnets == null ? null : jsondecode(var.cluster_vpc_subnets)
+  vpc_name = module.cluster_subnets.vpc_name
+  vpc_subnet_count = module.cluster_subnets.count
+  vpc_subnets = module.cluster_subnets.subnets
   worker_count = var.worker_count
+}
+module "cluster_subnets" {
+  source = "cloud-native-toolkit/vpc-subnets/ibm"
+  version = "1.12.2"
+
+  _count = var.cluster_subnets__count
+  acl_rules = var.cluster_subnets_acl_rules == null ? null : jsondecode(var.cluster_subnets_acl_rules)
+  gateways = var.cluster_subnets_gateways == null ? null : jsondecode(var.cluster_subnets_gateways)
+  ipv4_address_count = var.cluster_subnets_ipv4_address_count
+  ipv4_cidr_blocks = var.cluster_subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.cluster_subnets_ipv4_cidr_blocks)
+  label = var.cluster_subnets_label
+  provision = var.cluster_subnets_provision
+  region = var.region
+  resource_group_name = module.resource_group.name
+  vpc_name = module.ibm-vpc.name
+  zone_offset = var.cluster_subnets_zone_offset
 }
 module "ibm-portworx" {
   source = "github.com/cloud-native-toolkit/terraform-ibm-portworx?ref=v1.0.4"
@@ -50,6 +66,20 @@ module "ibm-portworx" {
   storage_profile = var.ibm-portworx_storage_profile
   worker_count = module.cluster.total_worker_count
   workers = module.cluster.workers
+}
+module "ibm-vpc" {
+  source = "cloud-native-toolkit/vpc/ibm"
+  version = "1.15.5"
+
+  address_prefix_count = var.ibm-vpc_address_prefix_count
+  address_prefixes = var.ibm-vpc_address_prefixes == null ? null : jsondecode(var.ibm-vpc_address_prefixes)
+  base_security_group_name = var.ibm-vpc_base_security_group_name
+  internal_cidr = var.ibm-vpc_internal_cidr
+  name = var.ibm-vpc_name
+  name_prefix = var.name_prefix
+  provision = var.ibm-vpc_provision
+  region = var.region
+  resource_group_name = module.resource_group.name
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"

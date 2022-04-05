@@ -23,8 +23,6 @@ spec:
       dependencies:
         - name: cos
           optional: true
-        - name: subnets
-          optional: true
       variables:
         - name: exists
           value: true
@@ -39,14 +37,6 @@ spec:
           value: ''
           important: false
           optional: true
-        - name: vpc_subnet_count
-          important: false
-          optional: true
-          value: 0
-        - name: vpc_subnets
-          important: false
-          optional: true
-          value: []
         - name: cos_id
           important: false
           optional: true
@@ -61,6 +51,19 @@ spec:
         - name: etcd_secret_name
           optional: true
           value: px-etcd-certs
+    - name: ibm-vpc
+      alias: ibm-vpc
+      version: v1.15.5
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-vpc-subnets
+      alias: cluster_subnets
+      version: v1.12.2
+      default: true
+      variables:
+        - name: provision
+          value: false
   variables:
     - name: resource_group_name
       type: string
@@ -73,3 +76,7 @@ spec:
       type: string
       description: The cluster where Portworx storage will be deployed.
       defaultValue: ''
+    - name: cluster_subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3

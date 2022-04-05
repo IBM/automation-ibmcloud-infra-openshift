@@ -70,21 +70,6 @@ variable "cluster_tags" {
   description = "Tags that should be added to the instance"
   default = "[]"
 }
-variable "cluster_vpc_name" {
-  type = string
-  description = "Name of the VPC instance that will be used"
-  default = ""
-}
-variable "cluster_vpc_subnet_count" {
-  type = number
-  description = "Number of vpc subnets"
-  default = 0
-}
-variable "cluster_vpc_subnets" {
-  type = string
-  description = "List of subnets with labels"
-  default = "[]"
-}
 variable "cluster_cos_id" {
   type = string
   description = "The crn of the COS instance that will be used with the OCP instance"
@@ -184,4 +169,74 @@ variable "ibm-portworx_etcd_secret_name" {
   type = string
   description = "etcd_secret_name: This should not be changed unless you know what you're doing."
   default = "px-etcd-certs"
+}
+variable "ibm-vpc_name" {
+  type = string
+  description = "The name of the vpc instance"
+  default = ""
+}
+variable "ibm-vpc_provision" {
+  type = bool
+  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
+  default = false
+}
+variable "ibm-vpc_address_prefix_count" {
+  type = number
+  description = "The number of ipv4_cidr_blocks"
+  default = 0
+}
+variable "ibm-vpc_address_prefixes" {
+  type = string
+  description = "List of ipv4 cidr blocks for the address prefixes (e.g. ['10.10.10.0/24']). If you are providing cidr blocks then a value must be provided for each of the subnets. If you don't provide cidr blocks for each of the subnets then values will be generated using the {ipv4_address_count} value."
+  default = "[]"
+}
+variable "ibm-vpc_base_security_group_name" {
+  type = string
+  description = "The name of the base security group. If not provided the name will be based on the vpc name"
+  default = ""
+}
+variable "ibm-vpc_internal_cidr" {
+  type = string
+  description = "The cidr range of the internal network"
+  default = "10.0.0.0/8"
+}
+variable "cluster_subnets_zone_offset" {
+  type = number
+  description = "The offset for the zone where the subnet should be created. The default offset is 0 which means the first subnet should be created in zone xxx-1"
+  default = 0
+}
+variable "cluster_subnets__count" {
+  type = number
+  description = "The number of subnets that should be provisioned"
+  default = 3
+}
+variable "cluster_subnets_label" {
+  type = string
+  description = "Label for the subnets created"
+  default = "default"
+}
+variable "cluster_subnets_gateways" {
+  type = string
+  description = "List of gateway ids and zones"
+  default = "[]"
+}
+variable "cluster_subnets_ipv4_cidr_blocks" {
+  type = string
+  description = "List of ipv4 cidr blocks for the subnets that will be created (e.g. ['10.10.10.0/24']). If you are providing cidr blocks then a value must be provided for each of the subnets. If you don't provide cidr blocks for each of the subnets then values will be generated using the {ipv4_address_count} value."
+  default = "[]"
+}
+variable "cluster_subnets_ipv4_address_count" {
+  type = number
+  description = "The size of the ipv4 cidr block that should be allocated to the subnet. If {ipv4_cidr_blocks} are provided then this value is ignored."
+  default = 256
+}
+variable "cluster_subnets_provision" {
+  type = bool
+  description = "Flag indicating that the subnet should be provisioned. If 'false' then the subnet will be looked up."
+  default = false
+}
+variable "cluster_subnets_acl_rules" {
+  type = string
+  description = "List of rules to set on the subnet access control list"
+  default = "[]"
 }

@@ -10,3 +10,6 @@
 ## cluster_name: The cluster where Portworx storage will be deployed.
 #cluster_name=""
 
+## cluster_subnets__count: The number of subnets that should be provisioned
+#cluster_subnets__count="3"
+
