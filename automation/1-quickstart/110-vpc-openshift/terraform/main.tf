@@ -63,7 +63,7 @@ module "ibm-access-group" {
 }
 module "ibm-logdna-bind" {
   source = "cloud-native-toolkit/log-analysis-bind/ibm"
-  version = "1.3.3"
+  version = "1.3.2"
 
   cluster_id = module.cluster.id
   cluster_name = module.cluster.name
@@ -133,7 +133,7 @@ module "sysdig" {
 }
 module "sysdig-bind" {
   source = "cloud-native-toolkit/cloud-monitoring-bind/ibm"
-  version = "1.3.3"
+  version = "1.3.2"
 
   access_key = module.sysdig.access_key
   cluster_id = module.cluster.id
