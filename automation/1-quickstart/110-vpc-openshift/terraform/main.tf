@@ -63,7 +63,7 @@ module "ibm-access-group" {
 }
 module "ibm-logdna-bind" {
   source = "cloud-native-toolkit/log-analysis-bind/ibm"
-  version = "1.3.2"
+  version = "1.3.3"
 
   cluster_id = module.cluster.id
   cluster_name = module.cluster.name
@@ -112,9 +112,9 @@ module "logdna" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.2.2"
+  version = "3.2.6"
 
-  provision = var.resource_group_provision
+  ibmcloud_api_key = var.resource_group_ibmcloud_api_key
   resource_group_name = var.resource_group_name
   sync = var.resource_group_sync
 }
@@ -133,7 +133,7 @@ module "sysdig" {
 }
 module "sysdig-bind" {
   source = "cloud-native-toolkit/cloud-monitoring-bind/ibm"
-  version = "1.3.2"
+  version = "1.3.3"
 
   access_key = module.sysdig.access_key
   cluster_id = module.cluster.id

@@ -83,9 +83,9 @@ module "ibm-vpc" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.2.2"
+  version = "3.2.6"
 
-  provision = var.resource_group_provision
+  ibmcloud_api_key = var.resource_group_ibmcloud_api_key
   resource_group_name = var.resource_group_name
   sync = var.resource_group_sync
 }

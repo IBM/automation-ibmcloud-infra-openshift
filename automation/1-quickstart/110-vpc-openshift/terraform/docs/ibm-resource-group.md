@@ -42,12 +42,6 @@ variable "ibmcloud_api_key" {
   description = "IBM Cloud API Key"
 }
 
-variable "resource_group_provision" {
-  type        = bool
-  description = "Flag indicating that the resource group should be provisioned"
-  default     = true
-}
-
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
 

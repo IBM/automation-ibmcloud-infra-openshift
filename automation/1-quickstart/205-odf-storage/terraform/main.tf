@@ -1,12 +1,10 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.15.2"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.15.3"
 
   branch = var.gitops_repo_branch
   gitops_namespace = var.gitops_repo_gitops_namespace
   host = var.gitops_repo_host
-  initialize = var.gitops_repo_initialize
   org = var.gitops_repo_org
-  provision = var.gitops_repo_provision
   public = var.gitops_repo_public
   repo = var.gitops_repo_repo
   sealed_secrets_cert = var.gitops_repo_sealed_secrets_cert

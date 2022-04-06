@@ -19,6 +19,9 @@
 ## config_banner_text: The text that will appear in the top banner in the cluster
 #config_banner_text=""
 
+## resource_group_ibmcloud_api_key: The IBM Cloud api key
+#resource_group_ibmcloud_api_key=""
+
 ## resource_group_name: The name of the resource group
 #resource_group_name=""
 

@@ -1,3 +1,6 @@
+## resource_group_ibmcloud_api_key: The IBM Cloud api key
+#resource_group_ibmcloud_api_key=""
+
 ## resource_group_name: The name of the resource group
 #resource_group_name=""
 

@@ -28,7 +28,7 @@ spec:
       version: v1.1.3
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.15.2
+      version: v1.15.3
     - name: gitops-sonarqube
       alias: gitops-sonarqube
       version: v1.2.2

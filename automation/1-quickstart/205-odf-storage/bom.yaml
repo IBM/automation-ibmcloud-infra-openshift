@@ -23,7 +23,7 @@ spec:
       default: true
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.15.2
+      version: v1.15.3
   variables:
     - name: cluster_name
       type: string

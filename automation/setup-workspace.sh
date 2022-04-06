@@ -31,9 +31,12 @@ echo "Setting up automation for ${flavor} in ${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/"* "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terraform.tfvars-template" "${WORKSPACE_DIR}/terraform.tfvars"
 
-TFVARS="${WORKSPACE_DIR}/terraform.tfvars"
 find "${WORKSPACE_DIR}" -name main.tf | while read file; do
   terraform_dir=$(dirname "${file}")
 
-  ln -s "${TFVARS}" "${terraform_dir}"
+  delta_dir=$(echo "${terraform_dir}" | sed -E "s~${WORKSPACE_DIR}/~~" | sed -E "s~(.*)/?~\1/~g")
+
+  tf_vars_dir=$(echo "${delta_dir}" | sed -E "s~[^/]+/~../~g")
+
+  $(cd "${terraform_dir}" && ln -s "${tf_vars_dir}terraform.tfvars" .)
 done

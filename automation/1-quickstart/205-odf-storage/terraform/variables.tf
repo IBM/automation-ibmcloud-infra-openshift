@@ -60,16 +60,6 @@ variable "gitops_repo_branch" {
   description = "The name of the branch that will be used. If the repo already exists (provision=false) then it is assumed this branch already exists as well"
   default = "main"
 }
-variable "gitops_repo_provision" {
-  type = bool
-  description = "Flag indicating that the git repo should be provisioned. If `false` then the repo is expected to already exist"
-  default = true
-}
-variable "gitops_repo_initialize" {
-  type = bool
-  description = "Flag indicating that the git repo should be initialized. If `false` then the repo is expected to already have been initialized"
-  default = false
-}
 variable "gitops_repo_username" {
   type = string
   description = "The username of the user with access to the repository"

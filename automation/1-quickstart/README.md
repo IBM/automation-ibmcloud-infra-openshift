@@ -8,58 +8,80 @@ Automation to provision the Quick Start reference architecture on IBM Cloud. Thi
 
 The automation is delivered in a number of layers that are applied in order. Layer `110` provisions the infrastructure including the Red Hat OpenShift cluster and the remaining layers provide configuration inside the cluster. Each layer depends on resources provided in the layer before it (e.g. `200` depends on `110`). Where two layers have the same numbers (e.g. `205`), you have a choice of which layer to apply.
 
-### 110 - VPC OpenShift
-
-This layer provisions the bulk of the IBM Cloud infrastructure. The following cloud resources are provisioned:
-
-#### Network
-
-- VPC network
-- VPC Subnet
-- VPC Public Gateways
-- Red Hat OpenShift cluster
-
-#### Shared Services
-
-- Object Storage
-- IBM Log Analysis
-- IBM Cloud Monitoring
-
-### 200 - ArgoCD Bootstrap
-
-#### Software
-
-- OpenShift GitOps (ArgoCD)
-- OpenShift Pipelines (Tekton)
-- Sealed Secrets (Kubeseal)
-- GitOps repo
-
-### 205 - Storage
-
-The storage layer offers two options: `odf` and `portworx`. Either odf or portworx storage can be installed (or in rare instances, both).
-
-#### ODF
-
-- ODF operator
-- ODF storage classes
-
-#### Portworx
-
-- IBM Cloud storage volumes
-- Portworx operator
-- Portworx storage classes
-
-### 220 - Dev Tools
-
-The dev tools layer installs standard continuous integration (CI) pipelines that integrate with tools that support the software development lifecycle. 
-
-#### Software
-
-- Artifactory
-- Developer Dashboard
-- Pact Broker
-- Sonarqube
-- Tekton Resources
+<table>
+<thead>
+<tr>
+<th>Layer name</th>
+<th>Layer description</th>
+<th>Provided resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>110 - VPC OpenShift</td>
+<td>This layer provisions the bulk of the IBM Cloud infrastructure</td>
+<td>
+<h4>Network</h4>
+<ul>
+<li>VPC network</li>
+<li>VPC Subnet</li>
+<li>VPC Public Gateways</li>
+<li>Red Hat OpenShift cluster</li>
+</ul>
+<h4>Shared Services</h4>
+<ul>
+<li>Object Storage</li>
+<li>IBM Log Analysis</li>
+<li>IBM Cloud Monitoring</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>200 - ArgoCD Bootstrap</td>
+<td>This layer provisions OpenShift CI/CD tools into the cluster, a GitOps repository, and bootstraps the repository to the OpenShift Gitops instance.</td>
+<td>
+<h4>Software</h4>
+<ul>
+<li>OpenShift GitOps (ArgoCD)</li>
+<li>OpenShift Pipelines (Tekton)</li>
+<li>Sealed Secrets (Kubeseal)</li>
+<li>GitOps repo</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>205 - Storage</td>
+<td>The storage layer offers two options: `odf` and `portworx`. Either odf or portworx storage can be installed (or in rare instances, both).</td>
+<td>
+<h4>ODF</h4>
+<ul>
+<li>ODF operator</li>
+<li>ODF storage classes</li>
+</ul>
+<h4>Portworx</h4>
+<ul>
+<li>IBM Cloud storage volumes</li>
+<li>Portworx operator</li>
+<li>Portworx storage classes</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>220 - Dev Tools</td>
+<td>The dev tools layer installs standard continuous integration (CI) pipelines that integrate with tools that support the software development lifecycle.</td>
+<td>
+<h4>Software</h4>
+<ul>
+<li>Artifactory</li>
+<li>Developer Dashboard</li>
+<li>Pact Broker</li>
+<li>Sonarqube</li>
+<li>Tekton Resources</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 
 ## Automation
 
