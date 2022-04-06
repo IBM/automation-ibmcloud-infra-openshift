@@ -1,4 +1,4 @@
-variable "resource_group_ibmcloud_api_key" {
+variable "ibmcloud_api_key" {
   type = string
   description = "The IBM Cloud api key"
 }
@@ -10,10 +10,6 @@ variable "resource_group_sync" {
   type = string
   description = "Value used to order the provisioning of the resource group"
   default = ""
-}
-variable "ibmcloud_api_key" {
-  type = string
-  description = "the value of ibmcloud_api_key"
 }
 variable "region" {
   type = string

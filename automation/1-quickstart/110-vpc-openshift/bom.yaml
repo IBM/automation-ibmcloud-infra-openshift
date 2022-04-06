@@ -13,7 +13,7 @@ spec:
   modules:
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.2.6
+      version: v3.2.9
     - name: ibm-access-group
       alias: ibm-access-group
       version: v3.0.2
@@ -55,14 +55,12 @@ spec:
       alias: cos
       version: v4.0.3
   variables:
-    - name: resource_group_ibmcloud_api_key
+    - name: ibmcloud_api_key
       type: string
       description: The IBM Cloud api key
     - name: resource_group_name
       type: string
       description: The name of the resource group
-    - name: ibmcloud_api_key
-      type: string
     - name: region
       type: string
     - name: name_prefix

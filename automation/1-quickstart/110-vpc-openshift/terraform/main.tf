@@ -112,9 +112,9 @@ module "logdna" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.2.6"
+  version = "3.2.9"
 
-  ibmcloud_api_key = var.resource_group_ibmcloud_api_key
+  ibmcloud_api_key = var.ibmcloud_api_key
   resource_group_name = var.resource_group_name
   sync = var.resource_group_sync
 }

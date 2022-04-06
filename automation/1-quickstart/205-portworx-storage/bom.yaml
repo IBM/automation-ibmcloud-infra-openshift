@@ -13,7 +13,7 @@ spec:
   modules:
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.2.6
+      version: v3.2.9
       variables:
         - name: provision
           value: false
@@ -65,14 +65,12 @@ spec:
         - name: provision
           value: false
   variables:
-    - name: resource_group_ibmcloud_api_key
+    - name: ibmcloud_api_key
       type: string
       description: The IBM Cloud api key
     - name: resource_group_name
       type: string
       description: The name of the resource group
-    - name: ibmcloud_api_key
-      type: string
     - name: region
       type: string
     - name: cluster_name
