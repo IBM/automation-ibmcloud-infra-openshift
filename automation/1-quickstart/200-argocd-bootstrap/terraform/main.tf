@@ -87,7 +87,7 @@ module "olm" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.2.9"
+  version = "3.2.10"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   resource_group_name = var.resource_group_name

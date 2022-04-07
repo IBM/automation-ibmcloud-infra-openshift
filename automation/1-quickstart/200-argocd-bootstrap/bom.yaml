@@ -36,7 +36,7 @@ spec:
           value: toolkit
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.2.9
+      version: v3.2.10
       variables:
         - name: provision
           value: false
