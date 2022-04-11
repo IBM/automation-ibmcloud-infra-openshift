@@ -54,13 +54,6 @@ module "cos" {
   resource_location = var.cos_resource_location
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
 }
-module "ibm-access-group" {
-  source = "cloud-native-toolkit/access-group/ibm"
-  version = "3.0.2"
-
-  provision = module.resource_group.provision
-  resource_group_name = module.resource_group.name
-}
 module "ibm-logdna-bind" {
   source = "cloud-native-toolkit/log-analysis-bind/ibm"
   version = "1.3.3"

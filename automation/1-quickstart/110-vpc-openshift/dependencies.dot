@@ -1,8 +1,6 @@
 digraph {
     rankdir="BT"
     "resource_group (ibm-resource-group)"
-"ibm-access-group (ibm-access-group)" -> "resource_group (ibm-resource-group)"
-"ibm-access-group (ibm-access-group)"
 "sysdig (ibm-cloud-monitoring)" -> "resource_group (ibm-resource-group)"
 "sysdig (ibm-cloud-monitoring)"
 "sysdig-bind (ibm-cloud-monitoring-bind)" -> "cluster (ibm-ocp-vpc)"
