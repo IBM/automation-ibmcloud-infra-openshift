@@ -18,7 +18,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </thead>
 <tbody>
 <tr>
-<td>110 - VPC OpenShift</td>
+<td>105 - IBM VPC OpenShift</td>
 <td>This layer provisions the bulk of the IBM Cloud infrastructure</td>
 <td>
 <h4>Network</h4>
@@ -37,7 +37,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </td>
 </tr>
 <tr>
-<td>200 - ArgoCD Bootstrap</td>
+<td>200 - IBM OpenShift Gitops</td>
 <td>This layer provisions OpenShift CI/CD tools into the cluster, a GitOps repository, and bootstraps the repository to the OpenShift Gitops instance.</td>
 <td>
 <h4>Software</h4>
@@ -50,15 +50,15 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </td>
 </tr>
 <tr>
-<td>205 - Storage</td>
+<td>205 - IBM Storage</td>
 <td>The storage layer offers two options: `odf` and `portworx`. Either odf or portworx storage can be installed (or in rare instances, both).</td>
 <td>
-<h4>ODF</h4>
+<h4>ODF Storage</h4>
 <ul>
 <li>ODF operator</li>
 <li>ODF storage classes</li>
 </ul>
-<h4>Portworx</h4>
+<h4>Portworx Storage</h4>
 <ul>
 <li>IBM Cloud storage volumes</li>
 <li>Portworx operator</li>
@@ -132,9 +132,9 @@ Configuration values need to be provided to terraform when the script is run. If
 
 **Note:** The `ibmcloud_api_key`, `gitops_repo_username` and `gitops_repo_token` variables should have been provided in the **credentials.properties** file and provided as environment variables into the container. If you are not running in a container, you can add the variables in the terraform.tfvars file or provide them when prompted.
 
-#### 110 - VPC OpenShift
+#### 105 - IBM VPC OpenShift
 
-1. Change the directory to `110-vpc-openshift/terraform`
+1. Change the directory to `105-ibm-vpc-openshift/terraform`
 2. Run the terraform:
 
     ```shell
@@ -154,9 +154,9 @@ This layer makes use of the following variables:
 | cluster_name           | The name of the cluster                                                |
 | name_prefix            | The prefix for the cluster name                                        |
 
-#### 200 - ArgoCD Bootstrap
+#### 200 - IBM OpenShift Gitops
 
-1. Change the directory to `200-argocd-bootstrap/terraform`
+1. Change the directory to `200-ibm-openshift-gitops/terraform`
 2. Run the terraform:
 
     ```shell
@@ -178,13 +178,13 @@ This layer makes use of the following variables:
 | gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
 | gitops_repo_repo       | The name for the gitops repo                                           |
 
-#### 205 - Storage
+#### 205 - IBM Storage
 
 Most of the IBM Cloud Pak software components have a special storage requirements and need a storage manager installed in the cluster. The Quick Start currently provides two options: **ODF storage** and **Portworx storage**. Each has different characteristics so pick the one that works best for your deployment. If you don't plan to install IBM Cloud Paks at this time you can skip this layer and apply it later when/if the need arises.
 
-##### 205 - ODF Storage
+##### 205 - IBM ODF Storage
 
-1. Change the directory to `205-odf-storage/terraform`
+1. Change the directory to `205-ibm-odf-storage/terraform`
 2. Run the terraform:
 
     ```shell
@@ -204,9 +204,9 @@ This layer makes use of the following variables:
 | gitops_repo_org        | The existing org/group where the gitops repo will be created/found     |
 | gitops_repo_repo       | The name for the gitops repo                                           |
 
-##### 205 - Portworx Storage
+##### 205 - IBM Portworx Storage
 
-1. Change the directory to `205-portworx-storage/terraform`
+1. Change the directory to `205-ibm-portworx-storage/terraform`
 2. Run the terraform:
 
     ```shell
