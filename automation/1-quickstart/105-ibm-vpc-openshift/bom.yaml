@@ -1,0 +1,89 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 105-ibm-vpc-openshift
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: '105'
+  annotations:
+    displayName: IBM VPC OpenShift
+    description: IBM VPC and public Red Hat OpenShift server
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.2.10
+    - name: ibm-activity-tracker
+      alias: ibm-activity-tracker
+      version: v2.4.6
+    - name: ibm-cloud-monitoring
+      alias: sysdig
+      version: v4.1.2
+    - name: ibm-cloud-monitoring-bind
+      alias: sysdig-bind
+      version: v1.3.3
+    - name: ibm-log-analysis
+      alias: logdna
+      version: v4.1.2
+    - name: ibm-log-analysis-bind
+      alias: ibm-logdna-bind
+      version: v1.3.3
+    - name: ibm-vpc
+      alias: ibm-vpc
+      version: v1.15.5
+    - name: ibm-vpc-gateways
+      alias: ibm-vpc-gateways
+      version: v1.8.2
+    - name: ibm-vpc-subnets
+      alias: cluster_subnets
+      version: v1.12.2
+      default: true
+    - name: ibm-ocp-vpc
+      alias: cluster
+      version: v1.13.2
+      variables:
+        - name: flavor
+          value: bx2.16x64
+        - name: worker_count
+          value: 1
+        - name: name_prefix
+          important: true
+        - name: name
+          important: true
+    - name: ibm-object-storage
+      alias: cos
+      version: v4.0.3
+  variables:
+    - name: ibmcloud_api_key
+      type: string
+      description: The IBM Cloud api key
+    - name: resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: region
+      type: string
+    - name: name_prefix
+      type: string
+      description: >-
+        The prefix name for the service. If not provided it will default to the
+        resource group name
+      defaultValue: ''
+    - name: cluster_subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
+    - name: cluster_name
+      type: string
+      description: The name of the cluster that will be created within the resource group
+      defaultValue: ''
+    - name: worker_count
+      type: number
+      description: >-
+        The number of worker nodes that should be provisioned for classic
+        infrastructure
+      defaultValue: 1
+    - name: cluster_flavor
+      type: string
+      description: The machine type that will be provisioned for classic infrastructure
+      defaultValue: bx2.16x64
