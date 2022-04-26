@@ -1,0 +1,186 @@
+# Controls when the workflow will run
+on:
+  
+  push:
+    tags:
+    - 'v*' # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch: # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "onbaord-release"
+  onboard-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Extracts the offering version number from the tag - assumed tag format is vxx.xx.xx - catalog versions do not have letters
+      - name: Determine version 
+        run: echo "VERSION=$(echo ${{ github.ref_name }} | cut -c2-)" >> $GITHUB_ENV
+
+      # For debugging - echo all the environment variables in sorted order
+      - name: Dump environment
+        run: env | sort
+
+      # For debugging - echo the git context and all properties
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      # Create the tar.gz file that will be uploaded to the release and catalog
+      - name: Create release asset for 105-ibm-vpc-openshift
+        run: |
+          ls
+          echo 'creating asset for 105-ibm-vpc-openshift - ${{ github.ref_name }}-105-ibm-vpc-openshift.tar.gz'
+          cd automation/1-quickstart/105-ibm-vpc-openshift/terraform
+          cp ../../README.md .
+          tar -czvf ../${{ github.ref_name }}-105-ibm-vpc-openshift.tar.gz .
+          echo 'done creating asset for 105-ibm-vpc-openshift module'
+
+      # Create the tar.gz file that will be uploaded to the release and catalog
+      - name: Create release asset for 200-ibm-openshift-gitops
+        run: |
+          ls
+          echo 'creating asset for 200-ibm-openshift-gitops - ${{ github.ref_name }}-200-ibm-openshift-gitops.tar.gz'
+          cd automation/1-quickstart/200-ibm-openshift-gitops/terraform
+          cp ../../README.md .
+          tar -czvf ../${{ github.ref_name }}-200-ibm-openshift-gitops.tar.gz .
+          echo 'done creating asset for 200-ibm-openshift-gitops module'
+
+      # Create the tar.gz file that will be uploaded to the release and catalog
+      - name: Create release asset for 210-ibm-odf-storage
+        run: |
+          ls
+          echo 'creating asset for 210-ibm-odf-storage - ${{ github.ref_name }}-210-ibm-odf-storage.tar.gz'
+          cd automation/1-quickstart/210-ibm-odf-storage/terraform
+          cp ../../README.md .
+          tar -czvf ../${{ github.ref_name }}-210-ibm-odf-storage.tar.gz .
+          echo 'done creating asset for 210-ibm-odf-storage module'
+
+      # Create the tar.gz file that will be uploaded to the release and catalog
+      - name: Create release asset for 210-ibm-portworx-storage
+        run: |
+          ls
+          echo 'creating asset for 210-ibm-portworx-storage - ${{ github.ref_name }}-210-ibm-portworx-storage.tar.gz'
+          cd automation/1-quickstart/210-ibm-portworx-storage/terraform
+          cp ../../README.md .
+          tar -czvf ../${{ github.ref_name }}-210-ibm-portworx-storage.tar.gz .
+          echo 'done creating asset for 210-ibm-portworx-storage module'
+
+      # Create the tar.gz file that will be uploaded to the release and catalog
+      - name: Create release asset for 220-dev-tools
+        run: |
+          ls
+          echo 'creating asset for 220-dev-tools - ${{ github.ref_name }}-220-dev-tools.tar.gz'
+          cd automation/1-quickstart/220-dev-tools/terraform
+          cp ../../README.md .
+          tar -czvf ../${{ github.ref_name }}-220-dev-tools.tar.gz .
+          echo 'done creating asset for 220-dev-tools module'
+
+      # Create the release in the repo
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ""
+          draft: true
+          prerelease: false
+
+      # Upload a release asset to the repo on the release
+      - name: Upload Release Asset - 105-ibm-vpc-openshift
+        id: ibm-vpc-openshift-asset-105
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./automation/1-quickstart/105-ibm-vpc-openshift/${{ github.ref_name }}-105-ibm-vpc-openshift.tar.gz
+          asset_name: ${{ github.ref_name }}-105-ibm-vpc-openshift.tar.gz
+          asset_content_type: application/octet-stream
+          
+      # Upload a release asset to the repo on the release
+      - name: Upload Release Asset - 200-ibm-openshift-gitops
+        id: ibm-openshift-gitops-asset-200 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./automation/1-quickstart/200-ibm-openshift-gitops/${{ github.ref_name }}-200-ibm-openshift-gitops.tar.gz
+          asset_name: ${{ github.ref_name }}-200-ibm-openshift-gitops.tar.gz
+          asset_content_type: application/octet-stream
+
+      # Upload a release asset to the repo on the release
+      - name: Upload Release Asset - 210-ibm-odf-storage
+        id: ibm-odf-storage-asset-210 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./automation/1-quickstart/210-ibm-odf-storage/${{ github.ref_name }}-210-ibm-odf-storage.tar.gz
+          asset_name: ${{ github.ref_name }}-210-ibm-odf-storage.tar.gz
+          asset_content_type: application/octet-stream  
+
+      # Upload a release asset to the repo on the release
+      - name: Upload Release Asset - 210-ibm-portworx-storage
+        id: ibm-portworx-storage-asset-210 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./automation/1-quickstart/210-ibm-portworx-storage/${{ github.ref_name }}-210-ibm-portworx-storage.tar.gz
+          asset_name: ${{ github.ref_name }}-210-ibm-portworx-storage.tar.gz
+          asset_content_type: application/octet-stream
+
+      # Upload a release asset to the repo on the release
+      - name: Upload Release Asset - 220-dev-tools
+        id: dev-tools-asset-220
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./automation/1-quickstart/220-dev-tools/${{ github.ref_name }}-220-dev-tools.tar.gz
+          asset_name: ${{ github.ref_name }}-220-dev-tools.tar.gz
+          asset_content_type: application/octet-stream                     
+
+      # Upload offering versions to the IBM catalog.  Need to first install the CLI, catalog management plugin then use the CLI to 
+      # upload the version to the offering and validate it.
+      - name: Upload to cloud catalog
+        id: setup-cli-and-upload
+        env: 
+          IBMCLOUD_API_KEY: ${{ secrets.API_KEY }}
+        run: |
+          curl -sL https://ibm.biz/idt-installer | bash
+          ibmcloud plugin install catalogs-management
+          ibmcloud plugin install schematics
+          ibmcloud plugin list
+          ibmcloud login --apikey "$IBMCLOUD_API_KEY" --no-region
+
+          VERSION=${{ env.VERSION }}
+
+          catalogName="Tech Zone FS Cloud Catalog"
+
+          echo "--------------------------------------------------------------------"
+          echo "Ecosystem IBM VPC OpenShift - 105"
+          offeringName="Ecosystem IBM VPC OpenShift - 105"
+          jq -n --arg IBMCLOUD_API_KEY "$IBMCLOUD_API_KEY" '{ "ibmcloud_api_key": $IBMCLOUD_API_KEY, "region": "au-syd", "resource_group_name": "cm-validate", "cluster_name": "cm-validate", "name_prefix": "cm-validate" }' > valid-values.json  
+          ./scripts/onboard_validate_publish.sh "$catalogName" "$offeringName" ${{ steps.ibm-vpc-openshift-asset-105.outputs.browser_download_url }} ${{ env.VERSION }} "cm-validate" 
+          
+          echo "--------------------------------------------------------------------"
+          echo "   Begin resource cleanup "
+          echo "--------------------------------------------------------------------"
+
+          echo "105: destroy"
+          offeringName="Ecosystem IBM VPC OpenShift - 105"
+          workspaceID=$(ibmcloud catalog offering get -c "$catalogName" -o "$offeringName" --output json | jq -r --arg version "${{ env.VERSION }}" '.kinds[] | select(.format_kind=="terraform").versions[] | select(.version==$version).validation.target.workspace_id')
+          #./scripts/cleanup.sh "$workspaceID"          
