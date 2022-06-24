@@ -31,7 +31,7 @@ spec:
       version: v4.1.2
     - name: ibm-log-analysis-bind
       alias: ibm-logdna-bind
-      version: v1.3.4
+      version: v1.3.5
     - name: ibm-vpc
       alias: ibm-vpc
       version: v1.16.0
@@ -40,7 +40,7 @@ spec:
       version: v1.9.0
     - name: ibm-vpc-subnets
       alias: cluster_subnets
-      version: v1.13.1
+      version: v1.13.2
       default: true
     - name: ibm-ocp-vpc
       alias: cluster

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-if command -v terragrunt 1> /dev/null 2> /dev/null; then
-  echo "y" | terragrunt run-all destroy || exit 1
-  exit
-fi
+#if command -v terragrunt 1> /dev/null 2> /dev/null; then
+#  echo "y" | terragrunt run-all destroy || exit 1
+#  exit
+#fi
 
 CI="$1"
 
