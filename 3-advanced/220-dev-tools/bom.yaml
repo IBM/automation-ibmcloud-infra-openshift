@@ -1,0 +1,77 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 220-dev-tools
+  labels:
+    type: software
+    code: '220'
+  annotations:
+    displayName: OpenShift development tools
+    description: Provisions development tools in an OpenShift cluster
+spec:
+  modules:
+    - name: gitops-artifactory
+      alias: gitops-artifactory
+      version: v1.2.1
+    - name: gitops-dashboard
+      alias: gitops-dashboard
+      version: v1.6.2
+    - name: gitops-namespace
+      alias: tools_namespace
+      version: v1.11.2
+      default: true
+      variables:
+        - name: name
+          value: tools
+    - name: gitops-pact-broker
+      alias: gitops-pact-broker
+      version: v1.1.7
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.19.4
+      variables:
+        - name: server_name
+          alias: dev_server_name
+          default: dev
+          important: true
+    - name: gitops-sonarqube
+      alias: gitops-sonarqube
+      version: v1.2.6
+    - name: gitops-tekton-resources
+      alias: gitops-tekton-resources
+      version: v1.1.4
+  variables:
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+      defaultValue: ''
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+      defaultValue: ''
+    - name: gitops_repo_project
+      type: string
+      description: >-
+        The project that will be used for the git repo. (Primarily used for
+        Azure DevOps repos)
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_dev_server_name
+      type: string
+      description: >-
+        The name of the cluster that will be configured via gitops. This is used
+        to separate the config by cluster
+      defaultValue: default

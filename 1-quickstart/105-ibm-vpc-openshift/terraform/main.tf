@@ -28,7 +28,7 @@ module "cluster" {
 }
 module "cluster_subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.1"
+  version = "1.13.2"
 
   _count = var.cluster_subnets__count
   acl_rules = var.cluster_subnets_acl_rules == null ? null : jsondecode(var.cluster_subnets_acl_rules)
@@ -75,7 +75,7 @@ module "ibm-activity-tracker" {
 }
 module "ibm-logdna-bind" {
   source = "cloud-native-toolkit/log-analysis-bind/ibm"
-  version = "1.3.4"
+  version = "1.3.5"
 
   cluster_id = module.cluster.id
   cluster_name = module.cluster.name
