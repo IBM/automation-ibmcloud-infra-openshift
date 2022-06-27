@@ -90,6 +90,6 @@ The script will run through each of the terraform layers in sequence to provisio
 From the **/workspace/current** directory, run change directory into each of the layer subdirectories and run the following:
 
 ```shell
-terraform init
-terraform apply -auto-approve
+terragrunt init
+terragrunt apply -auto-approve
 ```
