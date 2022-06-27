@@ -15,7 +15,7 @@ spec:
   modules:
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.19.1
+      version: v1.19.4
       variables:
         - name: server_name
           alias: dev_server_name
@@ -95,6 +95,12 @@ spec:
     - name: gitops_repo_org
       type: string
       description: The org/group where the git repository exists/will be provisioned.
+      defaultValue: ''
+    - name: gitops_repo_project
+      type: string
+      description: >-
+        The project that will be used for the git repo. (Primarily used for
+        Azure DevOps repos)
       defaultValue: ''
     - name: gitops_repo_username
       type: string
