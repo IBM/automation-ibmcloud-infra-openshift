@@ -1,24 +1,6 @@
-variable "cluster_name" {
-  type = string
-  description = "The name of the ROKS cluster where ODF will be installed"
-}
-variable "region" {
-  type = string
-  description = "The region where the cluster is deployed"
-}
 variable "ibmcloud_api_key" {
   type = string
   description = "The api key for IBM Cloud access"
-}
-variable "gitops-ibm-odf_job_container_image" {
-  type = string
-  description = "The the container image that the job will be executed within"
-  default = "quay.io/ibmgaragecloud/cli-tools"
-}
-variable "gitops-ibm-odf_job_container_image_tag" {
-  type = string
-  description = "The the container image tag"
-  default = "v0.15"
 }
 variable "odf_namespace_name" {
   type = string
@@ -42,14 +24,52 @@ variable "odf_namespace_argocd_namespace" {
 variable "gitops_repo_host" {
   type = string
   description = "The host for the git repository."
+  default = ""
 }
 variable "gitops_repo_type" {
   type = string
-  description = "The type of the hosted git repository (github or gitlab)."
+  description = "[Deprecated] The type of the hosted git repository."
+  default = ""
 }
 variable "gitops_repo_org" {
   type = string
   description = "The org/group where the git repository exists/will be provisioned."
+  default = ""
+}
+variable "gitops_repo_project" {
+  type = string
+  description = "The project that will be used for the git repo. (Primarily used for Azure DevOps repos)"
+  default = ""
+}
+variable "gitops_repo_username" {
+  type = string
+  description = "The username of the user with access to the repository"
+  default = ""
+}
+variable "gitops_repo_token" {
+  type = string
+  description = "The personal access token used to access the repository"
+  default = ""
+}
+variable "gitops_repo_gitea_host" {
+  type = string
+  description = "The host for the git repository."
+  default = ""
+}
+variable "gitops_repo_gitea_org" {
+  type = string
+  description = "The org/group where the git repository exists/will be provisioned."
+  default = ""
+}
+variable "gitops_repo_gitea_username" {
+  type = string
+  description = "The username of the user with access to the repository"
+  default = ""
+}
+variable "gitops_repo_gitea_token" {
+  type = string
+  description = "The personal access token used to access the repository"
+  default = ""
 }
 variable "gitops_repo_repo" {
   type = string
@@ -59,14 +79,6 @@ variable "gitops_repo_branch" {
   type = string
   description = "The name of the branch that will be used. If the repo already exists (provision=false) then it is assumed this branch already exists as well"
   default = "main"
-}
-variable "gitops_repo_username" {
-  type = string
-  description = "The username of the user with access to the repository"
-}
-variable "gitops_repo_token" {
-  type = string
-  description = "The personal access token used to access the repository"
 }
 variable "gitops_repo_public" {
   type = bool
