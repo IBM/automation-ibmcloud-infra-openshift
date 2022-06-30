@@ -115,6 +115,8 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/REGION/${REGION}/g" \
   > ./terraform.tfvars
 
+cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
+cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
@@ -143,8 +145,8 @@ do
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
-  ln -s "${SCRIPT_DIR}/${FLAVOR_DIR}/apply.sh" ./apply.sh
-  ln -s "${SCRIPT_DIR}/${FLAVOR_DIR}/destroy.sh" ./destroy.sh
+  ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
+  ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   cd - > /dev/null
 done
 
