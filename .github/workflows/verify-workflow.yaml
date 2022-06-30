@@ -38,6 +38,7 @@ jobs:
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
       TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
+      TF_VAR_gitops_repo_host: github.com
 
     outputs:
       status: ${{ job.status }}
@@ -57,7 +58,7 @@ jobs:
           
           echo ""
           echo "*** Start terraform.tfvars ***"
-          cat terraform.tfvars
+          cat cluster.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
           

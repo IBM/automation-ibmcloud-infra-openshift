@@ -7,23 +7,25 @@ FLAVOR="quickstart"
 STORAGE=""
 PREFIX_NAME=""
 REGION="us-east"
+GIT_HOST=""
 
 Usage()
 {
    echo "Creates a workspace folder and populates it with architectures."
    echo
-   echo "Usage: setup-workspace.sh -f FLAVOR -s STORAGE [-n PREFIX_NAME] [-r REGION]"
+   echo "Usage: setup-workspace.sh -f FLAVOR -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
    echo "  f     the flavor to use (quickstart, standard, advanced)"
    echo "  s     the storage option to use (portworx or odf)"
    echo "  n     (optional) prefix that should be used for all variables"
    echo "  r     (optional) the region where the infrastructure will be provisioned"
+   echo "  g     (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
    echo "  h     Print this help"
    echo
 }
 
 # Get the options
-while getopts ":f:s:n:r:" option; do
+while getopts ":f:s:n:r:g:" option; do
    case $option in
       h) # display Help
          Usage
@@ -36,6 +38,8 @@ while getopts ":f:s:n:r:" option; do
          PREFIX_NAME=$OPTARG;;
       r) # Enter a name
          REGION=$OPTARG;;
+      g) # Enter a name
+         GIT_HOST=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -56,12 +60,12 @@ if [[ -z "${FLAVOR}" ]]; then
     fi
   done
 
-  FLAVOR_DIR="${REPLY}-${FLAVOR,,}"
+  FLAVOR_DIR="${REPLY}-$(echo "${FLAVOR}" | tr '[:upper:]' '[:lower:]')"
 else
   FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
 
   for flavor in ${FLAVORS[@]}; do
-    if [[ "${flavor,,}" =~ ${FLAVOR} ]]; then
+    if [[ "$(echo "${flavor}" | tr '[:upper:]' '[:lower:]')" =~ ${FLAVOR} ]]; then
       FLAVOR_DIR="${flavor}"
       break
     fi
@@ -112,13 +116,17 @@ fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-  sed "s/REGION/${REGION}/g" \
-  > ./terraform.tfvars
+  sed "s/REGION/${REGION}/g" | \
+  sed "s/GIT_HOST/${GIT_HOST}/g" \
+  > ./cluster.tfvars
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
+
 
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 echo "Storage: ${STORAGE}"
@@ -129,7 +137,7 @@ do
 
   name=$(echo "$dir" | sed -E "s/.*\///")
 
-  if [[ ! -d "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform" ]]; then
+  if [[ ! -f "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/main.tf" ]]; then
     continue
   fi
 
@@ -139,15 +147,8 @@ do
 
   echo "Setting up current/${name} from ${name}"
 
-  mkdir -p ${name}
-  cd "${name}"
-
-  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/bom.yaml" .
-  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform/"* .
-  ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
-  ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
-  ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
-  cd - > /dev/null
+  mkdir -p "${name}"
+  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* "${name}"
 done
 
-echo "move to ${WORKSPACE_DIR} this is where your automation is configured"
+echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"
