@@ -145,8 +145,8 @@ do
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
-  ln -s "${SCRIPT_DIR}/${FLAVOR_DIR}/apply.sh" ./apply.sh
-  ln -s "${SCRIPT_DIR}/${FLAVOR_DIR}/destroy.sh" ./destroy.sh
+  ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
+  ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   cd - > /dev/null
 done
 
