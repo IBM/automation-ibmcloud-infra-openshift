@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: quay.io/cloudnativetoolkit/terraform:v1.1
-      options: --privileged
+      options: --privileged --user root
 
     strategy:
       matrix:
