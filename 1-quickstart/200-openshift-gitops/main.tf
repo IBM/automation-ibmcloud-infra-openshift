@@ -60,12 +60,12 @@ module "gitea_namespace" {
   name = var.gitea_namespace_name
 }
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.2"
 
   branch = var.gitops_repo_branch
   gitea_host = module.gitea.host
   gitea_org = module.gitea.org
-  gitea_token = module.gitea.password
+  gitea_token = module.gitea.token
   gitea_username = module.gitea.username
   gitops_namespace = var.gitops_repo_gitops_namespace
   host = var.gitops_repo_host

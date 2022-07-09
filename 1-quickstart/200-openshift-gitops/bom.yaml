@@ -39,7 +39,7 @@ spec:
           value: toolkit
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.20.1
+      version: v1.20.2
     - name: argocd-bootstrap
       alias: argocd-bootstrap
       version: v1.12.0
