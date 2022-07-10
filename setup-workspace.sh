@@ -114,9 +114,14 @@ if [[ -n "${PREFIX_NAME}" ]]; then
   PREFIX_NAME="${PREFIX_NAME}-"
 fi
 
+if [[ -z "${GIT_HOST}" ]]; then
+  GITHOST_COMMENT="#"
+fi
+
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \
   sed "s/REGION/${REGION}/g" | \
+  sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
   > ./cluster.tfvars
 
