@@ -39,6 +39,7 @@ jobs:
       TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
       TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
       TF_VAR_purge_volumes: true
+      REGION: eu-gb
 
     outputs:
       status: ${{ job.status }}
@@ -53,7 +54,7 @@ jobs:
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r eu-de
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r "${REGION}"
           cd ../workspaces/current
           
           echo ""
