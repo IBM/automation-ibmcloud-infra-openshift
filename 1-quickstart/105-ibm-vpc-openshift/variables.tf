@@ -280,3 +280,7 @@ variable "cos_label" {
   description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
   default = "cos"
 }
+variable "purge_volumes" {
+  type = bool
+  default = false
+}

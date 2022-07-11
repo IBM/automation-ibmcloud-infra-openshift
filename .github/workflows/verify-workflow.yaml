@@ -38,7 +38,7 @@ jobs:
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
       TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
-      TF_VAR_gitops_repo_host: github.com
+      TF_VAR_purge_volumes: true
 
     outputs:
       status: ${{ job.status }}
