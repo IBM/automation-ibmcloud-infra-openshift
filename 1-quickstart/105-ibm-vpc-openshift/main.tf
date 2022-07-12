@@ -44,8 +44,7 @@ module "cluster_subnets" {
   zone_offset = var.cluster_subnets_zone_offset
 }
 module "cos" {
-  source = "cloud-native-toolkit/object-storage/ibm"
-  version = "4.0.3"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-object-storage?ref=31-ghost-bug"
 
   label = var.cos_label
   name_prefix = var.name_prefix
