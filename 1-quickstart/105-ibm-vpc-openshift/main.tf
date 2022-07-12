@@ -53,6 +53,7 @@ module "cos" {
   resource_group_name = module.resource_group.name
   resource_location = var.cos_resource_location
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
+  ibmcloud_api_key = var.ibmcloud_api_key
 }
 module "ibm-access-group" {
   source = "cloud-native-toolkit/access-group/ibm"
