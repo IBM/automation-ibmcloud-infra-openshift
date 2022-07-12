@@ -24,7 +24,7 @@ spec:
           value: portworx
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.2.16
+      version: v3.3.0
     - name: gitops-repo
       alias: gitops_repo
       version: v1.20.2

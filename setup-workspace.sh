@@ -114,9 +114,11 @@ if [[ -n "${PREFIX_NAME}" ]]; then
   PREFIX_NAME="${PREFIX_NAME}-"
 fi
 
+
 if [[ -z "${GIT_HOST}" ]]; then
   GITHOST_COMMENT="#"
 fi
+
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \

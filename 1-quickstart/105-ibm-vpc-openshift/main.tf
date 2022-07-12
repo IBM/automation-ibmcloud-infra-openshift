@@ -1,6 +1,6 @@
 module "cluster" {
   source = "cloud-native-toolkit/ocp-vpc/ibm"
-  version = "1.15.4"
+  version = "1.15.5"
 
   cos_id = module.cos.id
   disable_public_endpoint = var.cluster_disable_public_endpoint
@@ -129,9 +129,9 @@ module "resource_group" {
   version = "3.3.0"
 
   ibmcloud_api_key = var.ibmcloud_api_key
+  purge_volumes = var.purge_volumes
   resource_group_name = var.resource_group_name
   sync = var.resource_group_sync
-  purge_volumes = var.purge_volumes
 }
 module "sysdig" {
   source = "cloud-native-toolkit/cloud-monitoring/ibm"
