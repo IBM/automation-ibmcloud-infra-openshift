@@ -44,8 +44,10 @@ module "cluster_subnets" {
   zone_offset = var.cluster_subnets_zone_offset
 }
 module "cos" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-object-storage?ref=31-ghost-bug"
+  source = "cloud-native-toolkit/object-storage/ibm"
+  version = "4.0.5"
 
+  ibmcloud_api_key = var.ibmcloud_api_key
   label = var.cos_label
   name_prefix = var.name_prefix
   plan = var.cos_plan
@@ -53,7 +55,6 @@ module "cos" {
   resource_group_name = module.resource_group.name
   resource_location = var.cos_resource_location
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
-  ibmcloud_api_key = var.ibmcloud_api_key
 }
 module "ibm-access-group" {
   source = "cloud-native-toolkit/access-group/ibm"

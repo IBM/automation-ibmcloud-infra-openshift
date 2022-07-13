@@ -41,7 +41,7 @@ module "config" {
   server_name = module.gitops_repo.server_name
 }
 module "gitea" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitea?ref=v0.3.5"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitea?ref=v0.3.6"
 
   cluster_config_file = module.cluster.config_file_path
   cluster_type = module.cluster.platform.type_code
@@ -60,7 +60,7 @@ module "gitea_namespace" {
   name = var.gitea_namespace_name
 }
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.2"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.3"
 
   branch = var.gitops_repo_branch
   gitea_host = module.gitea.host
