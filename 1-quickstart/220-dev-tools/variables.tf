@@ -1,3 +1,7 @@
+variable "debug" {
+  type = bool
+  default = false
+}
 variable "gitops-artifactory_cluster_ingress_hostname" {
   type = string
   description = "Ingress hostname of the IKS cluster."

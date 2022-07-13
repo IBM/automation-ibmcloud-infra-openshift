@@ -39,6 +39,7 @@ jobs:
       TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
       TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
       TF_VAR_purge_volumes: true
+      TF_VAR_debug: true
       REGION: eu-gb
 
     outputs:

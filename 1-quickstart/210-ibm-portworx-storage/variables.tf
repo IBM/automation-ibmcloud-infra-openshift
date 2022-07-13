@@ -1,3 +1,7 @@
+variable "debug" {
+  type = bool
+  default = false
+}
 variable "ibmcloud_api_key" {
   type = string
   description = "The api key for the IBM Cloud account"

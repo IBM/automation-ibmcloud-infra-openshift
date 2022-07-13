@@ -1,3 +1,7 @@
+variable "debug" {
+  type = bool
+  default = false
+}
 variable "gitea_instance_name" {
   type = string
   description = "The name for the instance"
