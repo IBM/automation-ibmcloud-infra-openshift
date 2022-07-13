@@ -44,7 +44,7 @@ spec:
       default: true
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.15.5
+      version: v1.15.6
       variables:
         - name: flavor
           value: bx2.16x64

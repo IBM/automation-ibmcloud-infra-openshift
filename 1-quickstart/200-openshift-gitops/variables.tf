@@ -1,7 +1,3 @@
-variable "debug" {
-  type = bool
-  default = false
-}
 variable "gitea_instance_name" {
   type = string
   description = "The name for the instance"
@@ -143,6 +139,11 @@ variable "gitops_repo_server_name" {
 variable "gitops_repo_strict" {
   type = bool
   description = "Flag indicating that an error should be thrown if the repo already exists"
+  default = false
+}
+variable "debug" {
+  type = bool
+  description = "Flag indicating that debug loggging should be enabled"
   default = false
 }
 variable "argocd-bootstrap_bootstrap_prefix" {

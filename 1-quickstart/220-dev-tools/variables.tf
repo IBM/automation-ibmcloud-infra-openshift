@@ -1,7 +1,3 @@
-variable "debug" {
-  type = bool
-  default = false
-}
 variable "gitops-artifactory_cluster_ingress_hostname" {
   type = string
   description = "Ingress hostname of the IKS cluster."
@@ -164,6 +160,11 @@ variable "gitops_repo_sealed_secrets_cert" {
 variable "gitops_repo_strict" {
   type = bool
   description = "Flag indicating that an error should be thrown if the repo already exists"
+  default = false
+}
+variable "debug" {
+  type = bool
+  description = "Flag indicating that debug loggging should be enabled"
   default = false
 }
 variable "gitops-sonarqube_cluster_ingress_hostname" {
