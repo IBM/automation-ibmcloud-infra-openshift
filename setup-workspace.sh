@@ -122,10 +122,15 @@ fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-  sed "s/REGION/${REGION}/g" | \
-  sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
-  sed "s/GIT_HOST/${GIT_HOST}/g" \
-  > ./cluster.tfvars
+  sed "s/REGION/${REGION}/g" \
+  > "${WORKSPACE_DIR}/cluster.tfvars"
+
+if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
+  cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
+    sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
+    sed "s/GIT_HOST/${GIT_HOST}/g" \
+    > "${WORKSPACE_DIR}/gitops.tfvars"
+fi
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}"
