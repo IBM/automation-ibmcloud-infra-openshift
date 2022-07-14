@@ -49,7 +49,7 @@ done
 
 
 if [[ -z "${FLAVOR}" ]]; then
-  FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | grep -E "^[0-9]-" | sort | sed -e "s/[0-9]-//g" | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
+  FLAVORS=($(find "${SCRIPT_DIR}" -maxdepth 1 -type d | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | grep -E "^[0-9]-" | sort | sed -e "s/[0-9]-//g" | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
 
   PS3="Select the flavor: "
 
@@ -62,7 +62,7 @@ if [[ -z "${FLAVOR}" ]]; then
 
   FLAVOR_DIR="${REPLY}-$(echo "${FLAVOR}" | tr '[:upper:]' '[:lower:]')"
 else
-  FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
+  FLAVORS=($(find "${SCRIPT_DIR}" -maxdepth 1 -type d | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
 
   for flavor in ${FLAVORS[@]}; do
     if [[ "$(echo "${flavor}" | tr '[:upper:]' '[:lower:]')" =~ ${FLAVOR} ]]; then
@@ -72,7 +72,7 @@ else
   done
 fi
 
-STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -type d -maxdepth 1 -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
+STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
 
 if [[ -z "${STORAGE}" ]]; then
 
@@ -127,10 +127,11 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
   > ./cluster.tfvars
 
-cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
-cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
@@ -138,7 +139,7 @@ cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 echo "Storage: ${STORAGE}"
 
-find "${SCRIPT_DIR}/${FLAVOR_DIR}" -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
+find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
 do
 

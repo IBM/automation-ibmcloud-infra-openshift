@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "y" | terragrunt run-all destroy --terragrunt-parallelism 1 || exit 1
+terragrunt run-all destroy --terragrunt-parallelism 1 --terragrunt-non-interactive --terragrunt-exclude-dir="${PWD}/.mocks/"*
