@@ -14,7 +14,7 @@ spec:
   modules:
     - name: gitops-ibm-odf
       alias: gitops-ibm-odf
-      version: v0.2.0
+      version: v0.2.1
       variables:
         - name: cluster_name
           scope: global
@@ -24,7 +24,7 @@ spec:
       default: true
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.20.4
+      version: v1.20.5
   variables:
     - name: ibmcloud_api_key
       type: string

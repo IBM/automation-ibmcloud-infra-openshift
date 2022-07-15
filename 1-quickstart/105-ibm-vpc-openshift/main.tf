@@ -45,7 +45,7 @@ module "cluster_subnets" {
 }
 module "cos" {
   source = "cloud-native-toolkit/object-storage/ibm"
-  version = "4.0.5"
+  version = "4.0.6"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   label = var.cos_label
@@ -65,7 +65,7 @@ module "ibm-access-group" {
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.15"
+  version = "2.4.16"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan
@@ -127,7 +127,7 @@ module "logdna" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.0"
+  version = "3.3.1"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes

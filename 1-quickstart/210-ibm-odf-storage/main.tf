@@ -1,5 +1,5 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.4"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.5"
 
   branch = var.gitops_repo_branch
   debug = var.debug
@@ -21,7 +21,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-ibm-odf" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-odf?ref=v0.2.0"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-odf?ref=v0.2.1"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config

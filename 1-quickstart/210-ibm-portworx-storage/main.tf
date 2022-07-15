@@ -1,5 +1,5 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.4"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.5"
 
   branch = var.gitops_repo_branch
   debug = var.debug
@@ -56,7 +56,7 @@ module "portworx_namespace" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.0"
+  version = "3.3.1"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes

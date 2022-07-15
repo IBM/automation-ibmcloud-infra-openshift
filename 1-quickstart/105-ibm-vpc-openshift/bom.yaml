@@ -13,13 +13,13 @@ spec:
   modules:
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.3.0
+      version: v3.3.1
     - name: ibm-access-group
       alias: ibm-access-group
       version: v3.1.6
     - name: ibm-activity-tracker
       alias: ibm-activity-tracker
-      version: v2.4.15
+      version: v2.4.16
     - name: ibm-cloud-monitoring
       alias: sysdig
       version: v4.1.2
@@ -56,7 +56,7 @@ spec:
           important: true
     - name: ibm-object-storage
       alias: cos
-      version: v4.0.5
+      version: v4.0.6
   variables:
     - name: ibmcloud_api_key
       type: string
