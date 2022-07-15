@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-terragrunt run-all apply --terragrunt-parallelism 1 --terragrunt-non-interactive --terragrunt-exclude-dir="${PWD}/.mocks/"*
+CI="$1"
+
+if [[ -n "${CI}" ]]; then
+  NON_INTERACTIVE="--terragrunt-non-interactive"
+fi
+
+terragrunt run-all apply --terragrunt-parallelism 1 ${NON_INTERACTIVE} --terragrunt-exclude-dir="${PWD}/.mocks/"*

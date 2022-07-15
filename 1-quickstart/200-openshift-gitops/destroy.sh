@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
+#! /bin/bash
 
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
-
-cd "${SCRIPT_DIR}/terraform"
-terraform init
-terraform destroy -auto-approve
+terragrunt destroy -auto-approve

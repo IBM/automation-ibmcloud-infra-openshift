@@ -140,13 +140,12 @@ fi
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
-cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks"/* "${WORKSPACE_DIR}/.mocks"
-cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
-cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
 
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
-echo "Storage: ${STORAGE}"
 
 find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
