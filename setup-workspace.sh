@@ -140,6 +140,7 @@ fi
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks"/* "${WORKSPACE_DIR}/.mocks"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
