@@ -10,10 +10,6 @@ on:
     secrets:
       IBMCLOUD_API_KEY:
         required: true
-      GITOPS_USERNAME:
-        required: true
-      GITOPS_TOKEN:
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,8 +32,6 @@ jobs:
       HOME: /home/devops
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
-      TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
-      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
       TF_VAR_purge_volumes: true
       TF_VAR_debug: true
       REGION: eu-gb
