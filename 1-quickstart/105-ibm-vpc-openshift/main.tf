@@ -76,11 +76,12 @@ module "ibm-activity-tracker" {
 }
 module "ibm-logdna-bind" {
   source = "cloud-native-toolkit/log-analysis-bind/ibm"
-  version = "1.3.5"
+  version = "1.3.6"
 
   cluster_id = module.cluster.id
   cluster_name = module.cluster.name
   ibmcloud_api_key = var.ibmcloud_api_key
+  logdna_crn = module.logdna.id
   logdna_id = module.logdna.guid
   private_endpoint = var.private_endpoint
   region = var.region
