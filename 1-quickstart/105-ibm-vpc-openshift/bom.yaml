@@ -13,7 +13,7 @@ spec:
   modules:
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.3.1
+      version: v3.3.2
     - name: ibm-access-group
       alias: ibm-access-group
       version: v3.1.6

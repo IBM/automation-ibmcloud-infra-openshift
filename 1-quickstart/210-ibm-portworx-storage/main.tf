@@ -56,7 +56,7 @@ module "portworx_namespace" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.1"
+  version = "3.3.2"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
