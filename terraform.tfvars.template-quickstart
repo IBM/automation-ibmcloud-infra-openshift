@@ -10,6 +10,9 @@ name_prefix="PREFIXquickstart"
 ## cluster_name: The name of the ROKS cluster where ODF will be installed
 cluster_name="PREFIXquickstart-cluster"
 
+## ocp_version: The version of the ocp cluster to install
+ocp_version="4.8"
+
 ## cluster_subnets__count: The number of subnets that should be provisioned
 #cluster_subnets__count="3"
 
@@ -20,18 +23,6 @@ cluster_name="PREFIXquickstart-cluster"
 #cluster_flavor="bx2.16x64"
 
 ######
-
-## gitops_repo_host: The host for the git repository.
-gitops_repo_host="github.com"
-
-## gitops_repo_type: The type of the hosted git repository (github or gitlab).
-gitops_repo_type="github"
-
-## gitops_repo_org: The org/group where the git repository exists/will be provisioned. If not will provided the org will default to the username
-gitops_repo_org=""
-
-## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="PREFIXquickstart-gitops"
 
 ## config_banner_text: The text that will appear in the top banner in the cluster
 config_banner_text="QuickStart"
