@@ -8,6 +8,7 @@ STORAGE=""
 PREFIX_NAME=""
 REGION="us-east"
 GIT_HOST=""
+BANNER=""
 
 Usage()
 {
@@ -19,13 +20,14 @@ Usage()
    echo "   -s   the storage option to use (portworx or odf)"
    echo "   -n   (optional) prefix that should be used for all variables"
    echo "   -r   (optional) the region where the infrastructure will be provisioned"
+   echo "   -b   (optional) the banner text that should be shown at the top of the cluster"
    echo "   -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
    echo "   -h   Print this help"
    echo
 }
 
 # Get the options
-while getopts ":f:s:n:r:g:" option; do
+while getopts ":f:s:n:r:b:g:" option; do
    case $option in
       h) # display Help
          Usage
@@ -40,6 +42,8 @@ while getopts ":f:s:n:r:g:" option; do
          REGION=$OPTARG;;
       g) # Enter a name
          GIT_HOST=$OPTARG;;
+      b) # Enter a name
+         BANNER=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -119,14 +123,17 @@ if [[ -n "${PREFIX_NAME}" ]]; then
   PREFIX_NAME="${PREFIX_NAME}-"
 fi
 
-
 if [[ -z "${GIT_HOST}" ]]; then
   GITHOST_COMMENT="#"
 fi
 
+if [[ -z "${BANNER}" ]]; then
+  BANNER="${FLAVOR}"
+fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
-  sed "s/PREFIX/${PREFIX_NAME}/g"  | \
+  sed "s/PREFIX/${PREFIX_NAME}/g" | \
+  sed "s/BANNER/${BANNER}/g" | \
   sed "s/REGION/${REGION}/g" \
   > "${WORKSPACE_DIR}/cluster.tfvars"
 
