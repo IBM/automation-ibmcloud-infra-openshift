@@ -12,8 +12,6 @@ jobs:
     uses: ./.github/workflows/verify-workflow.yaml
     secrets:
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
-      GITOPS_USERNAME: ${{ secrets.GITOPS_USERNAME }}
-      GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
 
   release:
     needs: [verify]
