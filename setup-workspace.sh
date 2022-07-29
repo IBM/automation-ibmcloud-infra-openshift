@@ -120,7 +120,7 @@ echo "Setting up workspace for ${FLAVOR} in ${WORKSPACE_DIR}"
 echo "*****"
 
 if [[ -n "${PREFIX_NAME}" ]]; then
-  PREFIX_NAME="${PREFIX_NAME}-"
+  PREFIX_NAME="${PREFIX_NAME}"
 fi
 
 if [[ -z "${GIT_HOST}" ]]; then

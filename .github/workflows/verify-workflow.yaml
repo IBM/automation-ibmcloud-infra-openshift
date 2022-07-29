@@ -64,5 +64,7 @@ jobs:
       - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
         if: ${{ always() }}
         run: |
-          cd ../workspaces/current
+          echo "${PWD}"
+          ls -l
+          cd ./workspaces/current
           ./destroy-all.sh -a
