@@ -1,0 +1,84 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 210-ibm-portworx-storage
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: '210'
+  annotations:
+    displayName: IBM - Portworx Cluster Storage
+    description: Installs Portworx in an IBM cluster
+    vpn/required: 'true'
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: resource_group
+      version: v3.3.2
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-ocp-vpc
+      alias: cluster
+      version: v1.15.6
+      dependencies:
+        - name: cos
+          optional: true
+      variables:
+        - name: exists
+          value: true
+        - name: name
+          important: true
+          description: The cluster where Portworx storage will be deployed.
+        - name: flavor
+          important: false
+          optional: true
+          value: ''
+        - name: vpc_name
+          value: ''
+          important: false
+          optional: true
+        - name: cos_id
+          important: false
+          optional: true
+          value: ''
+        - name: worker_count
+          important: false
+          optional: true
+    - name: ibm-portworx
+      alias: ibm-portworx
+      version: v1.0.5
+      variables:
+        - name: etcd_secret_name
+          optional: true
+          value: px-etcd-certs
+    - name: ibm-vpc
+      alias: ibm-vpc
+      version: v1.16.0
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-vpc-subnets
+      alias: cluster_subnets
+      version: v1.13.2
+      default: true
+      variables:
+        - name: provision
+          value: false
+  variables:
+    - name: ibmcloud_api_key
+      type: string
+      description: The IBM Cloud api key
+    - name: resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: region
+      type: string
+    - name: cluster_name
+      type: string
+      description: The cluster where Portworx storage will be deployed.
+      defaultValue: ''
+    - name: cluster_subnets__count
+      type: number
+      description: The number of subnets that should be provisioned
+      defaultValue: 3
