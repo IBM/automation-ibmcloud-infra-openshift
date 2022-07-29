@@ -119,6 +119,7 @@ cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
 
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 echo "Storage: ${STORAGE}"

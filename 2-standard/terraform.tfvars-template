@@ -1,0 +1,120 @@
+###
+### Small deployment template
+###
+
+## region: The IBM Cloud region where the cluster will be/has been installed.
+region="REGION"
+
+## ***************
+## KMS service
+## ***************
+
+## kms_region: Geographic location of the KMS service (e.g. us-south, us-east)
+kms_region="REGION"
+
+## kms_service: The service that should be used for the kms instance (keyprotect or hpcs)
+kms_service="keyprotect"
+#kms_provision="false"
+
+#kms_name=""
+
+## ***************
+## Resource groups
+## ***************
+
+## at_resource_group_name: The name of the activity tracker resource group
+at_resource_group_name="PREFIXdefault"
+
+## cs_resource_group_name: The name of the shared services resource group
+cs_resource_group_name="PREFIXcommon"
+
+## kms_resource_group_name: The name of the kms resource group
+kms_resource_group_name="PREFIXkms"
+
+## vpc_resource_group_name: The name of the management resource group
+vpc_resource_group_name="PREFIXstandard"
+
+## at_resource_group_provision: Flag indicating that the activity tracker resource group should be created
+at_resource_group_provision="false"
+
+## cs_resource_group_provision: Flag indicating that the shared services resource group should be created
+#cs_resource_group_provision="false"
+
+## kms_resource_group_provision: Flag indicating that the kms resource group should be created
+#kms_resource_group_provision="false"
+
+## vpc_resource_group_provision: Flag indicating that the management resource group should be created
+#vpc_resource_group_provision="false"
+
+## ***************
+## Name Prefixes
+## ***************
+
+## kms_name_prefix: The prefix name for the service. If not provided it will default to the resource group name
+kms_name_prefix="PREFIXcommon"
+
+## cs_name_prefix: The prefix name for the service. If not provided it will default to the resource group name
+cs_name_prefix="PREFIXcommon"
+
+## vpc_name_prefix: The name of the vpc resource
+vpc_name_prefix="PREFIXstandard"
+
+## ***************
+## Cluster Variables
+## ***************
+
+#cluster_flavor=""
+
+mgmt_worker_count="2"
+mgmt_worker_subnet_count="1"
+
+workload_worker_count="2"
+workload_worker_subnet_count="1"
+
+## ***************
+## Misc Variables
+## ***************
+
+registry_namespace = ""
+git_type = "github"
+git_url = "https://github.com/cloud-native-toolkit"
+
+## ***************
+## SSH Keys
+## ***************
+
+
+## edge_ssh_bastion_public_key_file: The name of the file containing the public key provided for the ssh key. If empty string is provided then a new key will be generated.
+edge_ssh_bastion_public_key_file="ssh-edge-bastion.pub"
+
+## edge_ssh_bastion_private_key_file: The name of the file containing the private key provided for the ssh key. If empty string is provided then a new key will be generated.
+edge_ssh_bastion_private_key_file="ssh-edge-bastion"
+
+## ***************
+## Gitops
+## ***************
+
+## gitops_repo_host: The host for the git repository.
+gitops_repo_host="github.com"
+
+## gitops_repo_type: The type of the hosted git repository (github or gitlab).
+gitops_repo_type="github"
+
+## gitops_repo_org: The org/group where the git repository exists/will be provisioned. If not will provided the org will default to the username
+gitops_repo_org=""
+
+## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
+gitops_repo_repo="PREFIXstandard-gitops"
+
+## config_banner_text: The text that will appear in the top banner in the cluster
+config_banner_text="IBM Cloud Standard"
+
+## gitops-sonarqube_postgresql: Properties for an existing postgresql database
+#gitops-sonarqube_postgresql=""
+
+## ***************
+## ODF
+## ***************
+
+## odf_namespace_name: The value that should be used for the namespace
+odf_namespace_name="odf"

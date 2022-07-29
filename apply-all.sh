@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-#if command -v terragrunt 1> /dev/null 2> /dev/null; then
-#  echo "y" | terragrunt run-all apply || exit 1
-#  exit
-#fi
+if command -v terragrunt 1> /dev/null 2> /dev/null; then
+  echo "y" | terragrunt run-all apply || exit 1
+  exit
+fi
 
 CI="$1"
 PARALLELISM=6
@@ -49,7 +49,7 @@ do
       echo "VPN connection required but unable to create the connection. Skipping..."
       continue
     else
-      echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and press ENTER to proceed."
+      echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-vpc-edge-* directory and press ENTER to proceed."
       read throwaway
     fi
   fi
