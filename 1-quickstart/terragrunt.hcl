@@ -15,3 +15,7 @@ terraform {
     ]
   }
 }
+
+retryable_errors = [
+  "(?s).*igc gitops-module.*"
+]
