@@ -1,14 +1,14 @@
 ## resource_group_name: The name of the resource group
-resource_group_name="PREFIXquickstart"
+resource_group_name="PREFIX"
 
 ## region: the value of region
 region="REGION"
 
 ## name_prefix: The prefix name for the service. If not provided it will default to the resource group name
-name_prefix="PREFIXquickstart"
+name_prefix="PREFIX"
 
 ## cluster_name: The name of the ROKS cluster where ODF will be installed
-cluster_name="PREFIXquickstart-cluster"
+cluster_name="PREFIX-cluster"
 
 ## ocp_version: The version of the ocp cluster to install
 ocp_version="4.8"
@@ -25,7 +25,7 @@ ocp_version="4.8"
 ######
 
 ## config_banner_text: The text that will appear in the top banner in the cluster
-config_banner_text="QuickStart"
+config_banner_text="BANNER"
 
 ######
 
