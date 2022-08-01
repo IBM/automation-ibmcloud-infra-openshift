@@ -1,5 +1,5 @@
 dependencies {
-    paths = ["../115-ibm-vpc-openshift-standard"]
+    paths = ["../115-ibm-vpc-openshift-standard","../200-ibm-openshift-gitops"]
 }
 
 terraform {
