@@ -10,17 +10,13 @@ on:
     secrets:
       IBMCLOUD_API_KEY:
         required: true
-      GITOPS_USERNAME:
-        required: true
-      GITOPS_TOKEN:
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   verify:
     runs-on: ubuntu-latest
     container:
-      image: quay.io/cloudnativetoolkit/cli-tools:v1.1-v1.8.2
+      image: quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2
       options: --privileged --user root
 
     strategy:
@@ -37,8 +33,10 @@ jobs:
       HOME: /home/devops
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
-      TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
-      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}
+      TF_VAR_purge_volumes: true
+      TF_VAR_debug: true
+      REGION: eu-gb
+      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
 
     outputs:
       status: ${{ job.status }}
@@ -46,28 +44,33 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
+        with:
+          path: main
 
       - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
         run: |
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r eu-de
+          
+          cd main
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" || exit 1
+          
           cd ../workspaces/current
           
           echo ""
           echo "*** Start terraform.tfvars ***"
-          echo "" >> terraform.tfvars
-          echo "purge_volumes=true" >> terraform.tfvars
-          cat terraform.tfvars
+          cat cluster.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
           
-          ./apply-all.sh
+          ./apply-all.sh -a
 
       - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
         if: ${{ always() }}
         run: |
-          cd ../workspaces/current
-          ./destroy-all.sh
+          echo "${PWD}"
+          ls -l
+          cd ./workspaces/current
+          ./destroy-all.sh -a
