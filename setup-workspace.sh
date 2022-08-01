@@ -76,10 +76,10 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" != "quickstart" ]]; then
-  echo "  Quickstart is currently the only supported flavor" >&2
-  exit 1
-fi
+#if [[ "${FLAVOR}" != "quickstart" ]]; then
+#  echo "  Quickstart is currently the only supported flavor" >&2
+#  exit 1
+#fi
 
 STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
 
