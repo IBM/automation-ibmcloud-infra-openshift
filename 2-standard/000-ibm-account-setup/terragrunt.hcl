@@ -1,11 +1,11 @@
-dependencies {
-    paths = ["../110-ibm-vpc-edge-standard"]
+include "root" {
+  path = find_in_parent_folders()
 }
 
 terraform {
     # Connect to VPN if required for terraform (checks the bom.yaml)
     before_hook "check_vpn" {
-        commands        = ["apply","plan","destroy"]
+        commands        = ["apply","plan","destroy","validate","output"]
         execute         = ["bash", "../check-vpn.sh"]
         run_on_error    = true
     }
