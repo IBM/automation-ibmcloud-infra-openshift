@@ -7,4 +7,4 @@
 #gitops_repo_org=""
 
 ## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="PREFIXquickstart-gitops"
+gitops_repo_repo="PREFIX-FLAVOR-gitops"
