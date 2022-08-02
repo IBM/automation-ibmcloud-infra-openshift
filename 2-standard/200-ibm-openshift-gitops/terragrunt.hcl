@@ -16,11 +16,19 @@ dependency "openshift" {
     mock_outputs_allowed_terraform_commands = ["init","validate","plan"]
     mock_outputs = {
         resource_group_name = "fake_name"
+        cluster_server_url = ""
+        cluster_username = ""
+        cluster_password = ""
+        cluster_token = ""
     }
 }
 
 inputs = {
     resource_group_name = dependency.openshift.outputs.resource_group_name
+    server_url             = dependency.openshift.outputs.cluster_server_url
+    cluster_login_username = dependency.openshift.outputs.cluster_username
+    cluster_login_password = dependency.openshift.outputs.cluster_password
+    cluster_login_token    = dependency.openshift.outputs.cluster_token
 }
 
 terraform {

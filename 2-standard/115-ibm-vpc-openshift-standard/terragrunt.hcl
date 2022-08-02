@@ -27,7 +27,7 @@ terraform {
 dependency "edge_vpc" {
     config_path = local.edge_vpc_config_path
     
-    mock_outputs_allowed_terraform_commands = ["init"]
+    mock_outputs_allowed_terraform_commands = ["init","plan","validate"]
     mock_outputs = {
         vpc_resource_group_name = "fake_vpc_rg"
     }
