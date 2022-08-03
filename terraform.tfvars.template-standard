@@ -63,7 +63,8 @@ vpc_name_prefix="PREFIXstandard"
 ## Cluster Variables
 ## ***************
 
-#cluster_flavor=""
+## cluster_flavor: The machine type that will be provisioned for classic infrastructure
+#cluster_flavor="bx2.16x64"
 
 mgmt_worker_count="2"
 mgmt_worker_subnet_count="1"
@@ -75,9 +76,8 @@ workload_worker_subnet_count="1"
 ## Misc Variables
 ## ***************
 
-registry_namespace = ""
-git_type = "github"
-git_url = "https://github.com/cloud-native-toolkit"
+## config_banner_text: The text that will appear in the top banner in the cluster
+config_banner_text="BANNER"
 
 ## ***************
 ## SSH Keys
