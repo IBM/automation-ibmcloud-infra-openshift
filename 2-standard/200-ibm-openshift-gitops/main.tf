@@ -59,17 +59,6 @@ module "gitea_namespace" {
   create_operator_group = var.gitea_namespace_create_operator_group
   name = var.gitea_namespace_name
 }
-module "gitea_namespace1" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
-
-  argocd_namespace = var.gitea_namespace1_argocd_namespace
-  ci = var.gitea_namespace1_ci
-  create_operator_group = var.gitea_namespace1_create_operator_group
-  git_credentials = module.gitops_repo.git_credentials
-  gitops_config = module.gitops_repo.gitops_config
-  name = var.gitea_namespace1_name
-  server_name = module.gitops_repo.server_name
-}
 module "gitops_repo" {
   source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
 
