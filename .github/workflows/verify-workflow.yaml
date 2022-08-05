@@ -62,6 +62,7 @@ jobs:
           echo ""
           echo "*** Start terraform.tfvars ***"
           cat cluster.tfvars
+          cat gitops.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
           
