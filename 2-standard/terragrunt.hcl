@@ -1,11 +1,18 @@
 skip = true
 
 terraform {
+  # Connect to VPN if required for terraform (checks the bom.yaml)
+  before_hook "check_vpn" {
+      commands        = ["apply","plan","destroy","validate","output"]
+      execute         = ["bash", "${get_parent_terragrunt_dir()}/check-vpn.sh"]
+      run_on_error    = true
+  }
+  # Reduce number of parallel executions to improve reliability with github actions
   extra_arguments "reduced_parallelism" {
     commands  = get_terraform_commands_that_need_parallelism()
     arguments = ["-parallelism=6"]
   }
-
+  # Include common TFVAR variables
   extra_arguments "common_vars" {
     commands = get_terraform_commands_that_need_vars()
 
