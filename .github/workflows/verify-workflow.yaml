@@ -22,10 +22,10 @@ jobs:
     strategy:
       matrix:
         flavor:
-          #- quickstart
+          - quickstart
           - standard
         storage:
-          #- portworx
+          - portworx
           - odf
       fail-fast: false
 
