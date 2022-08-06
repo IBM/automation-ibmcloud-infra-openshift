@@ -1,87 +1,58 @@
-module "cluster" {
-  source = "cloud-native-toolkit/ocp-vpc/ibm"
-  version = "1.15.6"
+module "gitops_repo" {
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
 
-  cos_id = var.cluster_cos_id
-  disable_public_endpoint = var.cluster_disable_public_endpoint
-  exists = var.cluster_exists
-  flavor = var.cluster_flavor
-  force_delete_storage = var.cluster_force_delete_storage
+  branch = var.gitops_repo_branch
+  debug = var.debug
+  gitea_host = var.gitops_repo_gitea_host
+  gitea_org = var.gitops_repo_gitea_org
+  gitea_token = var.gitops_repo_gitea_token
+  gitea_username = var.gitops_repo_gitea_username
+  gitops_namespace = var.gitops_repo_gitops_namespace
+  host = var.gitops_repo_host
+  org = var.gitops_repo_org
+  project = var.gitops_repo_project
+  public = var.gitops_repo_public
+  repo = var.gitops_repo_repo
+  sealed_secrets_cert = var.gitops_repo_sealed_secrets_cert
+  server_name = var.gitops_repo_server_name
+  strict = var.gitops_repo_strict
+  token = var.gitops_repo_token
+  type = var.gitops_repo_type
+  username = var.gitops_repo_username
+}
+module "gitops-ibm-portworx" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-portworx?ref=v0.3.0"
+
+  capacity = var.gitops-ibm-portworx_capacity
+  encryption_key = var.gitops-ibm-portworx_encryption_key
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
   ibmcloud_api_key = var.ibmcloud_api_key
-  kms_enabled = var.cluster_kms_enabled
-  kms_id = var.cluster_kms_id
-  kms_key_id = var.cluster_kms_key_id
-  kms_private_endpoint = var.cluster_kms_private_endpoint
-  login = var.cluster_login
-  name = var.cluster_name
-  name_prefix = var.name_prefix
-  ocp_entitlement = var.cluster_ocp_entitlement
-  ocp_version = var.ocp_version
+  iops = var.gitops-ibm-portworx_iops
+  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
+  profile = var.gitops-ibm-portworx_profile
   region = var.region
-  resource_group_name = module.resource_group.name
-  sync = module.resource_group.sync
-  tags = var.cluster_tags == null ? null : jsondecode(var.cluster_tags)
-  vpc_name = module.cluster_subnets.vpc_name
-  vpc_subnet_count = module.cluster_subnets.count
-  vpc_subnets = module.cluster_subnets.subnets
-  worker_count = var.worker_count
+  resource_group_id = module.resource_group.id
+  server_name = module.gitops_repo.server_name
 }
-module "cluster_subnets" {
-  source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+module "gitops-ibmcloud-operator" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ibmcloud-operator?ref=v0.2.1"
 
-  _count = var.cluster_subnets__count
-  acl_rules = var.cluster_subnets_acl_rules == null ? null : jsondecode(var.cluster_subnets_acl_rules)
-  gateways = var.cluster_subnets_gateways == null ? null : jsondecode(var.cluster_subnets_gateways)
-  ipv4_address_count = var.cluster_subnets_ipv4_address_count
-  ipv4_cidr_blocks = var.cluster_subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.cluster_subnets_ipv4_cidr_blocks)
-  label = var.cluster_subnets_label
-  provision = var.cluster_subnets_provision
-  region = var.region
-  resource_group_name = module.resource_group.name
-  tags = var.cluster_subnets_tags == null ? null : jsondecode(var.cluster_subnets_tags)
-  vpc_name = module.ibm-vpc.name
-  zone_offset = var.cluster_subnets_zone_offset
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
+  server_name = module.gitops_repo.server_name
 }
-module "ibm-portworx" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-portworx?ref=v1.0.5"
+module "portworx_namespace" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
 
-  cluster_name = module.cluster.name
-  create_external_etcd = var.ibm-portworx_create_external_etcd
-  etcd_members_cpu_allocation_count = var.ibm-portworx_etcd_members_cpu_allocation_count
-  etcd_members_disk_allocation_mb = var.ibm-portworx_etcd_members_disk_allocation_mb
-  etcd_members_memory_allocation_mb = var.ibm-portworx_etcd_members_memory_allocation_mb
-  etcd_password = var.ibm-portworx_etcd_password
-  etcd_plan = var.ibm-portworx_etcd_plan
-  etcd_secret_name = var.ibm-portworx_etcd_secret_name
-  etcd_service_endpoints = var.ibm-portworx_etcd_service_endpoints
-  etcd_username = var.ibm-portworx_etcd_username
-  etcd_version = var.ibm-portworx_etcd_version
-  ibmcloud_api_key = var.ibmcloud_api_key
-  name_prefix = var.name_prefix
-  provision = var.ibm-portworx_provision
-  region = var.region
-  resource_group_name = module.resource_group.name
-  storage_capacity = var.ibm-portworx_storage_capacity
-  storage_iops = var.ibm-portworx_storage_iops
-  storage_profile = var.ibm-portworx_storage_profile
-  worker_count = module.cluster.total_worker_count
-  workers = module.cluster.workers
-}
-module "ibm-vpc" {
-  source = "cloud-native-toolkit/vpc/ibm"
-  version = "1.16.0"
-
-  address_prefix_count = var.ibm-vpc_address_prefix_count
-  address_prefixes = var.ibm-vpc_address_prefixes == null ? null : jsondecode(var.ibm-vpc_address_prefixes)
-  base_security_group_name = var.ibm-vpc_base_security_group_name
-  internal_cidr = var.ibm-vpc_internal_cidr
-  name = var.ibm-vpc_name
-  name_prefix = var.name_prefix
-  provision = var.ibm-vpc_provision
-  region = var.region
-  resource_group_name = module.resource_group.name
-  tags = var.ibm-vpc_tags == null ? null : jsondecode(var.ibm-vpc_tags)
+  argocd_namespace = var.portworx_namespace_argocd_namespace
+  ci = var.portworx_namespace_ci
+  create_operator_group = var.portworx_namespace_create_operator_group
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  name = var.portworx_namespace_name
+  server_name = module.gitops_repo.server_name
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"

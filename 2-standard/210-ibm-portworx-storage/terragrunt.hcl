@@ -11,12 +11,16 @@ locals {
 
   dep_200 = local.dependencies.names_200
   mock_200 = local.dependencies.mock_200
+  gitops_config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
   gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 }
 
 dependency "openshift" {
     config_path = local.cluster_config_path
-    skip_outputs = true
+    mock_outputs_allowed_terraform_commands = ["init","validate","plan"]
+    mock_outputs = {
+        resource_group_name = "fake_rg_name"
+    }
 }
 
 dependency "gitops" {
@@ -35,6 +39,7 @@ dependency "gitops" {
 }
 
 inputs = {
+  resource_group_name = dependency.openshift.outputs.resource_group_name
   gitops_repo_host = dependency.gitops.outputs.gitops_host
   gitops_repo_org = dependency.gitops.outputs.gitops_org
   gitops_repo_repo = dependency.gitops.outputs.gitops_name
