@@ -20,6 +20,7 @@ jobs:
       options: --privileged --user root
 
     strategy:
+      max-parallel: 2
       matrix:
         flavor:
           - quickstart
