@@ -20,7 +20,7 @@ This set of automation packages was generated using the open-source [`isacable`]
 
 ### Standard
 
-TBD
+![Standard](2-standard/architecture.png)
 
 ### Advanced
 
