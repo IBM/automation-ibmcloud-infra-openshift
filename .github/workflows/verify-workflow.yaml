@@ -34,7 +34,7 @@ jobs:
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_purge_volumes: true
       TF_VAR_debug: true
-      REGION: us-east
+      REGION: eu-de
       GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
 
     outputs:
