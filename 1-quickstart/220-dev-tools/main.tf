@@ -21,7 +21,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-artifactory" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.1"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.2"
 
   cluster_ingress_hostname = var.gitops-artifactory_cluster_ingress_hostname
   cluster_type = var.gitops-artifactory_cluster_type
@@ -57,7 +57,7 @@ module "gitops-pact-broker" {
   tls_secret_name = var.gitops-pact-broker_tls_secret_name
 }
 module "gitops-sonarqube" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-sonarqube?ref=v1.2.6"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-sonarqube?ref=v1.2.7"
 
   cluster_ingress_hostname = var.gitops-sonarqube_cluster_ingress_hostname
   cluster_type = var.gitops-sonarqube_cluster_type

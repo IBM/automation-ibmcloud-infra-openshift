@@ -9,11 +9,12 @@ metadata:
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
     deployment-type/gitops: 'true'
+    vpn/required: 'true'
 spec:
   modules:
     - name: gitops-artifactory
       alias: gitops-artifactory
-      version: v1.2.1
+      version: v1.2.2
     - name: gitops-dashboard
       alias: gitops-dashboard
       version: v1.6.2
@@ -32,7 +33,7 @@ spec:
       version: v1.21.0
     - name: gitops-sonarqube
       alias: gitops-sonarqube
-      version: v1.2.6
+      version: v1.2.7
     - name: gitops-tekton-resources
       alias: gitops-tekton-resources
       version: v1.1.4

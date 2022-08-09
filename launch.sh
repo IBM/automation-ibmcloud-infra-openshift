@@ -48,7 +48,7 @@ then
   fi
 fi
 
-DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.1.2"
+DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.1.3"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
 CONTAINER_NAME="cli-tools-${SUFFIX}"
@@ -73,6 +73,7 @@ fi
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    -u "${UID}" \
+   --device /dev/net/tun --cap-add=NET_ADMIN \
    -v "${SRC_DIR}:/terraform" \
    -v "workspace-${AUTOMATION_BASE}:/workspaces" \
    ${ENV_FILE} \

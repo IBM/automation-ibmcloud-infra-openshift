@@ -195,7 +195,7 @@ variable "gitops-sonarqube_service_account_name" {
 variable "gitops-sonarqube_plugins" {
   type = string
   description = "The list of plugins that will be installed on SonarQube"
-  default = "[\"https://github.com/checkstyle/sonar-checkstyle/releases/download/4.33/checkstyle-sonar-plugin-4.33.jar\"]"
+  default = "[\"https://github.com/checkstyle/sonar-checkstyle/releases/download/4.33/checkstyle-sonar-plugin-4.33.jar\",\"https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.6.0/sonar-stash-plugin-1.6.0.jar\"]"
 }
 variable "gitops-sonarqube_hostname" {
   type = string

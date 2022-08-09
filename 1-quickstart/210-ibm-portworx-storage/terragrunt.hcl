@@ -4,8 +4,8 @@ include "root" {
 
 locals {
   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
-  dep_200 = local.dependencies.name_200
-  mock_200 = local.dependencies.mock_200
+  dep_200 = local.dependencies["200"].names[0]
+  mock_200 = local.dependencies["200"].mock
   gitops_config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
   gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 }
