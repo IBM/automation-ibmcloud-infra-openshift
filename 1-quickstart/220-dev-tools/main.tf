@@ -52,7 +52,7 @@ module "gitops-pact-broker" {
   tls_secret_name = var.gitops-pact-broker_tls_secret_name
 }
 module "gitops-sonarqube" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-sonarqube?ref=v1.2.7"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-sonarqube?ref=v1.2.8"
 
   cluster_ingress_hostname = var.gitops-sonarqube_cluster_ingress_hostname
   cluster_type = var.gitops-sonarqube_cluster_type
