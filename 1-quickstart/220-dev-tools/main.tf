@@ -20,18 +20,13 @@ module "gitops_repo" {
   type = var.gitops_repo_type
   username = var.gitops_repo_username
 }
-module "gitops-artifactory" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.2"
+module "gitops-buildah-unprivileged" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-buildah-unprivileged?ref=v1.0.0"
 
-  cluster_ingress_hostname = var.gitops-artifactory_cluster_ingress_hostname
-  cluster_type = var.gitops-artifactory_cluster_type
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
   namespace = module.tools_namespace.name
-  persistence = var.gitops-artifactory_persistence
   server_name = module.gitops_repo.server_name
-  storage_class = var.gitops-artifactory_storage_class
-  tls_secret_name = var.gitops-artifactory_tls_secret_name
 }
 module "gitops-dashboard" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-dashboard?ref=v1.6.2"
@@ -75,7 +70,7 @@ module "gitops-sonarqube" {
   tls_secret_name = var.gitops-sonarqube_tls_secret_name
 }
 module "gitops-tekton-resources" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-tekton-resources?ref=v1.1.4"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-tekton-resources?ref=v2.0.0"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config

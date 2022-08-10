@@ -12,9 +12,6 @@ metadata:
     vpn/required: 'true'
 spec:
   modules:
-    - name: gitops-artifactory
-      alias: gitops-artifactory
-      version: v1.2.2
     - name: gitops-dashboard
       alias: gitops-dashboard
       version: v1.6.2
@@ -36,7 +33,9 @@ spec:
       version: v1.2.7
     - name: gitops-tekton-resources
       alias: gitops-tekton-resources
-      version: v1.1.4
+      version: v2.0.0
+    - name: gitops-buildah-unprivileged
+      version: v1.0.0
   variables:
     - name: gitops_repo_host
       type: string

@@ -1,28 +1,3 @@
-variable "gitops-artifactory_cluster_ingress_hostname" {
-  type = string
-  description = "Ingress hostname of the IKS cluster."
-  default = ""
-}
-variable "gitops-artifactory_cluster_type" {
-  type = string
-  description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
-  default = "ocp4"
-}
-variable "gitops-artifactory_tls_secret_name" {
-  type = string
-  description = "The name of the secret containing the tls certificate values"
-  default = ""
-}
-variable "gitops-artifactory_storage_class" {
-  type = string
-  description = "The storage class to use for the persistent volume claim"
-  default = ""
-}
-variable "gitops-artifactory_persistence" {
-  type = bool
-  description = "Flag to indicate if persistence should be enabled"
-  default = true
-}
 variable "gitops-dashboard_cluster_type" {
   type = string
   description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
@@ -215,5 +190,5 @@ variable "gitops-sonarqube_cluster_version" {
 variable "gitops-tekton-resources_task_release" {
   type = string
   description = "The release version of the tekton tasks"
-  default = "v2.7.1"
+  default = "v3.0.0"
 }
