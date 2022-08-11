@@ -27,7 +27,7 @@ spec:
       version: v1.21.0
     - name: ibm-resource-group
       alias: resource_group
-      version: v3.3.2
+      version: v3.3.3
     - name: gitops-ibmcloud-operator
       version: v0.2.1
   variables:
