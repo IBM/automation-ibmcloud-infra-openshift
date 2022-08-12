@@ -1,18 +1,3 @@
-## gitops-image-registry_registry_server: The server/host of the image registry
-#gitops-image-registry_registry_server=""
-
-## gitops-image-registry_registry_user: The username to access the image registry
-#gitops-image-registry_registry_user=""
-
-## gitops-image-registry_registry_password: The password to access the image registry
-#gitops-image-registry_registry_password=""
-
-## gitops-image-registry_registry_namespace: The namespace in the image registry
-#gitops-image-registry_registry_namespace=""
-
-## gitops-image-registry_registry_url: The url to access the image registry in a browser
-#gitops-image-registry_registry_url=""
-
 ## gitops_repo_host: The host for the git repository. The git host used can be a GitHub, GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If the host is null assumes in-cluster Gitea instance will be used.
 #gitops_repo_host=""
 

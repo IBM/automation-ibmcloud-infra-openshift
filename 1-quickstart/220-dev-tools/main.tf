@@ -53,22 +53,6 @@ module "gitops-dashboard" {
   server_name = module.gitops_repo.server_name
   tls_secret_name = var.gitops-dashboard_tls_secret_name
 }
-module "gitops-image-registry" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-image-registry?ref=v1.1.5"
-
-  display_name = var.gitops-image-registry_display_name
-  git_credentials = module.gitops_repo.git_credentials
-  gitops_config = module.gitops_repo.gitops_config
-  image_url = var.gitops-image-registry_image_url
-  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
-  namespace = module.tools_namespace.name
-  registry_namespace = var.gitops-image-registry_registry_namespace
-  registry_password = var.gitops-image-registry_registry_password
-  registry_server = var.gitops-image-registry_registry_server
-  registry_url = var.gitops-image-registry_registry_url
-  registry_user = var.gitops-image-registry_registry_user
-  server_name = module.gitops_repo.server_name
-}
 module "gitops-pact-broker" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-pact-broker?ref=v1.1.7"
 

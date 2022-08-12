@@ -43,36 +43,6 @@ variable "gitops-dashboard_image_tag" {
   description = "The image version tag to use"
   default = "v1.4.4"
 }
-variable "gitops-image-registry_registry_server" {
-  type = string
-  description = "The server/host of the image registry"
-}
-variable "gitops-image-registry_registry_user" {
-  type = string
-  description = "The username to access the image registry"
-}
-variable "gitops-image-registry_registry_password" {
-  type = string
-  description = "The password to access the image registry"
-}
-variable "gitops-image-registry_registry_namespace" {
-  type = string
-  description = "The namespace in the image registry"
-}
-variable "gitops-image-registry_registry_url" {
-  type = string
-  description = "The url to access the image registry in a browser"
-}
-variable "gitops-image-registry_image_url" {
-  type = string
-  description = "The url of the image that will be added to console link. If not provided the image will be empty"
-  default = ""
-}
-variable "gitops-image-registry_display_name" {
-  type = string
-  description = "The display name that will appear in the console link. If not provided the value will default to 'Image Registry'"
-  default = ""
-}
 variable "tools_namespace_name" {
   type = string
   description = "The value that should be used for the namespace"
