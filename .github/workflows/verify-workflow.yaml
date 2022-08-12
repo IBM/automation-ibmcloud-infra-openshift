@@ -65,7 +65,7 @@ jobs:
           echo "*** End terraform.tfvars ***"
           echo ""
           
-          ./apply-all.sh -a
+          ./apply.sh -a
 
       - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
         if: ${{ always() }}
@@ -73,4 +73,4 @@ jobs:
           echo "${PWD}"
           ls -l
           cd ./workspaces/current
-          ./destroy-all.sh -a
+          ./destroy.sh -a
