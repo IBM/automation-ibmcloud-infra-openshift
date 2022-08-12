@@ -145,9 +145,9 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply.sh"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}/plan.sh"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
 
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"

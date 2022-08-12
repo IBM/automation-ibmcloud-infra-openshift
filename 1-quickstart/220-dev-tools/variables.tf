@@ -1,3 +1,28 @@
+variable "gitops-artifactory_cluster_ingress_hostname" {
+  type = string
+  description = "Ingress hostname of the IKS cluster."
+  default = ""
+}
+variable "gitops-artifactory_cluster_type" {
+  type = string
+  description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
+  default = "ocp4"
+}
+variable "gitops-artifactory_tls_secret_name" {
+  type = string
+  description = "The name of the secret containing the tls certificate values"
+  default = ""
+}
+variable "gitops-artifactory_storage_class" {
+  type = string
+  description = "The storage class to use for the persistent volume claim"
+  default = ""
+}
+variable "gitops-artifactory_persistence" {
+  type = bool
+  description = "Flag to indicate if persistence should be enabled"
+  default = true
+}
 variable "gitops-dashboard_cluster_type" {
   type = string
   description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
@@ -17,6 +42,36 @@ variable "gitops-dashboard_image_tag" {
   type = string
   description = "The image version tag to use"
   default = "v1.4.4"
+}
+variable "gitops-image-registry_registry_server" {
+  type = string
+  description = "The server/host of the image registry"
+}
+variable "gitops-image-registry_registry_user" {
+  type = string
+  description = "The username to access the image registry"
+}
+variable "gitops-image-registry_registry_password" {
+  type = string
+  description = "The password to access the image registry"
+}
+variable "gitops-image-registry_registry_namespace" {
+  type = string
+  description = "The namespace in the image registry"
+}
+variable "gitops-image-registry_registry_url" {
+  type = string
+  description = "The url to access the image registry in a browser"
+}
+variable "gitops-image-registry_image_url" {
+  type = string
+  description = "The url of the image that will be added to console link. If not provided the image will be empty"
+  default = ""
+}
+variable "gitops-image-registry_display_name" {
+  type = string
+  description = "The display name that will appear in the console link. If not provided the value will default to 'Image Registry'"
+  default = ""
 }
 variable "tools_namespace_name" {
   type = string

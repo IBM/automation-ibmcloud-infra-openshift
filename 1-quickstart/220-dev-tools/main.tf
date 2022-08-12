@@ -20,6 +20,19 @@ module "gitops_repo" {
   type = var.gitops_repo_type
   username = var.gitops_repo_username
 }
+module "gitops-artifactory" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.2"
+
+  cluster_ingress_hostname = var.gitops-artifactory_cluster_ingress_hostname
+  cluster_type = var.gitops-artifactory_cluster_type
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  namespace = module.tools_namespace.name
+  persistence = var.gitops-artifactory_persistence
+  server_name = module.gitops_repo.server_name
+  storage_class = var.gitops-artifactory_storage_class
+  tls_secret_name = var.gitops-artifactory_tls_secret_name
+}
 module "gitops-buildah-unprivileged" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-buildah-unprivileged?ref=v1.0.0"
 
@@ -39,6 +52,22 @@ module "gitops-dashboard" {
   namespace = module.tools_namespace.name
   server_name = module.gitops_repo.server_name
   tls_secret_name = var.gitops-dashboard_tls_secret_name
+}
+module "gitops-image-registry" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-image-registry?ref=v1.1.5"
+
+  display_name = var.gitops-image-registry_display_name
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  image_url = var.gitops-image-registry_image_url
+  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
+  namespace = module.tools_namespace.name
+  registry_namespace = var.gitops-image-registry_registry_namespace
+  registry_password = var.gitops-image-registry_registry_password
+  registry_server = var.gitops-image-registry_registry_server
+  registry_url = var.gitops-image-registry_registry_url
+  registry_user = var.gitops-image-registry_registry_user
+  server_name = module.gitops_repo.server_name
 }
 module "gitops-pact-broker" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-pact-broker?ref=v1.1.7"
