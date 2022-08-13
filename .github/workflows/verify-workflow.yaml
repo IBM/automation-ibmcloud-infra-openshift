@@ -73,18 +73,28 @@ jobs:
         with:
           path: main
 
-      - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
-        shell: bash
+      - name: Variables
+        id: variables
         run: |
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
+
+          NAME_PREFIX="${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra"
+          
+          echo "Name prefix: $NAME_PREFIX"
+          echo "::set-output name=name-prefix::$NAME_PREFIX"
+
+      - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
+        shell: bash
+        run: |
+          NAME_PREFIX="${{ steps.variables.outputs.short-enabled }}"
           
           id
           whoami
           
           cd main
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" || exit 1
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${NAME_PREFIX}" -r "${REGION}" || exit 1
           
           cd ../workspaces/current
           
