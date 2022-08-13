@@ -30,7 +30,7 @@ jobs:
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_username: ${{ env.OPENSHIFT_USER }}
+          openshift_username: ${{ secrets.OPENSHIFT_USER }}
           openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
 
       - uses: redhat-actions/openshift-actions-runner-installer@v1
