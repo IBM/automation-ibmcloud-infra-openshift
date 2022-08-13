@@ -38,11 +38,11 @@ jobs:
           github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
           runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
           runner_tag: cli-tools-ibmcloud
-          runner_labels: openshift, cli-tools-ibmcloud
+          runner_labels: cli-tools-ibmcloud
 
   verify:
     needs: install_runner
-    runs-on: [ self-hosted, openshift, cli-tools-ibmcloud ]
+    runs-on: [ self-hosted, cli-tools-ibmcloud ]
 
     strategy:
       matrix:
@@ -78,6 +78,9 @@ jobs:
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
+          
+          id
+          whoami
           
           cd main
           ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" || exit 1
