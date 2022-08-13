@@ -37,7 +37,8 @@ jobs:
         with:
           github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
           runner_location: cloud-native-toolkit                              # Install organization level runners
-          runner_image: quay.io/cloudnativetoolkit/github-terraform-runner:cli-tools-ibmcloud    # Use our prebuilt Java runner image
+          runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
+          runner_tag: cli-tools-ibmcloud
           runner_labels: openshift, cli-tools-ibmcloud
 
   verify:
