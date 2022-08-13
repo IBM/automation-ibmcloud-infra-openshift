@@ -73,7 +73,7 @@ jobs:
         with:
           path: main
 
-      - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
+      - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
         shell: bash
         run: |
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
@@ -93,6 +93,11 @@ jobs:
           cat cluster.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
+
+      - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
+        shell: bash
+        run: |
+          cd ./workspaces/current
           
           ./apply.sh -a
 
@@ -100,7 +105,6 @@ jobs:
         if: ${{ always() }}
         shell: bash
         run: |
-          echo "${PWD}"
-          ls -l
           cd ./workspaces/current
+          
           ./destroy.sh -a
