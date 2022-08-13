@@ -79,7 +79,7 @@ jobs:
           FLAVOR: ${{ matrix.flavor }}
           STORAGE: ${{ matrix.storage }}
         run: |
-          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
+          RANDOM_PREFIX=$(echo $RANDOM | md5sum | head -c 5; echo)
           FLAVOR_CHAR=$(echo "${FLAVOR}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${STORAGE}" | fold -w ${1:-1} | head -n 1)
 
