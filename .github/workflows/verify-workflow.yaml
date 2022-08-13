@@ -91,7 +91,7 @@ jobs:
       - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
         shell: bash
         env:
-          NAME_PREFIX: ${{ steps.variables.outputs.short-enabled }}
+          NAME_PREFIX: ${{ steps.variables.outputs.name-prefix }}
           FLAVOR: ${{ matrix.flavor }}
           STORAGE: ${{ matrix.storage }}
         run: |
