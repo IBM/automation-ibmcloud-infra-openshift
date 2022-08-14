@@ -25,6 +25,12 @@ jobs:
     name: Install Runner
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        runner:
+          - "1"
+          - "2"
+
     steps:
       - name: Log in to OpenShift
         uses: redhat-actions/oc-login@v1
@@ -39,6 +45,7 @@ jobs:
           runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
           runner_tag: cli-tools-ibmcloud
           runner_labels: cli-tools-ibmcloud
+          helm_release_name: automation-ibmcloud-infra-openshift${{ matrix.runner }}
 
   verify:
     needs: install_runner
