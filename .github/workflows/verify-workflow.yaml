@@ -46,6 +46,8 @@ jobs:
           runner_tag: cli-tools-ibmcloud
           runner_labels: cli-tools-ibmcloud,${{ matrix.runner }}
           helm_release_name: automation-ibmcloud-infra-openshift-${{ matrix.runner }}
+          helm_extra_args: |
+            --set-string secretName=github-pat-${{ matrix.runner }}
 
   verify:
     needs: install_runner
