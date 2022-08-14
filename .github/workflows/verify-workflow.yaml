@@ -28,8 +28,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - "1"
-          - "2"
+          - one
+          - two
 
     steps:
       - name: Log in to OpenShift
@@ -45,7 +45,7 @@ jobs:
           runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
           runner_tag: cli-tools-ibmcloud
           runner_labels: cli-tools-ibmcloud
-          helm_release_name: automation-ibmcloud-infra-openshift${{ matrix.runner }}
+          helm_release_name: automation-ibmcloud-infra-openshift-${{ matrix.runner }}
 
   verify:
     needs: install_runner
