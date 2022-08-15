@@ -61,7 +61,6 @@ jobs:
       TF_VAR_purge_volumes: true
       TF_VAR_debug: true
       REGION: eu-de
-      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
 
     outputs:
       status: ${{ job.status }}
