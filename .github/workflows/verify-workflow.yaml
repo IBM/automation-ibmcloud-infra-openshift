@@ -68,7 +68,7 @@ jobs:
       TF_VAR_gitops_repo_host: us-south.git.cloud.ibm.com
       TF_VAR_gitops_repo_org: cloud-native-toolkit-test
       TF_VAR_gitops_repo_username: seansund
-      TF_VAR_gitops_repo_token: ${{ secret.GITOPS_REPO_TOKEN }}
+      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_REPO_TOKEN }}
 
     outputs:
       status: ${{ job.status }}
