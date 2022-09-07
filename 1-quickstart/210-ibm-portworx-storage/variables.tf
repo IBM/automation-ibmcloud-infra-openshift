@@ -150,3 +150,13 @@ variable "purge_volumes" {
   description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
   default = false
 }
+variable "util-clis_bin_dir" {
+  type = string
+  description = "The directory where the clis should be downloaded. If not provided will default to ./bin"
+  default = ""
+}
+variable "util-clis_clis" {
+  type = string
+  description = "The list of clis that should be made available in the bin directory. Supported values are yq, jq, igc, helm, argocd, rosa, gh, glab, and kubeseal. (If not provided the list will default to yq, jq, and igc)"
+  default = "[\"yq\",\"jq\",\"igc\"]"
+}

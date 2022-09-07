@@ -15,6 +15,9 @@ digraph {
 "gitops-sonarqube (gitops-sonarqube)" -> "gitops_repo (gitops-repo)"
 "gitops-sonarqube (gitops-sonarqube)" -> "tools_namespace (gitops-namespace)"
 "gitops-sonarqube (gitops-sonarqube)"
+"gitops-swagger-editor (gitops-swagger-editor)" -> "gitops_repo (gitops-repo)"
+"gitops-swagger-editor (gitops-swagger-editor)" -> "tools_namespace (gitops-namespace)"
+"gitops-swagger-editor (gitops-swagger-editor)"
 "gitops-tekton-resources (gitops-tekton-resources)" -> "gitops_repo (gitops-repo)"
 "gitops-tekton-resources (gitops-tekton-resources)" -> "tools_namespace (gitops-namespace)"
 "gitops-tekton-resources (gitops-tekton-resources)" -> "gitops-buildah-unprivileged (gitops-buildah-unprivileged)"
@@ -22,4 +25,5 @@ digraph {
 "gitops-buildah-unprivileged (gitops-buildah-unprivileged)" -> "gitops_repo (gitops-repo)"
 "gitops-buildah-unprivileged (gitops-buildah-unprivileged)" -> "tools_namespace (gitops-namespace)"
 "gitops-buildah-unprivileged (gitops-buildah-unprivileged)"
+"util-clis (util-clis)"
   }

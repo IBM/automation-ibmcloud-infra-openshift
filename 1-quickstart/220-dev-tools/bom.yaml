@@ -17,28 +17,33 @@ spec:
       version: v1.2.2
     - name: gitops-dashboard
       alias: gitops-dashboard
-      version: v1.6.2
+      version: v1.7.0
     - name: gitops-namespace
       alias: tools_namespace
-      version: v1.11.2
+      version: v1.12.2
       default: true
       variables:
         - name: name
           value: tools
     - name: gitops-pact-broker
       alias: gitops-pact-broker
-      version: v1.1.7
+      version: v1.2.0
     - name: gitops-repo
       alias: gitops_repo
       version: v1.21.0
     - name: gitops-sonarqube
       alias: gitops-sonarqube
-      version: v1.2.8
+      version: v1.2.6
+    - name: gitops-swagger-editor
+      alias: gitops-swagger-editor
+      version: v0.1.0
     - name: gitops-tekton-resources
       alias: gitops-tekton-resources
-      version: v2.0.0
+      version: v2.1.0
+    - name: util-clis
+      version: v1.16.9
     - name: gitops-buildah-unprivileged
-      version: v1.0.0
+      version: v1.1.0
   variables:
     - name: gitops_repo_host
       type: string
