@@ -65,6 +65,7 @@ jobs:
       TF_VAR_purge_volumes: true
       TF_VAR_debug: true
       REGION: eu-de
+      TF_LOG_PROVIDER: INFO
 
     outputs:
       status: ${{ job.status }}
