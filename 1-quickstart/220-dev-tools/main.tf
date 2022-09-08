@@ -34,7 +34,7 @@ module "gitops-artifactory" {
   tls_secret_name = var.gitops-artifactory_tls_secret_name
 }
 module "gitops-buildah-unprivileged" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-buildah-unprivileged?ref=v1.1.0"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-buildah-unprivileged?ref=v1.1.1"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config

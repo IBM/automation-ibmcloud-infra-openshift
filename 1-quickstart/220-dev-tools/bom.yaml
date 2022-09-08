@@ -43,7 +43,7 @@ spec:
     - name: util-clis
       version: v1.16.9
     - name: gitops-buildah-unprivileged
-      version: v1.1.0
+      version: v1.1.1
   variables:
     - name: gitops_repo_host
       type: string
