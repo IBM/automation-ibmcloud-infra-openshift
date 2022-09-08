@@ -65,7 +65,7 @@ module "ibm-access-group" {
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.16"
+  version = "2.4.17"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan

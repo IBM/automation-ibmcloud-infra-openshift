@@ -33,7 +33,7 @@ spec:
       version: v1.21.0
     - name: gitops-sonarqube
       alias: gitops-sonarqube
-      version: v1.2.6
+      version: v1.3.0
     - name: gitops-swagger-editor
       alias: gitops-swagger-editor
       version: v0.1.0
