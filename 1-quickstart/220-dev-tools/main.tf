@@ -21,7 +21,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-artifactory" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.3.0"
 
   cluster_ingress_hostname = var.gitops-artifactory_cluster_ingress_hostname
   cluster_type = var.gitops-artifactory_cluster_type

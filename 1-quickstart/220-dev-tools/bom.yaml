@@ -14,7 +14,7 @@ spec:
   modules:
     - name: gitops-artifactory
       alias: gitops-artifactory
-      version: v1.2.2
+      version: v1.3.0
     - name: gitops-dashboard
       alias: gitops-dashboard
       version: v1.7.0
