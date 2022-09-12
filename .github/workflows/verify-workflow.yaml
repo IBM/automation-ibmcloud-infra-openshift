@@ -54,13 +54,14 @@ jobs:
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
           
           cd main
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" || exit 1
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" -g github.com || exit 1
           
           cd ../workspaces/current
           
           echo ""
           echo "*** Start terraform.tfvars ***"
           cat cluster.tfvars
+          cat gitops.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
           
