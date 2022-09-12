@@ -11,7 +11,7 @@ name_prefix="PREFIX"
 cluster_name="PREFIX-cluster"
 
 ## ocp_version: The version of the ocp cluster to install
-ocp_version="4.8"
+#ocp_version="4.8"
 
 ## cluster_subnets__count: The number of subnets that should be provisioned
 #cluster_subnets__count="3"
@@ -25,7 +25,7 @@ ocp_version="4.8"
 ######
 
 ## config_banner_text: The text that will appear in the top banner in the cluster
-config_banner_text="BANNER"
+gitops-cluster-config_banner_text="BANNER"
 
 ######
 

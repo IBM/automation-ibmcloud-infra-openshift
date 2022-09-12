@@ -21,7 +21,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-artifactory" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.2.1"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-artifactory?ref=v1.3.0"
 
   cluster_ingress_hostname = var.gitops-artifactory_cluster_ingress_hostname
   cluster_type = var.gitops-artifactory_cluster_type
@@ -33,8 +33,16 @@ module "gitops-artifactory" {
   storage_class = var.gitops-artifactory_storage_class
   tls_secret_name = var.gitops-artifactory_tls_secret_name
 }
+module "gitops-buildah-unprivileged" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-buildah-unprivileged?ref=v1.1.1"
+
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  namespace = module.tools_namespace.name
+  server_name = module.gitops_repo.server_name
+}
 module "gitops-dashboard" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-dashboard?ref=v1.6.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-dashboard?ref=v1.7.0"
 
   cluster_ingress_hostname = var.gitops-dashboard_cluster_ingress_hostname
   cluster_type = var.gitops-dashboard_cluster_type
@@ -46,7 +54,7 @@ module "gitops-dashboard" {
   tls_secret_name = var.gitops-dashboard_tls_secret_name
 }
 module "gitops-pact-broker" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-pact-broker?ref=v1.1.7"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-pact-broker?ref=v1.2.0"
 
   cluster_ingress_hostname = var.gitops-pact-broker_cluster_ingress_hostname
   cluster_type = var.gitops-pact-broker_cluster_type
@@ -74,8 +82,21 @@ module "gitops-sonarqube" {
   storage_class = var.gitops-sonarqube_storage_class
   tls_secret_name = var.gitops-sonarqube_tls_secret_name
 }
+module "gitops-swagger-editor" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-swagger-editor?ref=v0.1.0"
+
+  cluster_ingress_hostname = var.gitops-swagger-editor_cluster_ingress_hostname
+  cluster_type = var.gitops-swagger-editor_cluster_type
+  enable_sso = var.gitops-swagger-editor_enable_sso
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
+  namespace = module.tools_namespace.name
+  server_name = module.gitops_repo.server_name
+  tls_secret_name = var.gitops-swagger-editor_tls_secret_name
+}
 module "gitops-tekton-resources" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-tekton-resources?ref=v1.1.4"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-tekton-resources?ref=v2.1.0"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
@@ -84,7 +105,7 @@ module "gitops-tekton-resources" {
   task_release = var.gitops-tekton-resources_task_release
 }
 module "tools_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.12.3"
 
   argocd_namespace = var.tools_namespace_argocd_namespace
   ci = var.tools_namespace_ci
@@ -93,4 +114,11 @@ module "tools_namespace" {
   gitops_config = module.gitops_repo.gitops_config
   name = var.tools_namespace_name
   server_name = module.gitops_repo.server_name
+}
+module "util-clis" {
+  source = "cloud-native-toolkit/clis/util"
+  version = "1.16.9"
+
+  bin_dir = var.util-clis_bin_dir
+  clis = var.util-clis_clis == null ? null : jsondecode(var.util-clis_clis)
 }
