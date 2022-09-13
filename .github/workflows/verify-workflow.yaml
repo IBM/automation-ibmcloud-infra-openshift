@@ -10,14 +10,44 @@ on:
     secrets:
       IBMCLOUD_API_KEY:
         required: true
+      OPENSHIFT_SERVER:
+        required: true
+      OPENSHIFT_USER:
+        required: true
+      OPENSHIFT_PASSWORD:
+        required: true
+      GITHUB_PAT:
+        required: true
+      GITOPS_REPO_TOKEN:
+        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  install_runner:
+    name: Install Runner
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_username: ${{ secrets.OPENSHIFT_USER }}
+          openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
+
+      - uses: redhat-actions/openshift-actions-runner-installer@v1
+        with:
+          github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
+          runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
+          runner_tag: cli-tools-ibmcloud
+          runner_labels: cli-tools-ibmcloud
+          runner_replicas: 2
+          helm_extra_args: |
+            --set-string secretName=github-pat-ibmcloud
+
   verify:
-    runs-on: ubuntu-latest
-    container:
-      image: quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2
-      options: --privileged --user root
+    needs: install_runner
+    runs-on: [ self-hosted, cli-tools-ibmcloud ]
 
     strategy:
       matrix:
@@ -34,8 +64,8 @@ jobs:
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_purge_volumes: true
       TF_VAR_debug: true
-      REGION: eu-gb
-      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+      REGION: eu-de
+      TF_LOG_PROVIDER: INFO
 
     outputs:
       status: ${{ job.status }}
@@ -47,14 +77,33 @@ jobs:
         with:
           path: main
 
-      - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
+      - name: Variables
+        id: variables
+        env:
+          FLAVOR: ${{ matrix.flavor }}
+          STORAGE: ${{ matrix.storage }}
         run: |
-          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
-          FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
-          STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
+          RANDOM_PREFIX=$(echo $RANDOM | md5sum | head -c 5; echo)
+          FLAVOR_CHAR=$(echo "${FLAVOR}" | fold -w ${1:-1} | head -n 1)
+          STORAGE_CHAR=$(echo "${STORAGE}" | fold -w ${1:-1} | head -n 1)
+
+          NAME_PREFIX="${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra"
+          
+          echo "Name prefix: $NAME_PREFIX"
+          echo "::set-output name=name-prefix::$NAME_PREFIX"
+
+      - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
+        shell: bash
+        env:
+          NAME_PREFIX: ${{ steps.variables.outputs.name-prefix }}
+          FLAVOR: ${{ matrix.flavor }}
+          STORAGE: ${{ matrix.storage }}
+        run: |
+          id
+          whoami
           
           cd main
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra" -r "${REGION}" || exit 1
+          ./setup-workspace.sh -f "${FLAVOR}" -s "${STORAGE}" -n "${NAME_PREFIX}" -r "${REGION}" || exit 1
           
           cd ../workspaces/current
           
@@ -63,13 +112,18 @@ jobs:
           cat cluster.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
+
+      - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
+        shell: bash
+        run: |
+          cd ./workspaces/current
           
-          ./apply-all.sh -a
+          ./apply.sh -a
 
       - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
         if: ${{ always() }}
+        shell: bash
         run: |
-          echo "${PWD}"
-          ls -l
           cd ./workspaces/current
-          ./destroy-all.sh -a
+          
+          ./destroy.sh -a

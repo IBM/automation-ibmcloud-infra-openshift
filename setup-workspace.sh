@@ -17,7 +17,7 @@ Usage()
    echo "Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
    echo "   -f   (optional) the flavor to use (quickstart)"
-   echo "   -s   the storage option to use (portworx or odf)"
+   echo "   -s   the storage option to use (portworx or odf or none)"
    echo "   -n   (optional) prefix that should be used for all variables"
    echo "   -r   (optional) the region where the infrastructure will be provisioned"
    echo "   -b   (optional) the banner text that should be shown at the top of the cluster"
@@ -81,7 +81,7 @@ if [[ "${FLAVOR}" != "quickstart" ]]; then
   exit 1
 fi
 
-STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
+STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort | cat - <(echo "none")))
 
 if [[ -z "${STORAGE}" ]]; then
 
@@ -145,9 +145,11 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply.sh"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}/plan.sh"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy.sh"
+cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
+
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"

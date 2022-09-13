@@ -1,6 +1,6 @@
 module "cluster" {
   source = "cloud-native-toolkit/ocp-vpc/ibm"
-  version = "1.15.6"
+  version = "1.15.7"
 
   cos_id = module.cos.id
   disable_public_endpoint = var.cluster_disable_public_endpoint
@@ -28,7 +28,7 @@ module "cluster" {
 }
 module "cluster_subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+  version = "1.13.3"
 
   _count = var.cluster_subnets__count
   acl_rules = var.cluster_subnets_acl_rules == null ? null : jsondecode(var.cluster_subnets_acl_rules)
@@ -45,7 +45,7 @@ module "cluster_subnets" {
 }
 module "cos" {
   source = "cloud-native-toolkit/object-storage/ibm"
-  version = "4.0.6"
+  version = "4.0.7"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   label = var.cos_label
@@ -58,14 +58,14 @@ module "cos" {
 }
 module "ibm-access-group" {
   source = "cloud-native-toolkit/access-group/ibm"
-  version = "3.1.6"
+  version = "3.1.7"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   resource_group_name = module.resource_group.name
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.16"
+  version = "2.4.17"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan
@@ -90,7 +90,7 @@ module "ibm-logdna-bind" {
 }
 module "ibm-vpc" {
   source = "cloud-native-toolkit/vpc/ibm"
-  version = "1.16.0"
+  version = "1.16.1"
 
   address_prefix_count = var.ibm-vpc_address_prefix_count
   address_prefixes = var.ibm-vpc_address_prefixes == null ? null : jsondecode(var.ibm-vpc_address_prefixes)
@@ -105,7 +105,7 @@ module "ibm-vpc" {
 }
 module "ibm-vpc-gateways" {
   source = "cloud-native-toolkit/vpc-gateways/ibm"
-  version = "1.9.0"
+  version = "1.9.1"
 
   provision = var.ibm-vpc-gateways_provision
   region = var.region
@@ -115,7 +115,7 @@ module "ibm-vpc-gateways" {
 }
 module "logdna" {
   source = "cloud-native-toolkit/log-analysis/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.logdna_label
   name = var.logdna_name
@@ -128,7 +128,7 @@ module "logdna" {
 }
 module "resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -137,7 +137,7 @@ module "resource_group" {
 }
 module "sysdig" {
   source = "cloud-native-toolkit/cloud-monitoring/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.sysdig_label
   name = var.sysdig_name

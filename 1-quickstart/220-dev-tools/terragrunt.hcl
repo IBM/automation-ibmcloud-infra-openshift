@@ -4,13 +4,15 @@ include "root" {
 
 locals {
   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
-  dep_200 = local.dependencies.name_200
-  mock_200 = local.dependencies.mock_200
+  dep_200 = local.dependencies["200"].names[0]
+  mock_200 = local.dependencies["200"].mock
+  gitops_config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
+  gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 }
 
 dependency "gitops" {
-  config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
-  skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
+  config_path = local.gitops_config_path
+  skip_outputs = local.gitops_skip_outputs
 
   mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
   mock_outputs = {
@@ -36,6 +38,6 @@ terraform {
   # Ensures paralellism never exceed three modules at any time
   extra_arguments "reduced_parallelism" {
     commands  = get_terraform_commands_that_need_parallelism()
-    arguments = ["-parallelism=3"]
+    arguments = ["-parallelism=2"]
   }
 }
