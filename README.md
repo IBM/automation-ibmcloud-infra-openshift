@@ -1,6 +1,8 @@
-# IBM Cloud Reference Architecture - Automation
+# IBM Cloud Reference Architecture - Infrastrucuture Automation
 
-> This collection of IBM Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** __mjperrin@us.ibm.com__, **Sean Sundberg** __seansund@us.ibm.com__, or **Andrew Trice** __amtrice@us.ibm.com__ for more details or raise an issue on the [repository](https://github.com/cloud-native-toolkit/software-everywhere) for bugs or feature requests.
+Created with the ***TechZone Accelerator Toolkit***
+
+> This collection of AWS Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by Ecosystem Engineering
 
 Three different flavors of the reference architecture are provided with different levels of complexity.
 
@@ -17,14 +19,6 @@ This set of automation packages was generated using the open-source [`isacable`]
 ### Quick Start
 
 ![QuickStart](1-quickstart/architecture.png)
-
-### Standard
-
-Coming soon
-
-### Advanced
-
-Coming soon
 
 ## Automation
 
