@@ -1,6 +1,6 @@
 module "cluster" {
   source = "cloud-native-toolkit/ocp-vpc/ibm"
-  version = "1.15.6"
+  version = "1.15.7"
 
   cos_id = module.cos.id
   disable_public_endpoint = var.cluster_disable_public_endpoint
@@ -41,7 +41,7 @@ module "cos" {
 }
 module "cs_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -64,7 +64,7 @@ module "ibm-logdna-bind" {
 }
 module "ibm-vpc" {
   source = "cloud-native-toolkit/vpc/ibm"
-  version = "1.16.0"
+  version = "1.16.1"
 
   address_prefix_count = var.ibm-vpc_address_prefix_count
   address_prefixes = var.ibm-vpc_address_prefixes == null ? null : jsondecode(var.ibm-vpc_address_prefixes)
@@ -79,7 +79,7 @@ module "ibm-vpc" {
 }
 module "ibm-vpc-gateways" {
   source = "cloud-native-toolkit/vpc-gateways/ibm"
-  version = "1.9.0"
+  version = "1.9.1"
 
   provision = var.ibm-vpc-gateways_provision
   region = var.region
@@ -88,7 +88,7 @@ module "ibm-vpc-gateways" {
   vpc_name = module.ibm-vpc.name
 }
 module "kms" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.4"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.5"
 
   name = var.kms_name
   name_prefix = var.kms_name_prefix
@@ -102,7 +102,7 @@ module "kms" {
 }
 module "kms_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -111,7 +111,7 @@ module "kms_resource_group" {
 }
 module "logdna" {
   source = "cloud-native-toolkit/log-analysis/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.logdna_label
   name = var.logdna_name
@@ -138,7 +138,7 @@ module "ocp_key" {
 }
 module "sysdig" {
   source = "cloud-native-toolkit/cloud-monitoring/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.sysdig_label
   name = var.sysdig_name
@@ -166,7 +166,7 @@ module "sysdig-bind" {
 }
 module "vpc_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -174,7 +174,7 @@ module "vpc_resource_group" {
   sync = var.vpc_resource_group_sync
 }
 module "vpe-cos" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-vpe-gateway?ref=v1.6.2"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpe-gateway?ref=v1.6.2"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   name_prefix = var.vpc_name_prefix
@@ -190,7 +190,7 @@ module "vpe-cos" {
 }
 module "vpe-subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+  version = "1.13.3"
 
   _count = var.vpe-subnets__count
   acl_rules = var.vpe-subnets_acl_rules == null ? null : jsondecode(var.vpe-subnets_acl_rules)
@@ -207,7 +207,7 @@ module "vpe-subnets" {
 }
 module "worker-subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+  version = "1.13.3"
 
   _count = var.worker_subnet_count
   acl_rules = var.worker-subnets_acl_rules == null ? null : jsondecode(var.worker-subnets_acl_rules)

@@ -1,17 +1,8 @@
-## ibmcloud_api_key: The IBM Cloud api key
-#ibmcloud_api_key=""
-
-## kms_resource_group_name: The name of the resource group
-#kms_resource_group_name=""
-
-## region: the value of region
+## region: Geographic location of the resource (e.g. us-south, us-east)
 #region=""
 
-## vpc_resource_group_name: The name of the resource group
-#vpc_resource_group_name=""
-
-## cs_resource_group_name: The name of the resource group
-#cs_resource_group_name=""
+## ibmcloud_api_key: the value of ibmcloud_api_key
+#ibmcloud_api_key=""
 
 ## kms_region: Geographic location of the resource (e.g. us-south, us-east)
 #kms_region=""
@@ -24,6 +15,15 @@
 
 ## cluster_flavor: The machine type that will be provisioned for classic infrastructure
 #cluster_flavor="bx2.16x64"
+
+## kms_resource_group_name: The name of the resource group
+#kms_resource_group_name=""
+
+## vpc_resource_group_name: The name of the resource group
+#vpc_resource_group_name=""
+
+## cs_resource_group_name: The name of the resource group
+#cs_resource_group_name=""
 
 ## worker_subnet_count: The number of subnets that should be provisioned
 #worker_subnet_count="3"

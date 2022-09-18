@@ -12,7 +12,7 @@ module "cos" {
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
 }
 module "cos-encrypt-auth" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.cos-encrypt-auth_provision
@@ -31,7 +31,7 @@ module "cos-encrypt-auth" {
 }
 module "cs_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -39,7 +39,7 @@ module "cs_resource_group" {
   sync = var.cs_resource_group_sync
 }
 module "flow-log-auth" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.flow-log-auth_provision
@@ -85,7 +85,7 @@ module "ibm-cert-manager" {
   resource_group_name = module.cs_resource_group.name
 }
 module "kms" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.4"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.5"
 
   name = var.kms_name
   name_prefix = var.kms_name_prefix
@@ -99,7 +99,7 @@ module "kms" {
 }
 module "kms_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -107,7 +107,7 @@ module "kms_resource_group" {
   sync = module.cs_resource_group.sync
 }
 module "kube-encrypt-auth" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.kube-encrypt-auth_provision
@@ -126,7 +126,7 @@ module "kube-encrypt-auth" {
 }
 module "logdna" {
   source = "cloud-native-toolkit/log-analysis/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.logdna_label
   name = var.logdna_name
@@ -139,7 +139,7 @@ module "logdna" {
 }
 module "sysdig" {
   source = "cloud-native-toolkit/cloud-monitoring/ibm"
-  version = "4.1.2"
+  version = "4.1.3"
 
   label = var.sysdig_label
   name = var.sysdig_name
@@ -151,7 +151,7 @@ module "sysdig" {
   tags = var.sysdig_tags == null ? null : jsondecode(var.sysdig_tags)
 }
 module "vpn-cert-manager-auth" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.vpn-cert-manager-auth_provision
@@ -169,7 +169,7 @@ module "vpn-cert-manager-auth" {
   target_service_name = var.vpn-cert-manager-auth_target_service_name
 }
 module "vsi-encrypt-auth" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.vsi-encrypt-auth_provision
@@ -187,7 +187,7 @@ module "vsi-encrypt-auth" {
   target_service_name = module.kms.service
 }
 module "vsi-encrypt-auth1" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-iam-service-authorization?ref=v1.2.12"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.vsi-encrypt-auth1_provision

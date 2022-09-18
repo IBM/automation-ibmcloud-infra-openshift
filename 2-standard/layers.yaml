@@ -6,7 +6,7 @@ names_110: "110-ibm-vpc-edge-standard"
 mock_110: "mock"
 names_115: "115-ibm-vpc-openshift-standard"
 mock_115: "mock"
-names_200: "200-ibm-openshift-gitops"
+names_200: "200-openshift-gitops"
 mock_200: "mock"
 names_210:
   - "210-ibm-odf-storage"

@@ -2,27 +2,9 @@ variable "ibmcloud_api_key" {
   type = string
   description = "The IBM Cloud api key"
 }
-variable "cs_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "cs_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "purge_volumes" {
-  type = bool
-  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
-  default = false
-}
 variable "region" {
   type = string
-  description = "the value of region"
-}
-variable "kms_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
+  description = "Geographic location of the resource (e.g. us-south, us-east)"
 }
 variable "ibm-activity-tracker_tags" {
   type = string
@@ -472,4 +454,22 @@ variable "cos_label" {
   type = string
   description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
   default = "cos"
+}
+variable "cs_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "cs_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "purge_volumes" {
+  type = bool
+  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
+  default = false
+}
+variable "kms_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
 }

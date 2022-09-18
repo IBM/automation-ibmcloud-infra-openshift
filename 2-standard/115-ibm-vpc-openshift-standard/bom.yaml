@@ -12,28 +12,9 @@ metadata:
     vpn/required: 'false'
 spec:
   modules:
-    - name: ibm-resource-group
-      alias: kms_resource_group
-      version: v3.3.2
-      variables:
-        - name: provision
-          value: false
-    - name: ibm-resource-group
-      alias: vpc_resource_group
-      version: v3.3.2
-      default: true
-      variables:
-        - name: provision
-          value: false
-    - name: ibm-resource-group
-      alias: cs_resource_group
-      version: v3.3.2
-      variables:
-        - name: provision
-          value: false
     - name: ibm-cloud-monitoring
       alias: sysdig
-      version: v4.1.2
+      version: v4.1.3
       variables:
         - name: provision
           value: false
@@ -48,7 +29,7 @@ spec:
       version: v1.3.4
     - name: ibm-kms
       alias: kms
-      version: v0.3.4
+      version: v0.3.5
       variables:
         - name: provision
           value: false
@@ -73,7 +54,7 @@ spec:
           ref: kms
     - name: ibm-log-analysis
       alias: logdna
-      version: v4.1.2
+      version: v4.1.3
       variables:
         - name: provision
           value: false
@@ -100,7 +81,7 @@ spec:
           ref: cs_resource_group
     - name: ibm-ocp-vpc
       alias: cluster
-      version: v1.15.6
+      version: v1.15.7
       variables:
         - name: disable_public_endpoint
           value: true
@@ -115,9 +96,28 @@ spec:
           ref: worker-subnets
         - name: kms_key
           ref: ocp_key
+    - name: ibm-resource-group
+      alias: kms_resource_group
+      version: v3.3.4
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-resource-group
+      alias: vpc_resource_group
+      version: v3.3.4
+      default: true
+      variables:
+        - name: provision
+          value: false
+    - name: ibm-resource-group
+      alias: cs_resource_group
+      version: v3.3.4
+      variables:
+        - name: provision
+          value: false
     - name: ibm-vpc
       alias: ibm-vpc
-      version: v1.16.0
+      version: v1.16.1
       variables:
         - name: address_prefix_count
           value: 3
@@ -133,13 +133,13 @@ spec:
           ref: vpc_resource_group
     - name: ibm-vpc-gateways
       alias: ibm-vpc-gateways
-      version: v1.9.0
+      version: v1.9.1
       variables:
         - name: provision
           value: false
     - name: ibm-vpc-subnets
       alias: worker-subnets
-      version: v1.13.2
+      version: v1.13.3
       variables:
         - name: _count
           alias: worker_subnet_count
@@ -157,7 +157,7 @@ spec:
           ref: ibm-vpc-gateways
     - name: ibm-vpc-subnets
       alias: vpe-subnets
-      version: v1.13.2
+      version: v1.13.3
       variables:
         - name: _count
           value: 3
@@ -179,20 +179,11 @@ spec:
         - name: sync
           ref: cluster
   variables:
-    - name: ibmcloud_api_key
-      type: string
-      description: The IBM Cloud api key
-    - name: kms_resource_group_name
-      type: string
-      description: The name of the resource group
     - name: region
       type: string
-    - name: vpc_resource_group_name
+      description: Geographic location of the resource (e.g. us-south, us-east)
+    - name: ibmcloud_api_key
       type: string
-      description: The name of the resource group
-    - name: cs_resource_group_name
-      type: string
-      description: The name of the resource group
     - name: kms_region
       type: string
       description: Geographic location of the resource (e.g. us-south, us-east)
@@ -212,6 +203,15 @@ spec:
       type: string
       description: The machine type that will be provisioned for classic infrastructure
       defaultValue: bx2.16x64
+    - name: kms_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: vpc_resource_group_name
+      type: string
+      description: The name of the resource group
+    - name: cs_resource_group_name
+      type: string
+      description: The name of the resource group
     - name: worker_subnet_count
       type: number
       description: The number of subnets that should be provisioned

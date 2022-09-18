@@ -1,42 +1,6 @@
-variable "ibmcloud_api_key" {
-  type = string
-  description = "The IBM Cloud api key"
-}
-variable "kms_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "kms_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "purge_volumes" {
-  type = bool
-  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
-  default = false
-}
 variable "region" {
   type = string
-  description = "the value of region"
-}
-variable "vpc_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "vpc_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "cs_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "cs_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
+  description = "Geographic location of the resource (e.g. us-south, us-east)"
 }
 variable "cs_name_prefix" {
   type = string
@@ -67,6 +31,10 @@ variable "sysdig_label" {
   type = string
   description = "The label used to build the resource name if not provided."
   default = "monitoring"
+}
+variable "ibmcloud_api_key" {
+  type = string
+  description = "the value of ibmcloud_api_key"
 }
 variable "sysdig-bind_namespace" {
   type = string
@@ -260,6 +228,38 @@ variable "cluster_login" {
   type = bool
   description = "Flag indicating that after the cluster is provisioned, the module should log into the cluster"
   default = false
+}
+variable "kms_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "kms_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "purge_volumes" {
+  type = bool
+  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
+  default = false
+}
+variable "vpc_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "vpc_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "cs_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "cs_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
 }
 variable "ibm-vpc_name" {
   type = string

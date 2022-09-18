@@ -1,7 +1,8 @@
 module "cos" {
   source = "cloud-native-toolkit/object-storage/ibm"
-  version = "4.0.6"
+  version = "4.1.0"
 
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   ibmcloud_api_key = var.ibmcloud_api_key
   label = var.cos_label
   name_prefix = var.cs_name_prefix
@@ -12,7 +13,7 @@ module "cos" {
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
 }
 module "cos_key" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-kms-key?ref=v1.5.2"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms-key?ref=v1.5.3"
 
   dual_auth_delete = var.cos_key_dual_auth_delete
   force_delete = var.cos_key_force_delete
@@ -27,7 +28,7 @@ module "cos_key" {
 }
 module "cs_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -36,10 +37,11 @@ module "cs_resource_group" {
 }
 module "egress-subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+  version = "1.14.0"
 
   _count = var.egress-subnets__count
   acl_rules = var.egress-subnets_acl_rules == null ? null : jsondecode(var.egress-subnets_acl_rules)
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   gateways = module.ibm-vpc-gateways.gateways
   ipv4_address_count = var.egress-subnets_ipv4_address_count
   ipv4_cidr_blocks = var.egress-subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.egress-subnets_ipv4_cidr_blocks)
@@ -52,7 +54,7 @@ module "egress-subnets" {
   zone_offset = var.egress-subnets_zone_offset
 }
 module "flow_log_bucket" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-object-storage-bucket?ref=v0.8.3"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-object-storage-bucket?ref=v0.8.4"
 
   activity_tracker_crn = module.ibm-activity-tracker.crn
   allowed_ip = var.flow_log_bucket_allowed_ip == null ? null : jsondecode(var.flow_log_bucket_allowed_ip)
@@ -75,7 +77,7 @@ module "flow_log_bucket" {
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.16"
+  version = "2.4.17"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan
@@ -85,8 +87,10 @@ module "ibm-activity-tracker" {
   tags = var.ibm-activity-tracker_tags == null ? null : jsondecode(var.ibm-activity-tracker_tags)
 }
 module "ibm-cert-manager" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-cert-manager?ref=v1.1.0"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-cert-manager?ref=v1.2.0"
 
+  create_auth = var.ibm-cert-manager_create_auth
+  ibmcloud_api_key = var.ibmcloud_api_key
   kms_enabled = var.ibm-cert-manager_kms_enabled
   kms_id = module.cos_key.kms_id
   kms_key_crn = module.cos_key.crn
@@ -102,7 +106,7 @@ module "ibm-cert-manager" {
   resource_group_name = module.cs_resource_group.name
 }
 module "ibm-flow-logs" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-flow-log?ref=v1.0.1"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-flow-log?ref=v1.0.3"
 
   auth_id = var.ibm-flow-logs_auth_id
   cos_bucket_name = module.flow_log_bucket.bucket_name
@@ -114,11 +118,12 @@ module "ibm-flow-logs" {
 }
 module "ibm-vpc" {
   source = "cloud-native-toolkit/vpc/ibm"
-  version = "1.16.0"
+  version = "1.17.0"
 
   address_prefix_count = var.ibm-vpc_address_prefix_count
   address_prefixes = var.ibm-vpc_address_prefixes == null ? null : jsondecode(var.ibm-vpc_address_prefixes)
   base_security_group_name = var.ibm-vpc_base_security_group_name
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   internal_cidr = var.ibm-vpc_internal_cidr
   name = var.ibm-vpc_name
   name_prefix = var.vpc_name_prefix
@@ -129,8 +134,9 @@ module "ibm-vpc" {
 }
 module "ibm-vpc-gateways" {
   source = "cloud-native-toolkit/vpc-gateways/ibm"
-  version = "1.9.0"
+  version = "1.10.0"
 
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   provision = var.ibm-vpc-gateways_provision
   region = var.region
   resource_group_id = module.vpc_resource_group.id
@@ -138,7 +144,7 @@ module "ibm-vpc-gateways" {
   vpc_name = module.ibm-vpc.name
 }
 module "ibm-vpn-server" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-vpn-server?ref=v0.1.2"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.1.3"
 
   auth_method = var.ibm-vpn-server_auth_method
   certificate_manager_id = module.ibm-cert-manager.id
@@ -158,10 +164,11 @@ module "ibm-vpn-server" {
 }
 module "ingress-subnets" {
   source = "cloud-native-toolkit/vpc-subnets/ibm"
-  version = "1.13.2"
+  version = "1.14.0"
 
   _count = var.ingress-subnets__count
   acl_rules = var.ingress-subnets_acl_rules == null ? null : jsondecode(var.ingress-subnets_acl_rules)
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   gateways = module.ibm-vpc-gateways.gateways
   ipv4_address_count = var.ingress-subnets_ipv4_address_count
   ipv4_cidr_blocks = var.ingress-subnets_ipv4_cidr_blocks == null ? null : jsondecode(var.ingress-subnets_ipv4_cidr_blocks)
@@ -174,7 +181,7 @@ module "ingress-subnets" {
   zone_offset = var.ingress-subnets_zone_offset
 }
 module "kms" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.4"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms?ref=v0.3.6"
 
   name = var.kms_name
   name_prefix = var.kms_name_prefix
@@ -188,7 +195,7 @@ module "kms" {
 }
 module "kms_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -197,7 +204,7 @@ module "kms_resource_group" {
 }
 module "vpc_resource_group" {
   source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.2"
+  version = "3.3.4"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes

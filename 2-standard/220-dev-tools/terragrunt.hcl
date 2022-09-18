@@ -15,24 +15,32 @@ locals {
   gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 }
 
+// Reduce parallelism further for this layer
+terraform {
+  extra_arguments "reduced_parallelism" {
+    commands  = get_terraform_commands_that_need_parallelism()
+    arguments = ["-parallelism=2"]
+  }
+}
+
 dependency "openshift" {
     config_path = local.cluster_config_path
     skip_outputs = true
 }
 
 dependency "gitops" {
-    config_path = local.gitops_config_path
-    skip_outputs = local.gitops_skip_outputs
+  config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
+  skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 
-    mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
-    mock_outputs = {
-        gitops_host = "fake_gitops_host"
-        gitops_org = "fake_gitops_orf"
-        gitops_name = "fake_gitops_name"
-        gitops_project = "fake_gitops_project"
-        gitops_username = "fake_gitops_username"
-        gitops_token = "fake_gitops_token"
-    }
+  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
+  mock_outputs = {
+    gitops_host = ""
+    gitops_org = ""
+    gitops_name = ""
+    gitops_project = ""
+    gitops_username = ""
+    gitops_token = ""
+  }
 }
 
 inputs = {
