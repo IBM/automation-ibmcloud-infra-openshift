@@ -1,6 +1,8 @@
-# IBM Cloud Reference Architecture - Automation
+# IBM Cloud Reference Architecture - Infrastrucuture Automation
 
-> This collection of IBM Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** __mjperrin@us.ibm.com__, **Sean Sundberg** __seansund@us.ibm.com__, or **Andrew Trice** __amtrice@us.ibm.com__ for more details or raise an issue on the [repository](https://github.com/cloud-native-toolkit/software-everywhere) for bugs or feature requests.
+Created with the ***TechZone Accelerator Toolkit***
+
+> This collection of IBM Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by Ecosystem Engineering
 
 Three different flavors of the reference architecture are provided with different levels of complexity.
 
@@ -22,22 +24,15 @@ This set of automation packages was generated using the open-source [`isacable`]
 
 ![Standard](2-standard/architecture.png)
 
-### Advanced
-
-TBD
-
 ## Automation
 
 ### Prerequisites
 
-1. Have access to an IBM Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
+1. Have access to an IBM Cloud Account, Enterprise account is best for workload isolation but if you only have a Pay Go account this set of terraform can be run in that level of account.
 
-2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+2. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
 
-    ```shell
-    brew install docker colima
-    colima start
-    ```
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
 
 ### Planning
 
@@ -77,9 +72,9 @@ TBD
     ```
 
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
-7. Inspect **cluster.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **cluster.tfvars** with default values and can be used without updates, if desired.)
+7. Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.)
 
-#### Run all the Terraform layers automatically
+#### Run the entire automation stack automatically
 
 From the **/workspace/current** directory, run the following:
 
@@ -89,9 +84,9 @@ From the **/workspace/current** directory, run the following:
 
 The script will run through each of the terraform layers in sequence to provision the entire infrastructure.
 
-#### Run all the Terraform layers manually
+#### Run each of the Terraform layers manually
 
-From the **/workspace/current** directory, run change directory into each of the layer subdirectories and run the following:
+From the **/workspace/current** directory, change the directory into each of the layer subdirectories, in order, and run the following:
 
 ```shell
 ./apply.sh

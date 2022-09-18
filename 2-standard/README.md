@@ -186,4 +186,3 @@ From the **/workspace/current** directory, run change directory into each of the
 cd <directory_name>
 ./apply.sh
 ```
-
