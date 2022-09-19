@@ -409,7 +409,7 @@ variable "ibm-vpn-server_vpn_server_port" {
 variable "ibm-vpn-server_vpn_client_timeout" {
   type = number
   description = "VPN Server Client Time out"
-  default = 3600
+  default = 0
 }
 variable "ibm-vpn-server_enable_split_tunnel" {
   type = bool
