@@ -29,16 +29,14 @@ This module makes use of the output from other modules:
 ## Example usage
 
 ```hcl-terraform
-module "dev_tools_argocd" {
-  source = "github.com/ibm-garage-cloud/terraform-tools-argocd.git?ref=v1.0.0"
+module "gitops_sonarqube" {
+  source = "https://github.com/cloud-native-toolkit/terraform-gitops-sonarqube"
 
-  cluster_config_file = module.dev_cluster.config_file_path
-  cluster_type        = module.dev_cluster.type
-  app_namespace       = module.dev_cluster_namespaces.tools_namespace_name
-  ingress_subdomain   = module.dev_cluster.ingress_hostname
-  olm_namespace       = module.dev_software_olm.olm_namespace
-  operator_namespace  = module.dev_software_olm.target_namespace
-  name                = "argocd"
+  gitops_config            = module.gitops.gitops_config
+  git_credentials          = module.gitops.git_credentials
+  namespace                = module.gitops_namespace.name
+  kubeseal_cert            = module.gitops.sealed_secrets_cert
+  server_name              = module.gitops.server_name
 }
 ```
 
