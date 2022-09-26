@@ -90,8 +90,8 @@ fi
 OS=$(uname)
 
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
-#if [[ "${OS}" == "Linux" ]]; then 
-#  echo "Starting docker on Linux"
+if [[ "${OS}" == "Linux" ]]; then 
+  echo "Starting docker on Linux"
   ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
     --device /dev/net/tun --cap-add=NET_ADMIN \
     -v "${SRC_DIR}:/terraform" \
@@ -99,16 +99,16 @@ echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
     ${ENV_VARS} \
     -w /terraform \
     ${DOCKER_IMAGE}
-# else
-#   ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
-#     -u "${UID}:0" \
-#     --device /dev/net/tun --cap-add=NET_ADMIN \
-#     -v "${SRC_DIR}:/terraform" \
-#     -v "workspace-${AUTOMATION_BASE}-${UID}:/workspaces" \
-#     ${ENV_VARS} \
-#     -w /terraform \
-#     ${DOCKER_IMAGE}
-# fi
+else
+  ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
+    -u "${UID}:0" \
+    --device /dev/net/tun --cap-add=NET_ADMIN \
+    -v "${SRC_DIR}:/terraform" \
+    -v "workspace-${AUTOMATION_BASE}-${UID}:/workspaces" \
+    ${ENV_VARS} \
+    -w /terraform \
+    ${DOCKER_IMAGE}
+fi
 
 echo "Attaching to running container..."
 ${DOCKER_CMD} attach ${CONTAINER_NAME}
