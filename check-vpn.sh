@@ -20,15 +20,9 @@ if [[ "${VPN_REQUIRED}" == "true" ]]; then
     fi
 
     echo "Connecting to vpn with profile: ${OVPN_FILE}"
-    if [[ "${UID}" -eq 0 ]]; then
       exec 1<&-
       exec 2<&-
       openvpn --config "${OVPN_FILE}" || true &
-    else
-      exec 1<&-
-      exec 2<&-
-      sudo openvpn --config "${OVPN_FILE}" || true &
-    fi
   else
     echo "VPN connection required but unable to create the connection automatically. Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and re-run apply-all.sh."
     exit 1
