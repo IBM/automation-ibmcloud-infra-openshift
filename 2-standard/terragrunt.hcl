@@ -24,7 +24,9 @@ terraform {
 }
 
 retryable_errors = [
-  "(?s).*igc gitops-module.*"
+  "(?s).*igc gitops-module.*",
+  "(?s).*Status.code:.503*",
+  "(?s).*i\/o.timeout*"
 ]
 
 retry_sleep_interval_sec = 60
