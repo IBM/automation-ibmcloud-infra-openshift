@@ -25,7 +25,7 @@ if [[ "${VPN_REQUIRED}" == "true" ]]; then
       exec 1<&-
       exec 2<&-
       openvpn --config "${OVPN_FILE}" || true &
-    elif [[ "$USER}" == "runner" ]]; then    # Caters for self hosted runner image
+    elif [[ "${USER}" == "runner" ]]; then    # Caters for self hosted runner image
       exec 1<&-
       exec 2<&-
       openvpn --config "${OVPN_FILE}" || true &
