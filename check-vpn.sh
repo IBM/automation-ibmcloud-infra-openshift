@@ -6,9 +6,10 @@ BOM_DIRECTORY="${PWD}"
 VPN_REQUIRED=$(grep "vpn/required" "${BOM_DIRECTORY}/bom.yaml" | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
 USER=$(whoami)
 
+RUNNING_PROCESSES=$(ps -ef)
+VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config")
+
 if [[ "${VPN_REQUIRED}" == "true" ]]; then
-  RUNNING_PROCESSES=$(ps -ef)
-  VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config")
 
   if [[ -n "${VPN_RUNNING}" ]]; then
     echo "VPN required but it is already running"
@@ -39,5 +40,17 @@ if [[ "${VPN_REQUIRED}" == "true" ]]; then
     exit 1
   fi
 else
-  echo "VPN not required"
+  if [[ -n "${VPN_RUNNING}" ]]; then
+    echo "VPN not required but it is already running, shutting down"
+    VPN_PID=$(ps xua | grep "openvpn --config" | grep -v grep | awk '{print$1}')
+    if [[ "${UID}" -eq 0 ]]; then
+      kill "${VPN_PID}"
+    elif [[ "${USER}" == "runner" ]]; then    # Caters for self hosted runner image
+      kill "${VPN_PID}"
+    else
+      sudo kill "${VPN_PID}"
+    fi  
+  else
+    echo "VPN not required"
+  fi
 fi
