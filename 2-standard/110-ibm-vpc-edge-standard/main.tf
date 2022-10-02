@@ -144,18 +144,21 @@ module "ibm-vpc-gateways" {
   vpc_name = module.ibm-vpc.name
 }
 module "ibm-vpn-server" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.1.3"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.1.4"
 
   auth_method = var.ibm-vpn-server_auth_method
   certificate_manager_id = module.ibm-cert-manager.id
   client_dns = var.ibm-vpn-server_client_dns == null ? null : jsondecode(var.ibm-vpn-server_client_dns)
+  dns_cidr = var.ibm-vpn-server_dns_cidr
   enable_split_tunnel = var.ibm-vpn-server_enable_split_tunnel
   ibmcloud_api_key = var.ibmcloud_api_key
   name_prefix = var.vpc_name_prefix
   region = var.region
   resource_group_name = module.vpc_resource_group.name
   resource_label = var.ibm-vpn-server_resource_label
+  services_cidr = var.ibm-vpn-server_services_cidr
   subnet_ids = module.ingress-subnets.ids
+  vpc_cidr = var.ibm-vpn-server_vpc_cidr
   vpc_id = module.ingress-subnets.vpc_id
   vpn_client_timeout = var.ibm-vpn-server_vpn_client_timeout
   vpn_server_port = var.ibm-vpn-server_vpn_server_port
