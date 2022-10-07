@@ -20,6 +20,10 @@ This set of automation packages was generated using the open-source [`isacable`]
 
 ![QuickStart](1-quickstart/architecture.png)
 
+### Standard
+
+![Standard](2-standard/architecture.png)
+
 ## Automation
 
 ### Prerequisites

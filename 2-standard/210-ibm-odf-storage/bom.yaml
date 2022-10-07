@@ -1,0 +1,70 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 210-ibm-odf-storage
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: '210'
+    storage: odf
+  annotations:
+    displayName: IBM - ODF Cluster Storage
+    description: Installs OpenShift Data Foundation in an IBM cluster
+    vpn/required: 'true'
+spec:
+  modules:
+    - name: gitops-ibm-odf
+      alias: gitops-ibm-odf
+      version: v0.3.0
+      variables:
+        - name: cluster_name
+          scope: global
+    - name: gitops-namespace
+      alias: odf_namespace
+      version: v1.12.2
+      default: true
+      variables:
+        - name: name
+          value: odf
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.21.0
+    - name: util-clis
+      version: v1.16.9
+  variables:
+    - name: ibmcloud_api_key
+      type: string
+      description: The api key for IBM Cloud access
+    - name: gitops_repo_host
+      type: string
+      description: >-
+        The host for the git repository. The git host used can be a GitHub,
+        GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If
+        the host is null assumes in-cluster Gitea instance will be used.
+      defaultValue: ''
+    - name: gitops_repo_org
+      type: string
+      description: >-
+        The org/group where the git repository exists/will be provisioned. If
+        the value is left blank then the username org will be used.
+      defaultValue: ''
+    - name: gitops_repo_project
+      type: string
+      description: >-
+        The project that will be used for the git repo. (Primarily used for
+        Azure DevOps repos)
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)

@@ -55,6 +55,14 @@ else
         echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and press ENTER to proceed."
         read throwaway
       fi
+      echo "Connecting to vpn with profile: ${OVPN_FILE}"
+      sudo openvpn --config "${OVPN_FILE}" &
+    elif [[ -n "${CI}" ]]; then
+      echo "VPN connection required but unable to create the connection. Skipping..."
+      continue
+    else
+      echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-vpc-edge-* directory and press ENTER to proceed."
+      read throwaway
     fi
 
     echo "***** Applying ${name} *****"

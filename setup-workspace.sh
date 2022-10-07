@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
 ## For now default to quickstart
-FLAVOR="quickstart"
+FLAVOR=""
 STORAGE=""
 PREFIX_NAME=""
 REGION="us-east"
@@ -76,8 +76,8 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" != "quickstart" ]]; then
-  echo "  Quickstart is currently the only supported flavor" >&2
+if [[ "${FLAVOR}" == "Advanced" ]]; then
+  echo "  Advanced is currently not a supported flavor" >&2
   exit 1
 fi
 
@@ -141,7 +141,8 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
     sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
     sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-    sed "s/GIT_HOST/${GIT_HOST}/g" \
+    sed "s/GIT_HOST/${GIT_HOST}/g" | \
+    sed "s/FLAVOR/${FLAVOR}/g" \
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 

@@ -50,9 +50,11 @@ jobs:
     runs-on: [ self-hosted, cli-tools-ibmcloud ]
 
     strategy:
+      max-parallel: 2
       matrix:
         flavor:
           - quickstart
+          - standard
         storage:
           - portworx
           - odf
@@ -110,6 +112,7 @@ jobs:
           echo ""
           echo "*** Start terraform.tfvars ***"
           cat cluster.tfvars
+          cat gitops.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
 
