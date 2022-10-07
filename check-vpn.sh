@@ -42,12 +42,14 @@ if [[ "${VPN_REQUIRED}" == "true" ]]; then
 else
   if [[ -n "${VPN_RUNNING}" ]]; then
     echo "VPN not required but it is already running, shutting down"
-    VPN_PID=$(ps xua | grep "openvpn --config" | grep -v grep | awk '{print$2}')
-    if [[ "${UID}" -eq 0 ]]; then
+        if [[ "${UID}" -eq 0 ]]; then
+      VPN_PID=$(ps xua | grep "openvpn --config" | grep -v grep | awk '{print$1}')
       kill "${VPN_PID}"
     elif [[ "${USER}" == "runner" ]]; then    # Caters for self hosted runner image
+      VPN_PID=$(ps xua | grep "openvpn --config" | grep -v grep | awk '{print$2}')
       kill "${VPN_PID}"
     else
+      VPN_PID=$(ps xua | grep "openvpn --config" | grep -v grep | awk '{print$1}')
       sudo kill "${VPN_PID}"
     fi  
   else
