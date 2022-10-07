@@ -15,18 +15,6 @@ spec:
     - name: ibm-activity-tracker
       alias: ibm-activity-tracker
       version: v2.4.17
-    - name: ibm-cert-manager
-      alias: ibm-cert-manager
-      version: v1.2.0
-      variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
     - name: ibm-flow-logs
       alias: ibm-flow-logs
       version: v1.0.3
@@ -60,15 +48,6 @@ spec:
       dependencies:
         - name: kms
           ref: kms
-    - name: ibm-object-storage-bucket
-      alias: flow_log_bucket
-      version: v0.8.4
-      variables:
-        - name: label
-          value: flow-logs
-        - name: allowed_ip
-          value:
-            - 0.0.0.0/0
     - name: ibm-resource-group
       alias: kms_resource_group
       version: v3.3.4
@@ -88,6 +67,27 @@ spec:
     - name: ibm-object-storage
       alias: cos
       version: v4.1.0
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
+    - name: ibm-object-storage-bucket
+      alias: flow_log_bucket
+      version: v0.8.4
+      variables:
+        - name: label
+          value: flow-logs
+        - name: allowed_ip
+          value:
+            - 0.0.0.0/0
+    - name: ibm-secrets-manager
+      alias: ibm-secrets-manager
+      version: v1.0.2
       variables:
         - name: provision
           value: false
@@ -142,12 +142,12 @@ spec:
             - 10.3.0.128/26
     - name: ibm-vpn-server
       alias: ibm-vpn-server
-      version: v0.1.4
+      version: v0.2.1
       dependencies:
         - name: subnets
           ref: ingress-subnets
-        - name: ibm-cert-manager
-          ref: cert-manager
+        - name: ibm-secrets-manager
+          ref: secrets-manager
       variables:
         - name: vpn_client_timeout
           value: 3600

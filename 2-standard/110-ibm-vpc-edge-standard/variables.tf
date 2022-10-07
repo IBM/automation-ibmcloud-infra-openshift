@@ -21,46 +21,6 @@ variable "ibm-activity-tracker_sync" {
   description = "Value used to order the provisioning of the instance"
   default = ""
 }
-variable "ibm-cert-manager_provision" {
-  type = bool
-  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
-  default = false
-}
-variable "ibm-cert-manager_kms_enabled" {
-  type = bool
-  description = "Flag indicating that kms encryption should be enabled for this instance"
-  default = false
-}
-variable "ibm-cert-manager_kms_private_endpoint" {
-  type = bool
-  description = "Flag indicating the KMS private endpoint should be used"
-  default = true
-}
-variable "cs_name_prefix" {
-  type = string
-  description = "The name prefix for the Certificate Manager resource. If not provided will default to resource group name."
-  default = ""
-}
-variable "ibm-cert-manager_name" {
-  type = string
-  description = "Name of the Certificate Manager. If not provided will be generated as $name_prefix-$label"
-  default = ""
-}
-variable "ibm-cert-manager_label" {
-  type = string
-  description = "Label used to build the Certificate Manager name if not provided."
-  default = "cm"
-}
-variable "ibm-cert-manager_private_endpoint" {
-  type = bool
-  description = "Flag indicating that the service should be access using private endpoints"
-  default = true
-}
-variable "ibm-cert-manager_create_auth" {
-  type = bool
-  description = "Flag indicating the service authorization should be created to allow this service to access the KMS service"
-  default = true
-}
 variable "ibm-flow-logs_auth_id" {
   type = string
   description = "The id of the service authorization that allows the flow log to write to the cos bucket"
@@ -144,6 +104,73 @@ variable "cos_key_force_delete" {
   description = "Flag indicating that 'force' should be applied to key on delete"
   default = true
 }
+variable "kms_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "kms_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "purge_volumes" {
+  type = bool
+  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
+  default = false
+}
+variable "vpc_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "vpc_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "cs_resource_group_name" {
+  type = string
+  description = "The name of the resource group"
+}
+variable "cs_resource_group_sync" {
+  type = string
+  description = "Value used to order the provisioning of the resource group"
+  default = ""
+}
+variable "cos_resource_location" {
+  type = string
+  description = "Geographic location of the resource (e.g. us-south, us-east)"
+  default = "global"
+}
+variable "cos_tags" {
+  type = string
+  description = "Tags that should be applied to the service"
+  default = "[]"
+}
+variable "cs_name_prefix" {
+  type = string
+  description = "The prefix name for the service. If not provided it will default to the resource group name"
+  default = ""
+}
+variable "cos_plan" {
+  type = string
+  description = "The type of plan the service instance should run under (lite or standard)"
+  default = "standard"
+}
+variable "cos_provision" {
+  type = bool
+  description = "Flag indicating that cos instance should be provisioned"
+  default = false
+}
+variable "cos_label" {
+  type = string
+  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
+  default = "cos"
+}
+variable "common_tags" {
+  type = string
+  description = "Common tags that should be added to the instance"
+  default = "[]"
+}
 variable "flow_log_bucket_provision" {
   type = bool
   description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
@@ -189,67 +216,45 @@ variable "suffix" {
   description = "Value added to the generated name to ensure it is unique"
   default = ""
 }
-variable "kms_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "kms_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "purge_volumes" {
+variable "ibm-secrets-manager_provision" {
   type = bool
-  description = "Flag indicating that any volumes in the resource group should be automatically destroyed before destroying the resource group. If volumes exist and the flag is false then the destroy will fail."
+  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
   default = false
 }
-variable "vpc_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "vpc_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "cs_resource_group_name" {
-  type = string
-  description = "The name of the resource group"
-}
-variable "cs_resource_group_sync" {
-  type = string
-  description = "Value used to order the provisioning of the resource group"
-  default = ""
-}
-variable "cos_resource_location" {
-  type = string
-  description = "Geographic location of the resource (e.g. us-south, us-east)"
-  default = "global"
-}
-variable "cos_tags" {
-  type = string
-  description = "Tags that should be applied to the service"
-  default = "[]"
-}
-variable "cos_plan" {
-  type = string
-  description = "The type of plan the service instance should run under (lite or standard)"
-  default = "standard"
-}
-variable "cos_provision" {
+variable "ibm-secrets-manager_kms_enabled" {
   type = bool
-  description = "Flag indicating that cos instance should be provisioned"
+  description = "Flag indicating that kms encryption should be enabled for this instance"
   default = false
 }
-variable "cos_label" {
-  type = string
-  description = "The name that should be used for the service, particularly when connecting to an existing service. If not provided then the name will be defaulted to {name prefix}-{service}"
-  default = "cos"
+variable "ibm-secrets-manager_kms_private_endpoint" {
+  type = bool
+  description = "Flag indicating the KMS private endpoint should be used"
+  default = true
 }
-variable "common_tags" {
+variable "ibm-secrets-manager_name" {
   type = string
-  description = "Common tags that should be added to the instance"
-  default = "[]"
+  description = "Name of the Secrets Manager. If not provided will be generated as $name_prefix-$label"
+  default = ""
+}
+variable "ibm-secrets-manager_label" {
+  type = string
+  description = "Label used to build the Secrets Manager name if not provided."
+  default = "sm"
+}
+variable "ibm-secrets-manager_private_endpoint" {
+  type = bool
+  description = "Flag indicating that the service should be access using private endpoints"
+  default = true
+}
+variable "ibm-secrets-manager_create_auth" {
+  type = bool
+  description = "Flag indicating the service authorization should be created to allow this service to access the KMS service"
+  default = true
+}
+variable "ibm-secrets-manager_trial" {
+  type = bool
+  description = "Flag indicating whether the instance to be deployed is to be a trial plan. "
+  default = false
 }
 variable "ibm-vpc_name" {
   type = string

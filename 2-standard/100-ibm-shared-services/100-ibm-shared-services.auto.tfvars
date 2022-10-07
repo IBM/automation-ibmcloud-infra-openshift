@@ -16,3 +16,6 @@
 ## kms_resource_group_name: The name of the resource group
 #kms_resource_group_name=""
 
+## common_tags: Common tags that should be added to the instance
+#common_tags=""
+

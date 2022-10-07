@@ -1,7 +1,8 @@
 module "cos" {
   source = "cloud-native-toolkit/object-storage/ibm"
-  version = "4.0.6"
+  version = "4.1.0"
 
+  common_tags = var.common_tags == null ? null : jsondecode(var.common_tags)
   ibmcloud_api_key = var.ibmcloud_api_key
   label = var.cos_label
   name_prefix = var.cs_name_prefix
@@ -12,7 +13,7 @@ module "cos" {
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
 }
 module "cos-encrypt-auth" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.cos-encrypt-auth_provision
@@ -39,7 +40,7 @@ module "cs_resource_group" {
   sync = var.cs_resource_group_sync
 }
 module "flow-log-auth" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.flow-log-auth_provision
@@ -58,7 +59,7 @@ module "flow-log-auth" {
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.16"
+  version = "2.4.17"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan
@@ -67,25 +68,28 @@ module "ibm-activity-tracker" {
   sync = var.ibm-activity-tracker_sync
   tags = var.ibm-activity-tracker_tags == null ? null : jsondecode(var.ibm-activity-tracker_tags)
 }
-module "ibm-cert-manager" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-cert-manager?ref=v1.1.0"
+module "ibm-secrets-manager" {
+  source = "github.com/cloud-native-toolkit/terraform-ibm-secrets-manager?ref=v1.0.2"
 
-  kms_enabled = var.ibm-cert-manager_kms_enabled
-  kms_id = var.ibm-cert-manager_kms_id
-  kms_key_crn = var.ibm-cert-manager_kms_key_crn
-  kms_private_endpoint = var.ibm-cert-manager_kms_private_endpoint
-  kms_private_url = var.ibm-cert-manager_kms_private_url
-  kms_public_url = var.ibm-cert-manager_kms_public_url
-  label = var.ibm-cert-manager_label
-  name = var.ibm-cert-manager_name
+  create_auth = var.ibm-secrets-manager_create_auth
+  ibmcloud_api_key = var.ibmcloud_api_key
+  kms_enabled = var.ibm-secrets-manager_kms_enabled
+  kms_id = var.ibm-secrets-manager_kms_id
+  kms_key_crn = var.ibm-secrets-manager_kms_key_crn
+  kms_private_endpoint = var.ibm-secrets-manager_kms_private_endpoint
+  kms_private_url = var.ibm-secrets-manager_kms_private_url
+  kms_public_url = var.ibm-secrets-manager_kms_public_url
+  label = var.ibm-secrets-manager_label
+  name = var.ibm-secrets-manager_name
   name_prefix = var.cs_name_prefix
-  private_endpoint = var.ibm-cert-manager_private_endpoint
-  provision = var.ibm-cert-manager_provision
+  private_endpoint = var.ibm-secrets-manager_private_endpoint
+  provision = var.ibm-secrets-manager_provision
   region = var.region
   resource_group_name = module.cs_resource_group.name
+  trial = var.ibm-secrets-manager_trial
 }
 module "kms" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-kms?ref=v0.3.5"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms?ref=v0.3.6"
 
   name = var.kms_name
   name_prefix = var.kms_name_prefix
@@ -107,7 +111,7 @@ module "kms_resource_group" {
   sync = module.cs_resource_group.sync
 }
 module "kube-encrypt-auth" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.kube-encrypt-auth_provision
@@ -150,26 +154,26 @@ module "sysdig" {
   resource_group_name = module.cs_resource_group.name
   tags = var.sysdig_tags == null ? null : jsondecode(var.sysdig_tags)
 }
-module "vpn-cert-manager-auth" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+module "vpn-secrets-manager-auth" {
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
-  provision = var.vpn-cert-manager-auth_provision
-  roles = var.vpn-cert-manager-auth_roles == null ? null : jsondecode(var.vpn-cert-manager-auth_roles)
-  source_instance = var.vpn-cert-manager-auth_source_instance
-  source_resource_group_id = var.vpn-cert-manager-auth_source_resource_group_id
-  source_resource_instance_id = var.vpn-cert-manager-auth_source_resource_instance_id
-  source_resource_type = var.vpn-cert-manager-auth_source_resource_type
-  source_service_account = var.vpn-cert-manager-auth_source_service_account
-  source_service_name = var.vpn-cert-manager-auth_source_service_name
-  target_instance = var.vpn-cert-manager-auth_target_instance
-  target_resource_group_id = var.vpn-cert-manager-auth_target_resource_group_id
-  target_resource_instance_id = var.vpn-cert-manager-auth_target_resource_instance_id
-  target_resource_type = var.vpn-cert-manager-auth_target_resource_type
-  target_service_name = var.vpn-cert-manager-auth_target_service_name
+  provision = var.vpn-secrets-manager-auth_provision
+  roles = var.vpn-secrets-manager-auth_roles == null ? null : jsondecode(var.vpn-secrets-manager-auth_roles)
+  source_instance = var.vpn-secrets-manager-auth_source_instance
+  source_resource_group_id = var.vpn-secrets-manager-auth_source_resource_group_id
+  source_resource_instance_id = var.vpn-secrets-manager-auth_source_resource_instance_id
+  source_resource_type = var.vpn-secrets-manager-auth_source_resource_type
+  source_service_account = var.vpn-secrets-manager-auth_source_service_account
+  source_service_name = var.vpn-secrets-manager-auth_source_service_name
+  target_instance = var.vpn-secrets-manager-auth_target_instance
+  target_resource_group_id = var.vpn-secrets-manager-auth_target_resource_group_id
+  target_resource_instance_id = var.vpn-secrets-manager-auth_target_resource_instance_id
+  target_resource_type = var.vpn-secrets-manager-auth_target_resource_type
+  target_service_name = var.vpn-secrets-manager-auth_target_service_name
 }
 module "vsi-encrypt-auth" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.vsi-encrypt-auth_provision
@@ -187,7 +191,7 @@ module "vsi-encrypt-auth" {
   target_service_name = module.kms.service
 }
 module "vsi-encrypt-auth1" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.13"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-iam-service-authorization?ref=v1.2.14"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   provision = var.vsi-encrypt-auth1_provision

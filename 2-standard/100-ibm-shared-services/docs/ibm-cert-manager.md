@@ -2,8 +2,6 @@
 
 Module to provision or lookup an instance of Certificate Manager on IBM Cloud. Optionally, the Certificate Manager instance can be encrypted with a root key from a KMS instance.
 
-**Note:** This module follows the Terraform conventions regarding how provider configuration is defined within the Terraform template and passed into the module - https://www.terraform.io/docs/language/modules/develop/providers.html. The default provider configuration flows through to the module. If different configuration is required for a module, it can be explicitly passed in the `providers` block of the module - https://www.terraform.io/docs/language/modules/develop/providers.html#passing-providers-explicitly.
-
 ## Software dependencies
 
 The module depends on the following software components:
@@ -24,6 +22,8 @@ This module makes use of the output from other modules:
 - KMS Key - github.com/cloud-native-toolkit/terraform-ibm-kms-key
 
 ## Example usage
+
+[Refer test cases for more details](test/stages/stage2-cert-manager.tf)
 
 ```hcl-terraform
 terraform {
@@ -53,6 +53,7 @@ module "cert-manager" {
   kms_key_crn = module.kms_key.crn
   kms_private_url = module.kms_key.kms_private_url
   kms_public_url  = module.kms_key.kms_public_url
+  ibmcloud_api_key = var.ibmcloud_api_key
 }
 ```
 

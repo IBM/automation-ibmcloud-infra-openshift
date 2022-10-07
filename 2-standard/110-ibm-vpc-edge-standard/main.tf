@@ -86,25 +86,6 @@ module "ibm-activity-tracker" {
   sync = var.ibm-activity-tracker_sync
   tags = var.ibm-activity-tracker_tags == null ? null : jsondecode(var.ibm-activity-tracker_tags)
 }
-module "ibm-cert-manager" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-cert-manager?ref=v1.2.0"
-
-  create_auth = var.ibm-cert-manager_create_auth
-  ibmcloud_api_key = var.ibmcloud_api_key
-  kms_enabled = var.ibm-cert-manager_kms_enabled
-  kms_id = module.cos_key.kms_id
-  kms_key_crn = module.cos_key.crn
-  kms_private_endpoint = var.ibm-cert-manager_kms_private_endpoint
-  kms_private_url = module.cos_key.kms_private_url
-  kms_public_url = module.cos_key.kms_public_url
-  label = var.ibm-cert-manager_label
-  name = var.ibm-cert-manager_name
-  name_prefix = var.cs_name_prefix
-  private_endpoint = var.ibm-cert-manager_private_endpoint
-  provision = var.ibm-cert-manager_provision
-  region = var.region
-  resource_group_name = module.cs_resource_group.name
-}
 module "ibm-flow-logs" {
   source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-flow-log?ref=v1.0.3"
 
@@ -115,6 +96,26 @@ module "ibm-flow-logs" {
   target_count = module.ibm-vpc.count
   target_ids = module.ibm-vpc.ids
   target_names = module.ibm-vpc.names
+}
+module "ibm-secrets-manager" {
+  source = "github.com/cloud-native-toolkit/terraform-ibm-secrets-manager?ref=v1.0.2"
+
+  create_auth = var.ibm-secrets-manager_create_auth
+  ibmcloud_api_key = var.ibmcloud_api_key
+  kms_enabled = var.ibm-secrets-manager_kms_enabled
+  kms_id = module.cos_key.kms_id
+  kms_key_crn = module.cos_key.crn
+  kms_private_endpoint = var.ibm-secrets-manager_kms_private_endpoint
+  kms_private_url = module.cos_key.kms_private_url
+  kms_public_url = module.cos_key.kms_public_url
+  label = var.ibm-secrets-manager_label
+  name = var.ibm-secrets-manager_name
+  name_prefix = var.cs_name_prefix
+  private_endpoint = var.ibm-secrets-manager_private_endpoint
+  provision = var.ibm-secrets-manager_provision
+  region = var.region
+  resource_group_name = module.cs_resource_group.name
+  trial = var.ibm-secrets-manager_trial
 }
 module "ibm-vpc" {
   source = "cloud-native-toolkit/vpc/ibm"
@@ -144,10 +145,9 @@ module "ibm-vpc-gateways" {
   vpc_name = module.ibm-vpc.name
 }
 module "ibm-vpn-server" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.1.4"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.2.1"
 
   auth_method = var.ibm-vpn-server_auth_method
-  certificate_manager_id = module.ibm-cert-manager.id
   client_dns = var.ibm-vpn-server_client_dns == null ? null : jsondecode(var.ibm-vpn-server_client_dns)
   dns_cidr = var.ibm-vpn-server_dns_cidr
   enable_split_tunnel = var.ibm-vpn-server_enable_split_tunnel
@@ -156,6 +156,7 @@ module "ibm-vpn-server" {
   region = var.region
   resource_group_name = module.vpc_resource_group.name
   resource_label = var.ibm-vpn-server_resource_label
+  secrets_manager_guid = module.ibm-secrets-manager.guid
   services_cidr = var.ibm-vpn-server_services_cidr
   subnet_ids = module.ingress-subnets.ids
   vpc_cidr = var.ibm-vpn-server_vpc_cidr
