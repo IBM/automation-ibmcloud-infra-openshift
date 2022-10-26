@@ -27,7 +27,8 @@ retryable_errors = [
   "(?s).*igc gitops-module.*",
   "(?s).*Status.code:.503*",
   "(?s).*o.timeout*",
-  "(?s).Error:.self.signed.certificate.in.certificate.chain*"
+  "(?s).Error:.self.signed.certificate.in.certificate.chain*",
+  "(?s).Error getting resource tags*"
 ]
 
 retry_sleep_interval_sec = 60
