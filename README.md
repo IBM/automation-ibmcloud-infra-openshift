@@ -64,7 +64,7 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]
     options:
      -f   (optional) the flavor to use (quickstart)
-     -s   the storage option to use (portworx or odf)
+     -s   the storage option to use (none or odf)
      -n   (optional) prefix that should be used for all variables
      -r   (optional) the region where the infrastructure will be provisioned
      -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)

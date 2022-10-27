@@ -51,18 +51,12 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </tr>
 <tr>
 <td>205 - IBM Storage</td>
-<td>The storage layer offers two options: `odf` and `portworx`. Either odf or portworx storage can be installed (or in rare instances, both).</td>
+<td>The storage layer offers two options: `odf` and `none`. Either odf or default (none) storage can be installed.</td>
 <td>
 <h4>ODF Storage</h4>
 <ul>
 <li>ODF operator</li>
 <li>ODF storage classes</li>
-</ul>
-<h4>Portworx Storage</h4>
-<ul>
-<li>IBM Cloud storage volumes</li>
-<li>Portworx operator</li>
-<li>Portworx storage classes</li>
 </ul>
 </td>
 </tr>
@@ -115,7 +109,7 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]
     options:
      -f   (optional) the flavor to use (quickstart)
-     -s   the storage option to use (portworx or odf)
+     -s   the storage option to use (none or odf)
      -n   (optional) prefix that should be used for all variables
      -r   (optional) the region where the infrastructure will be provisioned
      -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)
