@@ -18,5 +18,6 @@ terraform {
 
 retryable_errors = [
   "(?s).*igc gitops-module.*",
-  "(?s).Error getting resource tags*"
+  "(?s).Error getting resource tags*",
+  "(?s).Error on get of resource tags*"
 ]
