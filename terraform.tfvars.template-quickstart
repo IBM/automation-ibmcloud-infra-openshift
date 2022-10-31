@@ -13,7 +13,7 @@ cluster_name="PREFIX-cluster"
 ## ocp_version: The version of the ocp cluster to install
 ocp_version="4.8"
 
-## cluster_subnets__count: The number of subnets that should be provisioned
+## cluster_subnets__count: The number of subnets that should be provisioned per availability zone
 #cluster_subnets__count="3"
 
 ## worker_count: The number of worker nodes that should be provisioned for classic infrastructure
