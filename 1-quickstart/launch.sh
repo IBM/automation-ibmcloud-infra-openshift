@@ -48,7 +48,11 @@ then
   fi
 fi
 
-DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2"
+
+DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.19"
+#IBM DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.4.23"
+#AWS DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-aws:v1.2-v0.3.19"
+#AZURE DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-azure:v1.2-v0.4.19"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
 CONTAINER_NAME="cli-tools-${SUFFIX}"
@@ -65,14 +69,34 @@ if [[ " ${ARG_ARRAY[*]} " =~ " --pull " ]]; then
   ${DOCKER_CMD} pull "${DOCKER_IMAGE}"
 fi
 
-ENV_FILE=""
+
+ENV_VARS=""
 if [[ -f "credentials.properties" ]]; then
-  ENV_FILE="--env-file credentials.properties"
+  echo "parsing credentials.properties..."
+  props=$(grep -v '^#' credentials.properties)
+  while read line ; do
+    #remove export statement prefixes
+    CLEAN="$(echo $line | sed 's/export //' )"
+
+    #parse key-value pairs
+    IFS=' =' read -r KEY VALUE <<< ${CLEAN//\"/ }
+
+    # don't add an empty key
+    if [[ -n "${KEY}" ]]; then
+      ENV_VARS="-e $KEY=$VALUE $ENV_VARS"
+    fi
+  done <<< "$props"
 fi
 
+
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
-${DOCKER_CMD} run -itd --name ${CONTAINER_NAME}    -u "${UID}"    -v "${SRC_DIR}:/terraform"    -v "workspace-${AUTOMATION_BASE}:/workspaces"    ${ENV_FILE}    -w /terraform    ${DOCKER_IMAGE}
+${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
+   --device /dev/net/tun --cap-add=NET_ADMIN \
+   -v "${SRC_DIR}:/terraform" \
+   -v "workspace-${AUTOMATION_BASE}-${UID}:/workspaces" \
+   ${ENV_VARS} \
+   -w /terraform \
+   ${DOCKER_IMAGE}
 
 echo "Attaching to running container..."
 ${DOCKER_CMD} attach ${CONTAINER_NAME}
-
