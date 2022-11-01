@@ -20,7 +20,7 @@ spec:
       version: v1.7.0
     - name: gitops-namespace
       alias: tools_namespace
-      version: v1.12.2
+      version: v1.14.0
       default: true
       variables:
         - name: name
@@ -30,7 +30,7 @@ spec:
       version: v1.2.0
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.21.0
+      version: v1.22.2
     - name: gitops-sonarqube
       alias: gitops-sonarqube
       version: v1.3.0
@@ -41,7 +41,7 @@ spec:
       alias: gitops-tekton-resources
       version: v2.1.0
     - name: util-clis
-      version: v1.16.9
+      version: v1.18.1
     - name: gitops-buildah-unprivileged
       version: v1.1.1
   variables:
