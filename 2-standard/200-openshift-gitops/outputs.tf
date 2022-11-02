@@ -17,3 +17,10 @@ output "gitops_token" {
   value = module.gitops_repo.config_token
   sensitive = true
 }
+output "gitea_username" {
+  value = module.gitea.username
+}
+output "gitea_password" {
+  value = module.gitea.password
+  sensitive = true
+}
