@@ -20,7 +20,7 @@ spec:
       version: v1.7.0
     - name: gitops-namespace
       alias: tools_namespace
-      version: v1.14.0
+      version: v1.12.2
       default: true
       variables:
         - name: name

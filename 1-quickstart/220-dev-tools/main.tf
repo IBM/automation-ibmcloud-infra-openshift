@@ -105,7 +105,7 @@ module "gitops-tekton-resources" {
   task_release = var.gitops-tekton-resources_task_release
 }
 module "tools_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.14.0"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.12.2"
 
   argocd_namespace = var.tools_namespace_argocd_namespace
   ci = var.tools_namespace_ci
