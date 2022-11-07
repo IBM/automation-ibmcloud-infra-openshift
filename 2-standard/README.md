@@ -123,7 +123,9 @@ Automation to provision the Standard architecture on IBM Cloud. This architectur
 
 1. Have access to an IBM Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
 
-2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+2. Requires use of terraform 1.2.x. Versions 1.3 and above are not supported with this automation at this time.
+
+3. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
 
     ```shell
     brew install docker colima
