@@ -29,7 +29,8 @@ retryable_errors = [
   "(?s).*o.timeout*",
   "(?s).Error:.self.signed.certificate.in.certificate.chain*",
   "(?s).Error getting resource tags*",
-  "(?s).Error on get of resource tags*"
+  "(?s).Error on get of resource tags*",
+  "(?s).failed to query with labels*"
 ]
 
 retry_sleep_interval_sec = 60
