@@ -14,9 +14,6 @@ kms_region="REGION"
 
 ## kms_service: The service that should be used for the kms instance (keyprotect or hpcs)
 kms_service="keyprotect"
-#kms_provision="false"
-
-#kms_name=""
 
 ## ***************
 ## Resource groups
@@ -63,14 +60,19 @@ vpc_name_prefix="PREFIXstandard"
 ## Cluster Variables
 ## ***************
 
+## ocp_version: The version of the ocp cluster to install
+ocp_version="OCP_VERSION"
+
 ## cluster_flavor: The machine type that will be provisioned for classic infrastructure
-#cluster_flavor="bx2.16x64"
+cluster_flavor="WORKER"
 
-mgmt_worker_count="2"
-mgmt_worker_subnet_count="1"
+## number of workers to deploy and number of subnets.
+# total workers = (worker_count) * (worker_subnet_count)
+worker_count="NODE_QTY"
+worker_subnet_count="SUBNETS"
 
-workload_worker_count="2"
-workload_worker_subnet_count="1"
+## cluster_flavor: The machine type that will be provisioned for classic infrastructure
+cluster_flavor="WORKER"
 
 ## ***************
 ## Misc Variables

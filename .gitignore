@@ -2,3 +2,4 @@
 *.properties
 3-advanced/
 credentials.sh
+.stop
