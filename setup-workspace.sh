@@ -16,7 +16,7 @@ OCP_VERSION="4.8"
 METADATA_FILE="${SCRIPT_DIR}/ibmcloud-metadata.yaml"
 INTERACT=0   # Flag to determine whether to use interactive mode
 
-Usage()
+function usage()
 {
    echo "Creates a workspace folder and populates it with architectures."
    echo
@@ -37,7 +37,7 @@ Usage()
 while getopts ":f:s:n:r:b:g:hi" option; do
    case $option in
       h) # display Help
-         Usage
+         usage
          exit 1;;
       i) # Interactive mode
          INTERACT=1;;
@@ -72,7 +72,7 @@ function menu() {
         read -r input
         if [[ -z $input ]]; then
             break
-        elif (( $input < 1 )) || (( $input > $numItems )); then
+        elif (( input < 1 )) || (( input > numItems )); then
           echo "Invalid Selection. Enter number next to item, or return for default in square brackets." >&2
           continue
         fi
