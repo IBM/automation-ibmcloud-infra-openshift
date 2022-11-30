@@ -121,7 +121,7 @@ else
     ${DOCKER_IMAGE}
 fi
 
-if [[ "${SETUP^}" == "Y" ]] || [[ -z $SETUP ]]; then
+if [[ "$(echo $SETUP | tr '[:lower:]' '[:upper:]' )" == "Y" ]] || [[ -z $SETUP ]]; then
   
     ${DOCKER_CMD} exec -it -w /terraform ${CONTAINER_NAME} sh -c "cd /terraform ; /terraform/setup-workspace.sh -i" 
 
@@ -133,7 +133,7 @@ if [[ "${SETUP^}" == "Y" ]] || [[ -z $SETUP ]]; then
     echo -n "Build environment (only yes will be accepted) : "
     read BUILD
 
-    if [[ "${BUILD^^}" == "YES" ]]; then
+    if [[ "$(echo $BUILD | tr '[:lower:]' '[:upper:]' )" == "YES" ]]; then
       ${DOCKER_CMD} exec -it -w /workspaces/current ${CONTAINER_NAME} sh -c "./apply.sh -a"
     else
       echo
