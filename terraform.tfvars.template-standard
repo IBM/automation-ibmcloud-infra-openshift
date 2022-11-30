@@ -71,9 +71,6 @@ cluster_flavor="WORKER"
 worker_count="NODE_QTY"
 worker_subnet_count="SUBNETS"
 
-## cluster_flavor: The machine type that will be provisioned for classic infrastructure
-cluster_flavor="WORKER"
-
 ## ***************
 ## Misc Variables
 ## ***************
