@@ -45,7 +45,7 @@ then
 
     echo "writing ~/.lima/_config/override.yaml"
     mkdir -p ~/.lima/_config
-    printf "useHostResolver: false\ndns:\n- 8.8.8.8" > ~/.lima/_config/override.yaml
+    printf "useHostResolver: false\ndns:\n- 161.26.0.10" > ~/.lima/_config/override.yaml
 
     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
       echo "restarting colima"
