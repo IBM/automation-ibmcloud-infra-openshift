@@ -14,9 +14,6 @@ kms_region="REGION"
 
 ## kms_service: The service that should be used for the kms instance (keyprotect or hpcs)
 kms_service="keyprotect"
-#kms_provision="false"
-
-#kms_name=""
 
 ## ***************
 ## Resource groups
@@ -63,21 +60,23 @@ vpc_name_prefix="PREFIXstandard"
 ## Cluster Variables
 ## ***************
 
-#cluster_flavor=""
+## ocp_version: The version of the ocp cluster to install
+ocp_version="OCP_VERSION"
 
-mgmt_worker_count="2"
-mgmt_worker_subnet_count="1"
+## cluster_flavor: The machine type that will be provisioned for classic infrastructure
+cluster_flavor="WORKER"
 
-workload_worker_count="2"
-workload_worker_subnet_count="1"
+## number of workers to deploy and number of subnets.
+# total workers = (worker_count) * (worker_subnet_count)
+worker_count="NODE_QTY"
+worker_subnet_count="SUBNETS"
 
 ## ***************
 ## Misc Variables
 ## ***************
 
-registry_namespace = ""
-git_type = "github"
-git_url = "https://github.com/cloud-native-toolkit"
+## config_banner_text: The text that will appear in the top banner in the cluster
+config_banner_text="BANNER"
 
 ## ***************
 ## SSH Keys
@@ -90,27 +89,6 @@ edge_ssh_bastion_public_key_file="ssh-edge-bastion.pub"
 ## edge_ssh_bastion_private_key_file: The name of the file containing the private key provided for the ssh key. If empty string is provided then a new key will be generated.
 edge_ssh_bastion_private_key_file="ssh-edge-bastion"
 
-## ***************
-## Gitops
-## ***************
-
-## gitops_repo_host: The host for the git repository.
-gitops_repo_host="github.com"
-
-## gitops_repo_type: The type of the hosted git repository (github or gitlab).
-gitops_repo_type="github"
-
-## gitops_repo_org: The org/group where the git repository exists/will be provisioned. If not will provided the org will default to the username
-gitops_repo_org=""
-
-## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="PREFIXstandard-gitops"
-
-## config_banner_text: The text that will appear in the top banner in the cluster
-config_banner_text="IBM Cloud Standard"
-
-## gitops-sonarqube_postgresql: Properties for an existing postgresql database
-#gitops-sonarqube_postgresql=""
 
 ## ***************
 ## ODF

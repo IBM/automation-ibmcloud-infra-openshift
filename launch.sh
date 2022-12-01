@@ -4,6 +4,7 @@
 
 SCRIPT_DIR="$(cd $(dirname "$0"); pwd -P)"
 SRC_DIR="${SCRIPT_DIR}/automation"
+STOP_FILE="${SCRIPT_DIR}/.stop"
 
 AUTOMATION_BASE=$(basename "${SCRIPT_DIR}")
 
@@ -13,6 +14,11 @@ if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
   echo "    {docker cmd} is the docker command that should be used (e.g. docker, podman). Defaults to docker"
   echo "    --pull is a flag indicating the latest version of the container image should be pulled"
   exit 0
+fi
+
+# Clean up stop file if it exists (this is used for flow control with container)
+if [[ -e $STOP_FILE ]]; then
+  rm -f $STOP_FILE
 fi
 
 DOCKER_CMD="docker"
@@ -39,7 +45,7 @@ then
 
     echo "writing ~/.lima/_config/override.yaml"
     mkdir -p ~/.lima/_config
-    printf "useHostResolver: false\ndns:\n- 8.8.8.8" > ~/.lima/_config/override.yaml
+    printf "useHostResolver: false\ndns:\n- 161.26.0.10" > ~/.lima/_config/override.yaml
 
     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
       echo "restarting colima"
@@ -48,13 +54,13 @@ then
   fi
 fi
 
-DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.12"
-#IBM DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.4.16"
+#DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.12"
+DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.6.1"
 #AWS DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-aws:v1.2-v0.3.12"
 #AZURE DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-azure:v1.2-v0.4.12"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
-CONTAINER_NAME="cli-tools-${SUFFIX}"
+CONTAINER_NAME="ibmcloud-${SUFFIX}"
 
 echo "Cleaning up old container: ${CONTAINER_NAME}"
 
@@ -89,6 +95,11 @@ fi
 
 OS=$(uname)
 
+echo -n "Setup workspace (y/n) [Y]: "
+read SETUP
+echo
+
+
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 if [[ "${OS}" == "Linux" ]]; then 
   echo "Starting docker on Linux"
@@ -110,5 +121,28 @@ else
     ${DOCKER_IMAGE}
 fi
 
-echo "Attaching to running container..."
+if [[ "$(echo $SETUP | tr '[:lower:]' '[:upper:]' )" == "Y" ]] || [[ -z $SETUP ]]; then
+  
+    ${DOCKER_CMD} exec -it -w /terraform ${CONTAINER_NAME} sh -c "cd /terraform ; /terraform/setup-workspace.sh -i" 
+
+    if [[ -e $STOP_FILE ]]; then
+      rm -f $STOP_FILE
+      exit 1;
+    fi
+
+    echo -n "Build environment (only yes will be accepted) : "
+    read BUILD
+
+    if [[ "$(echo $BUILD | tr '[:lower:]' '[:upper:]' )" == "YES" ]]; then
+      ${DOCKER_CMD} exec -it -w /workspaces/current ${CONTAINER_NAME} sh -c "./apply.sh -a"
+    else
+      echo
+      echo "Attaching to running container..."
+      echo
+      echo "Run \"cd /workspaces/current && ./apply.sh -a\" to start build."
+    fi
+else
+    echo "Attaching to running container..."
+fi
+
 ${DOCKER_CMD} attach ${CONTAINER_NAME}
