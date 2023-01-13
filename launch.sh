@@ -31,28 +31,28 @@ if [[ ! -d "${SRC_DIR}" ]]; then
 fi
 
 # check if colima is installed, and apply dns override if no override file already exists
-if command -v colima &> /dev/null
-then
-  if [ ! -f ~/.lima/_config/override.yaml ]; then
-    echo "applying colima dns override..."
+# if command -v colima &> /dev/null
+# then
+#   if [ ! -f ~/.lima/_config/override.yaml ]; then
+#     echo "applying colima dns override..."
 
-    COLIMA_STATUS="$(colima status 2>&1)"
-    SUB='colima is running'
-    if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
-      echo "stopping colima"
-      colima stop
-    fi
+#     COLIMA_STATUS="$(colima status 2>&1)"
+#     SUB='colima is running'
+#     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
+#       echo "stopping colima"
+#       colima stop
+#     fi
 
-    echo "writing ~/.lima/_config/override.yaml"
-    mkdir -p ~/.lima/_config
-    printf "useHostResolver: false\ndns:\n- 161.26.0.10" > ~/.lima/_config/override.yaml
+#     echo "writing ~/.lima/_config/override.yaml"
+#     mkdir -p ~/.lima/_config
+#     printf "useHostResolver: false\ndns:\n- 161.26.0.10" > ~/.lima/_config/override.yaml
 
-    if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
-      echo "restarting colima"
-      colima start
-    fi
-  fi
-fi
+#     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
+#       echo "restarting colima"
+#       colima start
+#     fi
+#   fi
+# fi
 
 #DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.12"
 DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.6.1"
