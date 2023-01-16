@@ -30,7 +30,8 @@ retryable_errors = [
   "(?s).Error:.self.signed.certificate.in.certificate.chain*",
   "(?s).Error getting resource tags*",
   "(?s).Error on get of resource tags*",
-  "(?s).failed to query with labels*"
+  "(?s).failed to query with labels*",
+  "(?s).Error Message: Unable to find endpoint*"
 ]
 
 retry_sleep_interval_sec = 60

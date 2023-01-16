@@ -20,5 +20,6 @@ retryable_errors = [
   "(?s).*igc gitops-module.*",
   "(?s).Error getting resource tags*",
   "(?s).Error on get of resource tags*",
-  "(?s).failed to query with labels*"
+  "(?s).failed to query with labels*",
+  "(?s).Error Message: Unable to find endpoint*"
 ]
