@@ -34,3 +34,10 @@ config_banner_text="BANNER"
 
 ## odf_namespace_name: The value that should be used for the namespace
 odf_namespace_name="odf"
+
+
+######
+
+## cluster_ocp_entitlement: Use a cloud_pak subscription for OpenShift 
+## Uncomment this line if not using a Cloud Pak entitlement in IBM Passport Advantage associated with the IBM Cloud account.
+#cluster_ocp_entitlement=""

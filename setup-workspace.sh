@@ -12,6 +12,7 @@ WORKER="bx2.16x64"
 SUBNETS="3"
 NODE_QTY="1"
 OCP_VERSION="4.8"
+CLOUD_PAK=true
 
 METADATA_FILE="${SCRIPT_DIR}/ibmcloud-metadata.yaml"
 INTERACT=0   # Flag to determine whether to use interactive mode
@@ -217,6 +218,18 @@ function interact() {
     PREFIX_NAME="${NAME}"
   fi
 
+  # Confirm using Cloud Pak entitlement for OpenShift
+  echo
+  echo -n -e "Use Cloud Pak entitlement for OpenShift (y/n)[Y]: "
+  read cp_input
+
+  if [[ -z $cp_input ]] || [[ ${ccp_input^} == "Y"  ]]; then
+    CLOUD_PAK=true
+  else
+    CLOUD_PAK=false
+  fi
+
+
   # Get git host
   echo
   read -r -d '' -a GIT_HOST_OPTIONS < <(yq ".git_hosts[].name" $METADATA_FILE)
@@ -251,15 +264,16 @@ function interact() {
 
   echo
   echo "Setting up workspace with the following"
-  echo "Architecture (Flavor) = $FLAVOR"
-  echo "Region/Location       = $REGION"
-  echo "OpenShift Version     = $OCP_VERSION"
-  echo "Worker Node Flavor    = $WORKER"
-  echo "Worker Subnets        = $SUBNETS"
-  echo "Worker Nodes / Subnet = $NODE_QTY"
-  echo "Storage               = $STORAGE"
-  echo "GitOps Host           = $GIT_HOST"
-  echo "Console Banner Title  = $BANNER"
+  echo "Architecture (Flavor)     = $FLAVOR"
+  echo "Region/Location           = $REGION"
+  echo "OpenShift Version         = $OCP_VERSION"
+  echo "Worker Node Flavor        = $WORKER"
+  echo "Worker Subnets            = $SUBNETS"
+  echo "Worker Nodes / Subnet     = $NODE_QTY"
+  echo "Storage                   = $STORAGE"
+  echo "GitOps Host               = $GIT_HOST"
+  echo "Console Banner Title      = $BANNER"
+  echo "Use Cloud Pak Entitlement = $CLOUD_PAK"
 
   echo -n "Confirm setup workspace with these settings (Y/N) [Y]: "
   read confirm
@@ -368,6 +382,10 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/NODE_QTY/${NODE_QTY}/g" | \
   sed "s/OCP_VERSION/${OCP_VERSION}/g" \
   > "${WORKSPACE_DIR}/cluster.tfvars"
+
+if [[ $CLOUD_PAK == "false" ]] ; then
+  echo $'\n'"cluster_ocp_entitlement=\"\"" >> "${WORKSPACE_DIR}/cluster.tfvars"
+fi
 
 if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \

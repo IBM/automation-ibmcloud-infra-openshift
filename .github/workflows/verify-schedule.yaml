@@ -5,7 +5,8 @@ name: Verify Schedule
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '30 7 * * 4'
+    # This will run every 15th of the month at 07:30
+    - cron:  '30 7 15 * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -13,11 +14,11 @@ jobs:
     uses: ./.github/workflows/verify-workflow.yaml
     secrets:
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
-      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
-      OPENSHIFT_USER: apikey
-      OPENSHIFT_PASSWORD: ${{ secrets.IBMCLOUD_API_KEY }}
-      GITHUB_PAT: ${{ secrets.TOKEN }}
-      GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
+      # OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      # OPENSHIFT_USER: apikey
+      # OPENSHIFT_PASSWORD: ${{ secrets.IBMCLOUD_API_KEY }}
+      # GITHUB_PAT: ${{ secrets.TOKEN }}
+      # GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
 
   notify:
     needs: [verify]
