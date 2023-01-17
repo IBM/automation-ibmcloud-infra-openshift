@@ -85,6 +85,14 @@ If you chose not to setup workspace, then use the following steps to manually co
 3. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
 4. Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.)
 
+### Use with Podman on RHEL
+
+If using podman on RHEL it is the same process as above, except include `podman` as a command line argument when running the launch script and run as `root` the following:
+
+```shell
+./launch.sh podman
+```
+
 ### Run the entire automation stack automatically
 
 From the **/workspace/current** directory, run the following:
