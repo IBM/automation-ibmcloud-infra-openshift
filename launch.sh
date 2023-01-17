@@ -30,30 +30,6 @@ if [[ ! -d "${SRC_DIR}" ]]; then
   SRC_DIR="${SCRIPT_DIR}"
 fi
 
-# check if colima is installed, and apply dns override if no override file already exists
-# if command -v colima &> /dev/null
-# then
-#   if [ ! -f ~/.lima/_config/override.yaml ]; then
-#     echo "applying colima dns override..."
-
-#     COLIMA_STATUS="$(colima status 2>&1)"
-#     SUB='colima is running'
-#     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
-#       echo "stopping colima"
-#       colima stop
-#     fi
-
-#     echo "writing ~/.lima/_config/override.yaml"
-#     mkdir -p ~/.lima/_config
-#     printf "useHostResolver: false\ndns:\n- 161.26.0.10" > ~/.lima/_config/override.yaml
-
-#     if [[ "$COLIMA_STATUS" == *"$SUB"* ]]; then
-#       echo "restarting colima"
-#       colima start
-#     fi
-#   fi
-# fi
-
 #DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.12"
 DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.6.1"
 #AWS DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-aws:v1.2-v0.3.12"
@@ -101,8 +77,18 @@ echo
 
 
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
-if [[ "${OS}" == "Linux" ]]; then 
-  echo "Starting docker on Linux"
+if [[ "${DOCKER_CMD}" == "podman" ]]; then
+  echo "Starting container with podman"
+  ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
+    -u "${UID}:0" \
+    --device /dev/net/tun --cap-add=NET_ADMIN \
+    -v "${SRC_DIR}:/terraform" \
+    -v "workspace-${AUTOMATION_BASE}-${UID}:/workspaces" \
+    ${ENV_VARS} \
+    -w /terraform \
+    ${DOCKER_IMAGE}
+elif [[ "${OS}" == "Linux" ]]; then 
+  echo "Starting container with ${DOCKER_CMD} on Linux"
   ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
     --device /dev/net/tun --cap-add=NET_ADMIN \
     -v "${SRC_DIR}:/terraform" \
