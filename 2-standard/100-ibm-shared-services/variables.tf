@@ -355,6 +355,41 @@ variable "kms_service" {
   description = "The name of the KMS provider that should be used (keyprotect or hpcs)"
   default = "keyprotect"
 }
+variable "sm-key_provision" {
+  type = bool
+  description = "Flag indicating that the key should be provisioned. If false then an existing key will be looked up"
+  default = true
+}
+variable "sm-key_provision_key_rotation_policy" {
+  type = bool
+  description = "Flag indicating that the key rotation policy should be provisioned. If false then a rotation policy will not be created."
+  default = false
+}
+variable "sm-key_name" {
+  type = string
+  description = "The name of the root key in the kms instance. Required if kms_enabled is true"
+  default = ""
+}
+variable "sm-key_label" {
+  type = string
+  description = "The label used to build the name if one is not provided. If used the name will be `{name_prefix}-{label}`"
+  default = "key"
+}
+variable "sm-key_rotation_interval" {
+  type = number
+  description = "The interval in months that a root key needs to be rotated."
+  default = 3
+}
+variable "sm-key_dual_auth_delete" {
+  type = bool
+  description = "Flag indicating that the key requires dual authorization to be deleted."
+  default = false
+}
+variable "sm-key_force_delete" {
+  type = bool
+  description = "Flag indicating that 'force' should be applied to key on delete"
+  default = true
+}
 variable "logdna_plan" {
   type = string
   description = "The type of plan the service instance should run under (lite, 7-day, 14-day, or 30-day)"
@@ -436,32 +471,7 @@ variable "ibm-secrets-manager_provision" {
 variable "ibm-secrets-manager_kms_enabled" {
   type = bool
   description = "Flag indicating that kms encryption should be enabled for this instance"
-  default = false
-}
-variable "ibm-secrets-manager_kms_id" {
-  type = string
-  description = "The crn of the KMS instance that will be used to encrypt the instance."
-  default = null
-}
-variable "ibm-secrets-manager_kms_public_url" {
-  type = string
-  description = "The public url of the KMS instance that will be used to encrypt the instance."
-  default = null
-}
-variable "ibm-secrets-manager_kms_private_url" {
-  type = string
-  description = "The private url of the KMS instance that will be used to encrypt the instance."
-  default = null
-}
-variable "ibm-secrets-manager_kms_private_endpoint" {
-  type = bool
-  description = "Flag indicating the KMS private endpoint should be used"
   default = true
-}
-variable "ibm-secrets-manager_kms_key_crn" {
-  type = string
-  description = "The crn of the root key in the KMS"
-  default = null
 }
 variable "ibm-secrets-manager_name" {
   type = string
@@ -486,5 +496,10 @@ variable "ibm-secrets-manager_create_auth" {
 variable "ibm-secrets-manager_trial" {
   type = bool
   description = "Flag indicating whether the instance to be deployed is to be a trial plan. "
+  default = false
+}
+variable "ibm-secrets-manager_purge" {
+  type = bool
+  description = "Flag indicating whether the instance should be purged from reclamation on destroy"
   default = false
 }

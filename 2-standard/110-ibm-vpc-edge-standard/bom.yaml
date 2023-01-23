@@ -10,11 +10,13 @@ metadata:
     displayName: IBM VPC OpenShift Standard
     description: IBM VPC with VPN, Bastion servers, and OpenShift
     vpn/required: 'false'
+    dependencies.cloudnativetoolkit.dev/provides: ''
+    dependencies.cloudnativetoolkit.dev/needs: ''
 spec:
   modules:
     - name: ibm-activity-tracker
       alias: ibm-activity-tracker
-      version: v2.4.17
+      version: v2.4.18
     - name: ibm-flow-logs
       alias: ibm-flow-logs
       version: v1.0.3
@@ -40,7 +42,7 @@ spec:
           ref: kms_resource_group
     - name: ibm-kms-key
       alias: cos_key
-      version: v1.5.3
+      version: v1.5.4
       default: true
       variables:
         - name: provision
@@ -50,17 +52,17 @@ spec:
           ref: kms
     - name: ibm-resource-group
       alias: kms_resource_group
-      version: v3.3.4
+      version: v3.3.5
       variables:
         - name: provision
           value: false
     - name: ibm-resource-group
       alias: vpc_resource_group
-      version: v3.3.4
+      version: v3.3.5
       default: true
     - name: ibm-resource-group
       alias: cs_resource_group
-      version: v3.3.4
+      version: v3.3.5
       variables:
         - name: provision
           value: false
@@ -87,7 +89,7 @@ spec:
             - 0.0.0.0/0
     - name: ibm-secrets-manager
       alias: ibm-secrets-manager
-      version: v1.0.2
+      version: v1.1.0
       variables:
         - name: provision
           value: false
@@ -142,7 +144,7 @@ spec:
             - 10.3.0.128/26
     - name: ibm-vpn-server
       alias: ibm-vpn-server
-      version: v0.2.1
+      version: v0.2.3
       dependencies:
         - name: subnets
           ref: ingress-subnets
@@ -155,6 +157,7 @@ spec:
     - name: ibmcloud_api_key
       type: string
       description: The IBM Cloud api key
+      sensitive: true
     - name: region
       type: string
       description: Geographic location of the resource (e.g. us-south, us-east)
@@ -166,7 +169,7 @@ spec:
       description: >-
         The name_prefix used to build the name if one is not provided. If used
         the name will be `{name_prefix}-{label}`
-      defaultValue: base
+      value: base
     - name: kms_resource_group_name
       type: string
       description: The name of the resource group
@@ -179,12 +182,12 @@ spec:
     - name: common_tags
       type: list(string)
       description: Common tags that should be added to the instance
-      defaultValue: []
+      value: []
     - name: ingress-subnets__count
       type: number
       description: The number of subnets that should be provisioned
-      defaultValue: 3
+      value: 3
     - name: egress-subnets__count
       type: number
       description: The number of subnets that should be provisioned
-      defaultValue: 3
+      value: 3

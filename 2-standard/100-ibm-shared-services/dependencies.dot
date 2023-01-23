@@ -32,8 +32,11 @@ digraph {
 "kube-encrypt-auth (ibm-iam-service-authorization)"
 "vpn-secrets-manager-auth (ibm-iam-service-authorization)" -> "kms (ibm-kms)"
 "vpn-secrets-manager-auth (ibm-iam-service-authorization)"
+"sm-key (ibm-kms-key)" -> "kms (ibm-kms)"
+"sm-key (ibm-kms-key)"
 "logdna (ibm-log-analysis)" -> "cs_resource_group (ibm-resource-group)"
 "logdna (ibm-log-analysis)"
 "ibm-secrets-manager (ibm-secrets-manager)" -> "cs_resource_group (ibm-resource-group)"
+"ibm-secrets-manager (ibm-secrets-manager)" -> "sm-key (ibm-kms-key)"
 "ibm-secrets-manager (ibm-secrets-manager)"
   }
