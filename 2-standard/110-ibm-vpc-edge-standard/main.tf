@@ -13,7 +13,7 @@ module "cos" {
   tags = var.cos_tags == null ? null : jsondecode(var.cos_tags)
 }
 module "cos_key" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms-key?ref=v1.5.3"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms-key?ref=v1.5.4"
 
   dual_auth_delete = var.cos_key_dual_auth_delete
   force_delete = var.cos_key_force_delete
@@ -24,11 +24,11 @@ module "cos_key" {
   name = var.cos_key_name
   name_prefix = var.vpc_name_prefix
   provision = var.cos_key_provision
+  provision_key_rotation_policy = var.cos_key_provision_key_rotation_policy
   rotation_interval = var.cos_key_rotation_interval
 }
 module "cs_resource_group" {
-  source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.4"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-resource-group?ref=v3.3.5"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -77,7 +77,7 @@ module "flow_log_bucket" {
 }
 module "ibm-activity-tracker" {
   source = "cloud-native-toolkit/activity-tracker/ibm"
-  version = "2.4.17"
+  version = "2.4.18"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   plan = var.ibm-activity-tracker_plan
@@ -98,21 +98,18 @@ module "ibm-flow-logs" {
   target_names = module.ibm-vpc.names
 }
 module "ibm-secrets-manager" {
-  source = "github.com/cloud-native-toolkit/terraform-ibm-secrets-manager?ref=v1.0.2"
+  source = "github.com/cloud-native-toolkit/terraform-ibm-secrets-manager?ref=v1.1.0"
 
   create_auth = var.ibm-secrets-manager_create_auth
   ibmcloud_api_key = var.ibmcloud_api_key
   kms_enabled = var.ibm-secrets-manager_kms_enabled
-  kms_id = module.cos_key.kms_id
   kms_key_crn = module.cos_key.crn
-  kms_private_endpoint = var.ibm-secrets-manager_kms_private_endpoint
-  kms_private_url = module.cos_key.kms_private_url
-  kms_public_url = module.cos_key.kms_public_url
   label = var.ibm-secrets-manager_label
   name = var.ibm-secrets-manager_name
   name_prefix = var.cs_name_prefix
   private_endpoint = var.ibm-secrets-manager_private_endpoint
   provision = var.ibm-secrets-manager_provision
+  purge = var.ibm-secrets-manager_purge
   region = var.region
   resource_group_name = module.cs_resource_group.name
   trial = var.ibm-secrets-manager_trial
@@ -145,7 +142,7 @@ module "ibm-vpc-gateways" {
   vpc_name = module.ibm-vpc.name
 }
 module "ibm-vpn-server" {
-  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.2.1"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-vpn-server?ref=v0.2.3"
 
   auth_method = var.ibm-vpn-server_auth_method
   client_dns = var.ibm-vpn-server_client_dns == null ? null : jsondecode(var.ibm-vpn-server_client_dns)
@@ -158,6 +155,7 @@ module "ibm-vpn-server" {
   resource_label = var.ibm-vpn-server_resource_label
   secrets_manager_guid = module.ibm-secrets-manager.guid
   services_cidr = var.ibm-vpn-server_services_cidr
+  sm_region = var.ibm-vpn-server_sm_region
   subnet_ids = module.ingress-subnets.ids
   vpc_cidr = var.ibm-vpn-server_vpc_cidr
   vpc_id = module.ingress-subnets.vpc_id
@@ -198,8 +196,7 @@ module "kms" {
   tags = var.kms_tags == null ? null : jsondecode(var.kms_tags)
 }
 module "kms_resource_group" {
-  source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.4"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-resource-group?ref=v3.3.5"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes
@@ -207,8 +204,7 @@ module "kms_resource_group" {
   sync = var.kms_resource_group_sync
 }
 module "vpc_resource_group" {
-  source = "cloud-native-toolkit/resource-group/ibm"
-  version = "3.3.4"
+  source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-resource-group?ref=v3.3.5"
 
   ibmcloud_api_key = var.ibmcloud_api_key
   purge_volumes = var.purge_volumes

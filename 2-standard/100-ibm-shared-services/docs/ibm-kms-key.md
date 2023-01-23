@@ -27,20 +27,20 @@ The module depends on the following software components:
 ## Example usage
 
 ```hcl
-module "cos_key" {
+module "sm-key" {
   source = "github.com/terraform-ibm-modules/terraform-ibm-toolkit-kms-key"
 
-  dual_auth_delete = var.cos_key_dual_auth_delete
-  force_delete = var.cos_key_force_delete
+  dual_auth_delete = var.sm-key_dual_auth_delete
+  force_delete = var.sm-key_force_delete
   kms_id = module.kms.guid
   kms_private_url = module.kms.private_url
   kms_public_url = module.kms.public_url
-  label = var.cos_key_label
-  name = var.cos_key_name
+  label = var.sm-key_label
+  name = var.sm-key_name
   name_prefix = var.name_prefix
-  provision = var.cos_key_provision
-  provision_key_rotation_policy = var.cos_key_provision_key_rotation_policy
-  rotation_interval = var.cos_key_rotation_interval
+  provision = var.sm-key_provision
+  provision_key_rotation_policy = var.sm-key_provision_key_rotation_policy
+  rotation_interval = var.sm-key_rotation_interval
 }
 
 ```

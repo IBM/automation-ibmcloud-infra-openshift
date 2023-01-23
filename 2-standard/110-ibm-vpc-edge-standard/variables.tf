@@ -75,6 +75,11 @@ variable "cos_key_provision" {
   description = "Flag indicating that the key should be provisioned. If false then an existing key will be looked up"
   default = true
 }
+variable "cos_key_provision_key_rotation_policy" {
+  type = bool
+  description = "Flag indicating that the key rotation policy should be provisioned. If false then a rotation policy will not be created."
+  default = false
+}
 variable "cos_key_name" {
   type = string
   description = "The name of the root key in the kms instance. Required if kms_enabled is true"
@@ -226,11 +231,6 @@ variable "ibm-secrets-manager_kms_enabled" {
   description = "Flag indicating that kms encryption should be enabled for this instance"
   default = false
 }
-variable "ibm-secrets-manager_kms_private_endpoint" {
-  type = bool
-  description = "Flag indicating the KMS private endpoint should be used"
-  default = true
-}
 variable "ibm-secrets-manager_name" {
   type = string
   description = "Name of the Secrets Manager. If not provided will be generated as $name_prefix-$label"
@@ -254,6 +254,11 @@ variable "ibm-secrets-manager_create_auth" {
 variable "ibm-secrets-manager_trial" {
   type = bool
   description = "Flag indicating whether the instance to be deployed is to be a trial plan. "
+  default = false
+}
+variable "ibm-secrets-manager_purge" {
+  type = bool
+  description = "Flag indicating whether the instance should be purged from reclamation on destroy"
   default = false
 }
 variable "ibm-vpc_name" {
@@ -381,6 +386,11 @@ variable "egress-subnets_tags" {
   description = "Tags that should be added to the instance"
   default = "[]"
 }
+variable "ibm-vpn-server_sm_region" {
+  type = string
+  description = "The IBM Cloud region where the Service Manager resides if different from VPC and VPN server"
+  default = ""
+}
 variable "ibm-vpn-server_resource_label" {
   type = string
   description = "The label for the resource to which the vpe will be connected. Used as a tag and as part of the vpe name."
@@ -394,7 +404,7 @@ variable "ibm-vpn-server_vpnclient_ip" {
 variable "ibm-vpn-server_vpc_cidr" {
   type = string
   description = "CIDR for the private VPC the VPN is connected to."
-  default = "10.0.0.0/12"
+  default = "10.0.0.0/8"
 }
 variable "ibm-vpn-server_dns_cidr" {
   type = string
