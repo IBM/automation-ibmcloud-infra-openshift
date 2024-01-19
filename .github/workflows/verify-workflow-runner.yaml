@@ -92,7 +92,7 @@ jobs:
           NAME_PREFIX="${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}-infra"
           
           echo "Name prefix: $NAME_PREFIX"
-          echo "::set-output name=name-prefix::$NAME_PREFIX"
+          echo "name-prefix=$NAME_PREFIX" >> "$GITHUB_OUTPUT"
 
       - name: Setup workspace - ${{ matrix.flavor }},${{ matrix.storage }}
         shell: bash
